@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/KimyaKimya.iml" filepath="$PROJECT_DIR$/KimyaKimya.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../node_modules/react-native-android-keyboard-adjust/android/react-native-android-keyboard-adjust.iml" filepath="$PROJECT_DIR$/../node_modules/react-native-android-keyboard-adjust/android/react-native-android-keyboard-adjust.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../node_modules/react-native-android-sms-listener/android/react-native-android-sms-listener.iml" filepath="$PROJECT_DIR$/../node_modules/react-native-android-sms-listener/android/react-native-android-sms-listener.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../node_modules/react-native-carrier-info/android/react-native-carrier-info.iml" filepath="$PROJECT_DIR$/../node_modules/react-native-carrier-info/android/react-native-carrier-info.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../node_modules/react-native-contacts/android/react-native-contacts.iml" filepath="$PROJECT_DIR$/../node_modules/react-native-contacts/android/react-native-contacts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../node_modules/react-native-device-info/android/react-native-device-info.iml" filepath="$PROJECT_DIR$/../node_modules/react-native-device-info/android/react-native-device-info.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../node_modules/react-native-firebase/android/react-native-firebase.iml" filepath="$PROJECT_DIR$/../node_modules/react-native-firebase/android/react-native-firebase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../node_modules/react-native-google-places/android/react-native-google-places.iml" filepath="$PROJECT_DIR$/../node_modules/react-native-google-places/android/react-native-google-places.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../node_modules/react-native-image-picker/android/react-native-image-picker.iml" filepath="$PROJECT_DIR$/../node_modules/react-native-image-picker/android/react-native-image-picker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../node_modules/react-native-maps/lib/android/react-native-maps.iml" filepath="$PROJECT_DIR$/../node_modules/react-native-maps/lib/android/react-native-maps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../node_modules/react-native-settings/android/react-native-settings.iml" filepath="$PROJECT_DIR$/../node_modules/react-native-settings/android/react-native-settings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../node_modules/react-native-splash-screen/android/react-native-splash-screen.iml" filepath="$PROJECT_DIR$/../node_modules/react-native-splash-screen/android/react-native-splash-screen.iml" />
+    </modules>
+  </component>
+</project>

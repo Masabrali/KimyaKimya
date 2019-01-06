@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>9</integer>
+	<key>logs</key>
+	<dict>
+		<key>0B5E2E2B-6A77-4E93-9DAA-E63C36ECAF69</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.DebugLog</string>
+			<key>fileName</key>
+			<string>0B5E2E2B-6A77-4E93-9DAA-E63C36ECAF69.xcactivitylog</string>
+			<key>highLevelStatus</key>
+			<string>E</string>
+			<key>schemeIdentifier-containerName</key>
+			<string>KimyaKimya project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>KimyaKimya</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project KimyaKimya with scheme KimyaKimya and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>564340656.89974296</real>
+			<key>timeStoppedRecording</key>
+			<real>564340660.75547504</real>
+			<key>title</key>
+			<string>Building project KimyaKimya with scheme KimyaKimya and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>0B5E2E2B-6A77-4E93-9DAA-E63C36ECAF69</string>
+		</dict>
+		<key>42A457E9-14C4-4D6D-AF51-0944A64644E6</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.DebugLog</string>
+			<key>fileName</key>
+			<string>42A457E9-14C4-4D6D-AF51-0944A64644E6.xcactivitylog</string>
+			<key>highLevelStatus</key>
+			<string>E</string>
+			<key>schemeIdentifier-containerName</key>
+			<string>KimyaKimya project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>KimyaKimya</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project KimyaKimya with scheme KimyaKimya and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>564304242.59766197</real>
+			<key>timeStoppedRecording</key>
+			<real>564304247.74787998</real>
+			<key>title</key>
+			<string>Building project KimyaKimya with scheme KimyaKimya and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>42A457E9-14C4-4D6D-AF51-0944A64644E6</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

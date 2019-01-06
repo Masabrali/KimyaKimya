@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "199827883234",
+    "firebase_url": "https://kimyakimya-222006.firebaseio.com",
+    "project_id": "kimyakimya-222006",
+    "storage_bucket": "kimyakimya-222006.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199827883234:android:80e8b3178a595464",
+        "android_client_info": {
+          "package_name": "com.kimyakimya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199827883234-nqm9lgq6d3c63hrdbab9v1r9muldi6mu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kimyakimya",
+            "certificate_hash": "25df433380a0bbd54afa81949229411bb2db7e11"
+          }
+        },
+        {
+          "client_id": "199827883234-hoan011ke4s94pomqme5g6sacq0s46ci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZvld14J6jzKtZq-RdVTRNQexTWDHudfg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199827883234-hoan011ke4s94pomqme5g6sacq0s46ci.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
