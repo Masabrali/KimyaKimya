@@ -24,22 +24,23 @@ export default function(order) {
                 try {
 
                     let errorHandler = (error) => ( resolve({ errors: [error] }) );
-                    let currentUser = firebase.auth().currentUser;
+                    let path = 'orders/' + ( (order.draft)? 'drafts/' : 'previous/' ) + firebase.auth().currentUser.uid + '/';
 
-                    firebase.database().ref('orders/' + ( (order.draft)? 'drafts/' : 'previous/' ) + firebase.auth().currentUser.uid)
+                    firebase.database().ref(path)
                     .once('child_removed')
                     .then( (order) => {
 
-                        order = { key: order.key, ...order.val() };
+                        let _order = {};
+                        _order[order.key] = order.val();
 
-                        resolve(order);
+                        resolve(_order);
 
-                        return dispatch( deleteOrder(order) );
+                        return dispatch( deleteOrder(_order) );
                     } )
                     .catch(errorHandler);
 
                     return (
-                        firebase.database().ref('orders/' + ( (order.draft)? 'drafts/' : 'previous/' ) + firebase.auth().currentUser.uid + '/' + order.key).remove()
+                        firebase.database().ref(path + order.key).remove()
                         .then( (order) => ( order ) )
                         .catch(errorHandler)
                     );

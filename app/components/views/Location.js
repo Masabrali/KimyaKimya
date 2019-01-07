@@ -42,6 +42,17 @@ const Order = function (props) {
                     </Right>
                 </Header>
             }
+            { !props.locationFocused && !props.turnOnLocationError && isEmpty(props.hotpoints) && <Header noShadow style={ [Styles.backgroundDanger] }>
+                    <Left style={ [Styles.flex, Styles.flexRow, Styles.flexJustifyStart, Styles.flexAlignCenter] }>
+                        <Text style={ [Styles.textWhite] }>No Hotpoints around here</Text>
+                    </Left>
+                    <Right>
+                        <Button transparent onPress={ props.fetchHotpoints }>
+                            <Text style={ [Styles.textWhite] }>Refresh</Text>
+                        </Button>
+                    </Right>
+                </Header>
+            }
             { !props.locationFocused &&  <Header noShadow style={ [Styles.noBorder, Styles.backgroundHeader] }>
                     <Left>
                         <Button iconLeft transparent onPress={ props.back }>

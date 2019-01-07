@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
         color: '#555555',
         fontSize: 14
     },
+    textDisabled: { color: '#c1c1c7' },
     textKimyaKimyaMale: { color: '#06aad5' },
     textKimyaKimyaFemale: { color: '#ed2593' },
     /**
@@ -104,6 +105,7 @@ const styles = StyleSheet.create({
         borderBottomColor: '#c1c1c7',
     },
     borderPrimary: { borderColor: (isAndroid())? '#3f51b5':'#007bff' },
+    borderDisabled: { borderColor: '#c1c1c7' },
     borderError: { borderColor: '#f43f36' },
     borderRadius: { borderRadius: 5 },
     /**
@@ -240,6 +242,8 @@ const styles = StyleSheet.create({
     backgroundDark: { backgroundColor: '#000000' },
     backgroundWhite: { backgroundColor: '#ffffff' },
     backgroundTransparent: { backgroundColor: 'transparent' },
+    backgroundDisabled: { backgroundColor: '#c1c1c7' },
+    backgroundSelected: { backgroundColor: '#f1f1f7' },
     backgroundWrapper: { backgroundColor: '#fbfcfc' },
     backgroundHeader: { backgroundColor: '#fbfcfc' },
     backgroundStatusBar: { backgroundColor: '#fbfcfc' },

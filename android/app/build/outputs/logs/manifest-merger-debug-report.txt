@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-45:12
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-45:12
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-45:12
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-45:12
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
 MERGED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-15:12
 MERGED from [:react-native-splash-screen] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-splash-screen/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-14:12
 MERGED from [:react-native-android-sms-listener] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-android-sms-listener/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-13:12
@@ -67,20 +67,20 @@ MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/mac/.gradle/caches/t
 MERGED from [com.facebook.fresco:fbcore:1.10.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/fbcore-1.10.0.aar/7cc531a7b2838ad493e8a9d9189cc9d4/AndroidManifest.xml:2:1-9:12
 MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/0cadc82e9a2a9c8080ecfbdd2927ad37/AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.core:runtime:1.1.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/d2895e7ad31970cffa279e9c6694be6b/AndroidManifest.xml:17:1-22:12
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-45:12
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-45:12
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-45:12
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
 	package
 		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:3:5-29
 		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-45:12
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
 		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-45:12
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
 		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:11-69
@@ -158,16 +158,20 @@ uses-permission#android.permission.CAMERA
 ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:15:5-65
 	android:name
 		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:15:22-62
+uses-permission#android.permission.VIBRATE
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:16:5-65
+	android:name
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:16:22-63
 uses-feature#android.hardware.camera
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:17:5-60
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:18:5-60
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:17:19-57
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:18:19-57
 uses-feature#android.hardware.camera.autofocus
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:18:5-70
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:19:5-70
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:18:19-67
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:19:19-67
 application
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:20:5-43:19
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:21:5-44:19
 MERGED from [:react-native-splash-screen] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-splash-screen/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-12:19
 MERGED from [:react-native-splash-screen] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-splash-screen/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-12:19
 MERGED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-21:19
@@ -237,45 +241,45 @@ MERGED from [org.webkit:android-jsc:r174650] /Users/mac/.gradle/caches/transform
 	android:supportsRtl
 		ADDED from [:react-native-google-places] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-google-places/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:9-35
 	android:label
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:24:9-41
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:25:9-41
 	android:icon
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:23:9-43
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:24:9-43
 	android:allowBackup
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:22:9-36
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:23:9-36
 	android:theme
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:25:9-40
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:26:9-40
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:21:9-40
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:22:9-40
 meta-data#com.google.android.geo.API_KEY
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:26:9-28:71
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:27:9-29:71
 	android:value
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:28:13-68
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:29:13-68
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:27:13-58
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:28:13-58
 activity#com.kimyakimya.MainActivity
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:30:9-40:20
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:31:9-41:20
 	android:label
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:33:13-45
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:34:13-45
 	android:windowSoftInputMode
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:34:13-55
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:35:13-55
 	android:configChanges
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:32:13-83
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:33:13-83
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:31:13-41
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:32:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:35:13-39:29
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:36:13-40:29
 action#android.intent.action.MAIN
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:36:17-69
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:37:17-69
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:36:25-66
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:37:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:38:17-77
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:39:17-77
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:38:27-74
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:39:27-74
 activity#com.facebook.react.devsupport.DevSettingsActivity
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:41:9-86
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:42:9-86
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:41:19-83
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:42:19-83
 uses-sdk
 INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
@@ -637,4 +641,4 @@ MERGED from [com.google.maps.android:android-maps-utils:0.5] /Users/mac/.gradle/
 	android:name
 		ADDED from [com.google.android.gms:play-services-basement:16.1.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.1.0.aar/8ce08fc5190564627b71ef3fe8b79318/AndroidManifest.xml:24:13-58
 uses-permission#android.permission.READ_PHONE_STATE
-IMPLIED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-45:12 reason: org.webkit.android_jsc has a targetSdkVersion < 4
+IMPLIED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12 reason: org.webkit.android_jsc has a targetSdkVersion < 4

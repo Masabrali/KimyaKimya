@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { StyleSheet, RefreshControl, View } from 'react-native';
-import { Container, ActionSheet, Header, Body, Left, Right, Segment, Content, Spinner, List, ListItem, Button, Badge, Icon, Text, Item, Input } from 'native-base';
+import { Container, ActionSheet, Header, Body, Title, Left, Right, Segment, Content, Spinner, List, ListItem, Button, Badge, Icon, Text, Item, Input } from 'native-base';
 import Moment from 'moment'; // Version can be specified in package.json
 
 /**
@@ -11,7 +11,9 @@ import Moment from 'moment'; // Version can be specified in package.json
 */
 import currencyFormat from '../../utilities/currencyFormat';
 import shortMonth from '../../utilities/shortMonth';
+import titleCase from '../../utilities/titleCase';
 import isEmpty from '../../utilities/isEmpty';
+import isObject from '../../utilities/isObject';
 import isIOS from '../../utilities/isIOS';
 import isAndroid from '../../utilities/isAndroid';
 
@@ -26,60 +28,117 @@ import StatusBar from '../../components/others/StatusBar';
 import Styles from '../styles';
 
 const Orders = function (props) {
+
     return (
         <Container style={ [Styles.wrapper] }>
-            <Header noShadow hasSegment searchBar style={ [Styles.backgroundHeader] } >
-                <Body style={ [Styles.flex] }>
-                    <Item style={ [isAndroid() && Styles.borderBottom, isIOS() && Styles.borderRadius, styles.searchItem] } disabled={ (props.loading || props.refreshing)? true:false } >
-                        { props.searchFocused && isAndroid() && <Button iconRight transparent style={ [Styles.height100] } onPress={ () => ( props.blurSearch(this.searchInput) ) }>
-                                <Icon name="arrow-back" ios="ios-arrow-back" android="md-arrow-back" style={ [Styles.textDark] } />
-                            </Button>
-                        }
-                        { (!props.searchFocused && isAndroid()) && <Icon name="search" ios="ios-search" android="md-search" style={ [isAndroid() && Styles.textPlaceholder] } /> }
-                        <Input
-                          autoFocus={ props.searchFocused }
-                          ref={ (input) => ( this.searchInput = input ) }
-                          placeholder="Search orders..."
-                          placeholderStyle={ [styles.searchInputPlaceholder] }
-                          onFocus={ () => ( props.focusSearch(this.searchInput) ) }
-                          onChangeText={ props.search }
-                          autoCapitalization="none"
-                          autoCorrect={ false }
-                          clearButtonMode="while-editing"
-                        />
-                        { props.searchFocused && isAndroid() && <Button iconLeft transparent onPress={ () => ( props.clearSearch(this.searchInput) ) }>
-                                <Icon name="close" ios="ios-close" android="md-close" style={ [Styles.textPlaceholder] } />
-                            </Button>
-                        }
-                    </Item>
-                    { props.searchFocused && isIOS() && <Button transparent onPress={ () => ( props.blurSearch(this.searchInput) ) }>
+            { !isEmpty(props.selected) && <Header noShadow hasSegment style={ [Styles.backgroundHeader] } >
+                    <Left>
+                        <Button transparent onPress={ () => ( (!props.loading)? props.exitOrderSelection() : undefined ) }>
+                            <Icon name="close" ios="ios-close" android="md-close" style={ [isAndroid() && Styles.textDark] } />
                             { isIOS() && <Text>Cancel</Text> }
                         </Button>
-                    }
-                </Body>
-                { !props.searchFocused && <Right>
-                    <Button transparent badge disabled={ (props.cartSize === 0)? true:false } onPress={ props.checkout }>
-                            <Icon name="cart" ios="ios-cart" android="md-cart" style={ [isAndroid() && props.cartSize && Styles.textDark] } />
-                            { props.cartSize !== 0 &&  <Badge style={ [Styles.positionAbsolute, Styles.verticalPositionTop, Styles.horizontalPositionRight, Styles.backgroundKimyaKimyaFemale] }>
-                                    <Text style={ [Styles.noPadding, Styles.noMargin, Styles.textWhite, styles.cartSizeText] }>{ props.cartSize }</Text>
-                                </Badge>
+                    </Left>
+                    <Body style={ [isAndroid() && Styles.marginLeft, isAndroid() && Styles.paddingLeft] }>
+                        <Title style={ [Styles.textDark, Styles.textBold] }>
+                            { Object.keys(props.selected).length } Selected
+                        </Title>
+                    </Body>
+                    <Right style={ [Styles.flex, Styles.flexRow, Styles.flexJustifyEnd, Styles.flexAlignCenter] }>
+                        <Button iconRight transparent onPress={ () => ( (!props.loading)? props.selectAllOrders() : undefined ) }>
+                            { (Object.keys(props.selected).length != Object.keys(props.orders).length) && <Icon name="checkbox-outline" ios="ios-checkbox-outline" android="md-checkbox-outline" style={ [isAndroid() && Styles.textDark] } /> }
+                            { (Object.keys(props.selected).length == Object.keys(props.orders).length) && <Icon name="checkbox" ios="ios-checkbox" android="md-checkbox" style={ [isAndroid() && Styles.textDark] } /> }
+                        </Button>
+                        <Button iconRight transparent onPress={ () => {
+
+                                if (!props.loading)
+                                    ActionSheet.show({
+                                        options: [
+                                            { text: 'Keep ' + Object.keys(props.selected).length + ' orders in ' + titleCase(props.segment) + ' orders', icon: (props.segment == 'drafts')? 'exit' : 'list', iconColor: isAndroid() && Styles.textPrimary.color },
+                                            { text: 'Delete ' + Object.keys(props.selected).length + ' orders', icon: 'trash', iconColor: isAndroid() && Styles.textDanger.color },
+                                            { text: 'Cancel', icon: (isAndroid())? 'close-circle' : 'close-circle-outline', iconColor: isAndroid() && Styles.textPrimary.color }
+                                        ],
+                                        cancelButtonIndex: 2,
+                                        destructiveButtonIndex: 1,
+                                        title: (props.segment == 'drafts')? "Draft Orders Options" : "Previous Orders Options"
+                                    }, (index) => {
+
+                                        if (index == 0) return props.exitOrderSelection();
+                                        else if (index == 1) return props.deleteOrders();
+                                        else return;
+                                    });
                             }
+                        }>
+                            <Icon name="more" ios="ios-more" android="md-more" style={ [isAndroid() && Styles.textDark] } />
                         </Button>
                     </Right>
-                }
-            </Header>
+                </Header>
+            }
+            { isEmpty(props.selected) && <Header noShadow hasSegment searchBar style={ [Styles.backgroundHeader] } >
+                    <Body style={ [Styles.flex] }>
+                        <Item style={ [isAndroid() && Styles.borderBottom, isIOS() && Styles.borderRadius, styles.searchItem] } disabled={ (props.loading || props.refreshing)? true:false } >
+                            { props.searchFocused && isAndroid() && <Button iconRight transparent style={ [Styles.height100] } onPress={ () => ( props.blurSearch(this.searchInput) ) }>
+                                    <Icon name="arrow-back" ios="ios-arrow-back" android="md-arrow-back" style={ [Styles.textDark] } />
+                                </Button>
+                            }
+                            { (!props.searchFocused && isAndroid()) && <Icon name="search" ios="ios-search" android="md-search" style={ [isAndroid() && Styles.textPlaceholder] } /> }
+                            <Input
+                              autoFocus={ props.searchFocused }
+                              ref={ (input) => ( this.searchInput = input ) }
+                              placeholder="Search orders..."
+                              placeholderStyle={ [styles.searchInputPlaceholder] }
+                              onFocus={ () => ( props.focusSearch(this.searchInput) ) }
+                              onChangeText={ props.search }
+                              autoCapitalization="none"
+                              autoCorrect={ false }
+                              clearButtonMode="while-editing"
+                            />
+                            { props.searchFocused && isAndroid() && <Button iconLeft transparent onPress={ () => ( props.clearSearch(this.searchInput) ) }>
+                                    <Icon name="close" ios="ios-close" android="md-close" style={ [Styles.textPlaceholder] } />
+                                </Button>
+                            }
+                        </Item>
+                        { props.searchFocused && isIOS() && <Button transparent onPress={ () => ( props.blurSearch(this.searchInput) ) }>
+                                { isIOS() && <Text>Cancel</Text> }
+                            </Button>
+                        }
+                    </Body>
+                    { !props.searchFocused && <Right>
+                        <Button transparent badge disabled={ (props.cartSize === 0)? true:false } onPress={ props.checkout }>
+                                <Icon name="cart" ios="ios-cart" android="md-cart" style={ [isAndroid() && props.cartSize && Styles.textDark] } />
+                                { props.cartSize !== 0 &&  <Badge style={ [Styles.positionAbsolute, Styles.verticalPositionTop, Styles.horizontalPositionRight, Styles.backgroundKimyaKimyaFemale] }>
+                                        <Text style={ [Styles.noPadding, Styles.noMargin, Styles.textWhite, styles.cartSizeText] }>{ props.cartSize }</Text>
+                                    </Badge>
+                                }
+                            </Button>
+                        </Right>
+                    }
+                </Header>
+            }
             <Segment noShadow style={ [Styles.borderBottom, Styles.backgroundHeader] }>
-                <Button active={ (props.segment == 'previous') } first style={ [Styles.border, Styles.borderPrimary, (props.segment == 'previous') && Styles.backgroundPrimary] } onPress={ () => ( props.changeSegment('previous') ) }>
-                    <Text style={ [(props.segment == 'previous')? Styles.textWhite : Styles.textPrimary] }>Previous</Text>
-                </Button>
-                <Button active={ (props.segment == 'drafts') } style={ [Styles.border, Styles.borderPrimary, (props.segment == 'drafts') && Styles.backgroundPrimary] } onPress={ () => ( props.changeSegment('drafts') ) }>
-                    <Text style={ [(props.segment == 'drafts')? Styles.textWhite : Styles.textPrimary] }>Drafts</Text>
-                </Button>
-                <Button active={ (props.segment == 'queued') } last style={ [Styles.border, Styles.borderPrimary, (props.segment == 'queued') && Styles.backgroundPrimary, (props.segment == 'queued')? Styles.textWhite : Styles.textPrimary] } onPress={ () => ( props.changeSegment('queued') ) }>
-                    <Text style={ [(props.segment == 'queued')? Styles.textWhite : Styles.textPrimary] }>
-                      Queued { !isEmpty(props.orders.queued) && (": " + Object.keys(props.orders.queued).length) }
-                    </Text>
-                </Button>
+                {
+                    Object.keys(props.orders).map( (key, index) => {
+
+                        if (isObject(props.orders[key]))
+                            return (
+                                <Button key={ key } active={ (props.segment == 'previous') } first={ index == 0 } last={ index == 2 } style={
+                                    [
+                                        Styles.border,
+                                        ( (isEmpty(props.selected))? Styles.borderPrimary : Styles.borderDisabled ),
+                                        Styles.backgroundWrapper,
+                                        ( (props.segment == key)? ( (isEmpty(props.selected))? Styles.backgroundPrimary : Styles.backgroundDisabled ) : {} ),
+                                        Styles.flexJustifyCenter,
+                                        Styles.flexAlignCenter,
+                                        { minWidth: '32%' }
+                                    ]
+                                } disabled={ !isEmpty(props.selected) } onPress={ () => ( props.changeSegment(key) ) }>
+                                    <Text style={ [( (!isEmpty(props.selected))? Styles.textDisabled : Styles.textPrimary ), (props.segment == key) && Styles.textWhite, Styles.textAlignCenter] }>
+                                        { titleCase(key) }
+                                        { key == 'queued' && !isEmpty(props.orders[key]) && (' : ' + Object.keys(props.orders[key]).length) }
+                                    </Text>
+                                </Button>
+                            );
+                    } )
+                }
             </Segment>
 
             <StatusBar />
@@ -92,7 +151,7 @@ const Orders = function (props) {
                 />
               }
               keyboardShouldPersistTaps="handle"
-              contentContainerStyle={ (isEmpty(props.orders[props.segment]) && !props.loading && !props.refreshing && [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch]) || ([Styles.paddingLeft]) }
+              contentContainerStyle={ (isEmpty(props.orders[props.segment]) && !props.loading && !props.refreshing && [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch]) }
             >
                 { (props.loading || (props.refreshing && isEmpty(props.orders[props.segment]))) && <View style={ [Styles.flexRow, Styles.flexJustifyCenter] }>
                         <Spinner color={ (props.gender == 'female')? Styles.textKimyaKimyaFemale.color : Styles.textKimyaKimyaMale.color } />
@@ -116,14 +175,20 @@ const Orders = function (props) {
                       rightOpenValue={-75}
                       dataSource={ props.dataSource.cloneWithRows(props.orders[props.segment]) }
                       renderRow={ (order) =>
-                          <ListItem noIndent thumbnail key={order.id} style={ [Styles.noPaddingLeft] }>
+                          <ListItem noInden thumbnail key={order.id} style={ [Styles.paddingLeft, !!order.selected && Styles.backgroundSelected] } onLongPress={ () => {
+                              if (props.segment != 'queued' && !props.loading)
+                                  return props.toggleOrderSelection(order);
+                          } } onPress={ () => {
+                              if (!isEmpty(props.selected) && props.segment != 'queued' && !props.loading)
+                                  return props.toggleOrderSelection(order);
+                          } }>
                               <Left style={ [Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch, Styles.paddingTop, Styles.paddingBottom] }>
                                   <View style={ [Styles.flexRow, Styles.noMarginBottom, Styles.noPaddingBottom] }>
                                       <Text style={ [styles.date] }>
                                           { Moment(order.date).format('DD') }
                                       </Text>
                                       <Text style={ [styles.month] }>
-                                          { Moment(order.date).format('MMM') }
+                                          { Moment(order.date).format(' MMM') }
                                       </Text>
                                   </View>
                                   <Text style={ [Styles.width100, Styles.noMarginTop, Styles.noPaddingTop, Styles.borderBottom, Styles.textAlignCenter, styles.year] }>
@@ -149,7 +214,7 @@ const Orders = function (props) {
                                   <Button
                                     bordered
                                     warning={ order.queued }
-                                    disabled={ props.loading || props.refreshing }
+                                    disabled={ props.loading || props.refreshing || !!order.selected }
                                     onPress={ () => ( (order.queued)? props.queuedOrder(order) : props.reOrder(order) ) }
                                   >
                                       <Text style={ [styles.amount] }>

@@ -27,6 +27,7 @@ import fetchRate from '../../actions/rate';
 import fetchNearby from '../../actions/nearby';
 import fetchPlaces from '../../actions/places';
 import fetchHotpoints from '../../actions/hotpoints';
+import fetchHotpoint from '../../actions/hotpoint';
 import fetchDistance from '../../actions/distance';
 import setPlaces from '../../actions/setPlaces';
 import location from '../../actions/location';
@@ -76,7 +77,7 @@ class Location extends Component<Props> {
         };
 
         // Initialize other variables
-        this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+        this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => ( r1 !== r2 ) });
         this.geolocationWatchId = undefined;
         this.map = undefined;
         this.locationInput = undefined;
@@ -101,6 +102,7 @@ class Location extends Component<Props> {
         this.fetchNearby = this.fetchNearby.bind(this);
         this.fetchPlaces = this.fetchPlaces.bind(this);
         this.fetchHotpoints = this.fetchHotpoints.bind(this);
+        this.fetchHotpoint = this.fetchHotpoint.bind(this);
         this.fetchRate = this.fetchRate.bind(this);
         this.getCurrentPlace = this.getCurrentPlace.bind(this);
         this.getCurrentLocation = this.getCurrentLocation.bind(this);
@@ -116,8 +118,10 @@ class Location extends Component<Props> {
     }
 
     componentWillMount() {
-        if (isEmpty(this.props.rate)) return this.fetchRate();
-        else return this.fetchRate(true);
+
+        (isEmpty(this.props.hotpoints))? this.fetchHotpoints() : this.fetchHotpoints(true);
+
+        return ( (isEmpty(this.props.rate))? this.fetchRate() : this.fetchRate(true) );
     }
 
     componentDidMount() {
@@ -139,9 +143,11 @@ class Location extends Component<Props> {
     }
 
     componentWillReceiveProps(props) {
+        console.log(props.hotpoints)
         return this.setState({
             order: props.order,
             places: props.places || this.state.places,
+            locations: props.locations || this.state.locations,
             hotpoints: props.hotpoints || this.state.hotpoints,
             rate: props.rate || this.state.rate
         });
@@ -435,7 +441,7 @@ class Location extends Component<Props> {
 
             let { latitude, longitude } = (this.state.location || this.state.currentLocation);
 
-            return (this.getDistance(placeA, { latitude, longitude }) - this.getDistance(placeB, { latitude, longitude }));
+            return (this.getDistance(placeA.location, { latitude, longitude }) - this.getDistance(placeB.location, { latitude, longitude }));
         });
 
         /**
@@ -447,7 +453,33 @@ class Location extends Component<Props> {
     /**
     * fetchHotpoints
     */
-    fetchHotpoints(location) {
+    fetchHotpoints(silent) {
+
+        // Validation
+        let errors = {};
+
+        // Hand;e Data Submission to server
+        if (isEmpty(errors)) {
+
+            if (!silent && !this.state.loading) this.setState({ loading: true });
+
+            return this.props.fetchHotpoints({ silent: silent }).then(
+                (data) => {
+
+                    if (!isEmpty(data.errors))
+                        return this.handleError(data.errors[0]);
+                    else
+                        return this.setState({ loading: false, done: true, errors: {} });
+                },
+                this.handleError
+            );
+        }
+    }
+
+    /**
+    * fetchHotpoint
+    */
+    fetchHotpoint() {
 
         // Validation
         let errors = {};
@@ -457,7 +489,7 @@ class Location extends Component<Props> {
 
             if (!this.state.loading) this.setState({ loading: true });
 
-            return this.props.fetchHotpoints(location).then(
+            return this.props.fetchHotpoint(this.state.order).then(
                 (data) => {
 
                     if (!isEmpty(data.errors))
@@ -838,7 +870,7 @@ class Location extends Component<Props> {
     * Process Location
     */
     location() {
-
+        console.log('location')
         // Validation
         let errors = {};
         if (isEmpty(this.state.location)) errors.location = "Location not Specified";
@@ -998,12 +1030,14 @@ class Location extends Component<Props> {
               searchLocation={ this.searchLocation }
               locationKey={ this.state.locationKey }
               locations={ this.state.locations }
+              hotpoints={ this.state.hotpoints }
               selectLocation={ this.selectLocation }
               mapReady={ this.mapReady }
               regionChanged={ this.regionChanged }
               mapPressed={ this.mapPressed }
               userLocationChanged={ this.userLocationChanged }
               refreshLocation={ this.refreshLocation }
+              fetchHotpoints={ this.fetchHotpoints }
               order={ this.props.order }
               location={ this.location }
               back={ this.back }
@@ -1030,6 +1064,8 @@ Location.propTypes = {
     fetchRate: PropTypes.func.isRequired,
     fetchNearby: PropTypes.func.isRequired,
     fetchPlaces: PropTypes.func.isRequired,
+    fetchHotpoints: PropTypes.func.isRequired,
+    fetchHotpoint: PropTypes.func.isRequired,
     fetchDistance: PropTypes.func.isRequired,
     setPlaces: PropTypes.func.isRequired,
     location: PropTypes.func.isRequired,
@@ -1060,6 +1096,7 @@ function matchDispatchToProps(dispatch) {
         fetchNearby: fetchNearby,
         fetchPlaces: fetchPlaces,
         fetchHotpoints: fetchHotpoints,
+        fetchHotpoint: fetchHotpoint,
         fetchDistance: fetchDistance,
         setPlaces: setPlaces,
         location: location,

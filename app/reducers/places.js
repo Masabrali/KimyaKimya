@@ -44,7 +44,8 @@ export default function (state = [], action = {}) {
 
         case 'ORDERS_FETCHED':
 
-            Object.keys(actions.orders.previous).map( (order) => ( places.push(order.location) ) );
+            if (!isEmpty(action.orders.previous))
+                Object.keys(action.orders.previous).map( (order) => ( places.push(order.location) ) );
 
             return [ ...state, ...processPlaces(places) ];
 

@@ -22,6 +22,7 @@ export default function(order) {
 
                     let dbRef = firebase.database().ref('orders/queued/' + firebase.auth().currentUser.uid).push();
 
+                    order.key = order.key || dbRef.key;
                     order.id = order.id || dbRef.key;
                     order.orderID = dbRef.key;
                     order.queued = true;
@@ -36,11 +37,12 @@ export default function(order) {
                         dbRef.once('value')
                         .then( (order) => {
 
-                            order = { key: order.key, ...order.val() };
+                            let _order = {};
+                            _order[order.key] = order.val();
 
-                            resolve(order);
+                            resolve(_order);
 
-                            return dispatch( submitOrder(order) );
+                            return dispatch( submitOrder(_order) );
                         } )
                         .catch(errorHandler)
                     );

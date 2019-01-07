@@ -79,7 +79,7 @@ class Shop extends Component<Props> {
     }
 
     componentDidMount() {
-        
+
         if (isEmpty(this.props.products) || (isEmpty(this.props.products.condoms) && isEmpty(this.props.products.pills) && isEmpty(this.props.products.emergency)))
             this.refresh();
         else this.refresh(true);

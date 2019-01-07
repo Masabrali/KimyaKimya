@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { ListView, BackHandler } from 'react-native';
+import { ListView, BackHandler, Vibration } from 'react-native';
 import Moment from 'moment'; // Version can be specified in package.json
 
 /**
@@ -22,6 +22,7 @@ import isAndroid from '../../utilities/isAndroid';
 import fetchOrders from '../../actions/orders';
 import reOrder from '../../actions/reOrder';
 import deleteOrder from '../../actions/deleteOrder';
+import deleteOrders from '../../actions/deleteOrders';
 import readQueuedOrder from '../../actions/readQueuedOrder';
 
 /**
@@ -52,6 +53,7 @@ class Orders extends Component<Props> {
             errors: {},
             cartSize: props.order.quantity,
             orders: props.orders,
+            selected: {},
             segment: (props.orders.newOrderQueued && !isEmpty(props.orders.queued))? 'queued' : 'previous',
             searchFocused: false,
             searchKey: undefined
@@ -68,10 +70,14 @@ class Orders extends Component<Props> {
         this.blurSearch = this.blurSearch.bind(this);
         this.search = this.search.bind(this);
         this.changeSegment = this.changeSegment.bind(this);
+        this.toggleOrderSelection = this.toggleOrderSelection.bind(this);
+        this.selectAllOrders = this.selectAllOrders.bind(this);
+        this.exitOrderSelection = this.exitOrderSelection.bind(this);
         this.reOrder = this.reOrder.bind(this);
         this.queuedOrder = this.queuedOrder.bind(this);
         this.quickReOrder = this.quickReOrder.bind(this);
         this.delete = this.delete.bind(this);
+        this.deleteOrders = this.deleteOrders.bind(this);
         this.refresh = this.refresh.bind(this);
         this.shop = this.shop.bind(this);
         this.checkout = this.checkout.bind(this);
@@ -187,6 +193,57 @@ class Orders extends Component<Props> {
         return this.setState({ segment: segment });
     }
 
+    toggleOrderSelection(order) {
+
+        let selected = this.state.selected;
+        let orders = this.state.orders;
+
+        orders[this.state.segment][order.key].selected = !orders[this.state.segment][order.key].selected;
+
+        if (!isEmpty(selected[order.key])) delete selected[order.key];
+        else {
+
+            if (isEmpty(selected)) Vibration.vibrate(100);
+
+            selected[order.key] = order;
+        }
+
+        return this.setState({ selected: selected, orders: orders });
+    }
+
+    selectAllOrders() {
+
+        let selected = this.state.selected;
+        let orders = this.state.orders;
+
+        if (Object.keys(selected).length != Object.keys(orders).length) {
+
+            Object.keys(orders[this.state.segment]).map( (key) => (
+                orders[this.state.segment][key].selected = true
+            ) );
+
+            selected = { ...orders[this.state.segment] };
+
+        }
+
+        return this.setState({ selected: selected, orders: orders });
+    }
+
+    exitOrderSelection() {
+
+        let orders = this.state.orders;
+
+        Object.keys(this.state.selected).map( (key) => {
+
+            if (!isEmpty(orders[this.state.segment][key]))
+                orders[this.state.segment][key].selected = false;
+
+            return orders[this.state.segment][key];
+        } );
+
+        return this.setState({ selected: {}, orders: orders });
+    }
+
     reOrder(order) {
 
         if (!this.state.loading && !this.state.refreshing)
@@ -248,7 +305,7 @@ class Orders extends Component<Props> {
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 
-                        return this.setState({ refreshing: false, done: false });
+                        return this.setState({ refreshing: false, done: false, errors });
 
                     } else
                         return ( silent || this.setState({
@@ -273,9 +330,40 @@ class Orders extends Component<Props> {
         /**
         * Update Orders Global State by removing the Order
         */
-        if (order.draft) return this.props.deleteOrder(order);
-        else {
+        // Validation
+        let errors = {};
 
+        // Hand;e Data Submission to server
+        if (isEmpty(errors)) {
+
+            if (!this.state.loading) this.setState({ loading: true });
+
+            return this.props.deleteOrder(order).then(
+                (data) => {
+
+                  if (!isEmpty(data.errors)) {
+
+                      let errors = data.errors;
+
+                      this.handleError(data.errors);
+
+                      return this.setState({ loading: false, refreshing: false, done: false, errors });
+
+                  } else
+                      return this.setState({ loading: false, refreshing: false, done: true, errors: {} });
+
+                }, this.handleError
+            ).catch(this.handleError);
+        }
+    }
+
+    deleteOrders() {
+
+        if (!isEmpty(this.state.selected)) {
+
+            /**
+            * Update Orders Global State by removing the Order
+            */
             // Validation
             let errors = {};
 
@@ -284,17 +372,23 @@ class Orders extends Component<Props> {
 
                 if (!this.state.loading) this.setState({ loading: true });
 
-                return this.props.deleteOrder(order).then(
+                return this.props.deleteOrders(this.state.selected, this.state.segment).then(
                     (data) => {
 
                       if (!isEmpty(data.errors)) {
 
+                          let errors = data.errors;
+
                           this.handleError(data.errors);
 
-                          return this.setState({ done: false });
+                          return this.setState({ loading: false, refreshing: false, done: false, errors });
 
-                      } else
+                      } else {
+
+                          this.exitOrderSelection();
+
                           return this.setState({ loading: false, refreshing: false, done: true, errors: {} });
+                      }
 
                     }, this.handleError
                 ).catch(this.handleError);
@@ -322,16 +416,21 @@ class Orders extends Component<Props> {
               cartSize={ this.state.cartSize }
               segment={ this.state.segment }
               orders={ this.state.orders }
+              selected={ this.state.selected }
               searchFocused={ this.state.searchFocused }
               focusSearch={ this.focusSearch }
               clearSearch={ this.clearSearch }
               blurSearch={ this.blurSearch }
               search={ this.search }
               changeSegment={ this.changeSegment }
+              toggleOrderSelection={ this.toggleOrderSelection }
+              selectAllOrders={ this.selectAllOrders }
+              exitOrderSelection={ this.exitOrderSelection }
               reOrder={ this.reOrder }
               queuedOrder={ this.queuedOrder }
               quickReOrder={ this.quickReOrder }
               delete={ this.delete }
+              deleteOrders={ this.deleteOrders }
               shop={ this.shop }
               checkout={ this.checkout }
               refresh={ this.refresh }
@@ -379,6 +478,7 @@ function matchDispatchToProps(dispatch) {
         fetchOrders: fetchOrders,
         reOrder: reOrder,
         deleteOrder: deleteOrder,
+        deleteOrders: deleteOrders,
         readQueuedOrder: readQueuedOrder
     }, dispatch);
 }

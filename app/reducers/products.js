@@ -49,9 +49,9 @@ export default function (state = {}, action = {}) {
 
             if (isEmpty(state))
                 return {
-                    condoms: [],
-                    pills: [],
-                    emergency: []
+                    condoms: {},
+                    pills: {},
+                    emergency: {}
                 };
             else return state;
     }

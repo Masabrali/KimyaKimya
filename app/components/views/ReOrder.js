@@ -40,7 +40,7 @@ const ReOrder = function (props) {
                     <Title style={ [Styles.textDark, Styles.textBold] }>{ ((props.order.draft)? "Draft":"Previous") + " Order" }</Title>
                     <Subtitle style={ [Styles.textSecondary, Styles.textBold] }>{ Moment(props.order.date).format('DD MMM YYYY') + " at " + Moment(props.order.date).format('HH:mm') }</Subtitle>
                 </Body>
-                <Right style={ [Styles.flex, Styles.flexRow, Styles.flexJustifyEnd] }>
+                <Right style={ [Styles.flex, Styles.flexRow, Styles.flexJustifyEnd, Styles.flexAlignCenter] }>
                     <Button iconRight transparent onPress={ props.toggleCart }>
                         { props.cartCollapsed && <Icon name="expand" ios="ios-expand" android="md-expand" style={ [isAndroid() && Styles.textDark] } /> }
 

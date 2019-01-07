@@ -54,40 +54,16 @@ class Welcome extends Component<Props> {
 
     componentWillMount() {
 
-        if (!isEmpty(this.state.currentUser) && !isEmpty(this.props.countries)) {
+        if (!isEmpty(this.state.currentUser)) {
 
-            if (isEmpty(this.props.user) || isEmpty(this.props.user.gender) || isEmpty(this.props.birth))
-                this.fetchUser(this.login);
-            else this.login();
+            if (isEmpty(this.props.user) || !this.props.user.gender || !this.props.user.birth)
+                return this.fetchUser(this.login);
+            else return this.login();
         }
     }
 
     componentDidMount() {
-
-        if (!isEmpty(this.state.currentUser)) {
-
-            if (isEmpty(this.props.user) || isEmpty(this.props.user.gender) || isEmpty(this.props.birth))
-                this.fetchUser(this.login);
-            else this.login();
-        }
-
         return SplashScreen.hide();
-    }
-
-    componentWillReceiveProps(props) {
-
-        if (!isEmpty(this.state.currentUser) && !isEmpty(props.user)) {
-
-            if (isEmpty(this.props.countries)) this.login();
-            else
-                return setTimeout( () => {
-                    if (isEmpty(props.user.gender))
-                        Actions.replace('gender', { action: 'gender' });
-                    else if (isEmpty(props.user.birth))
-                        Actions.replace('birth', { action: 'birth' });
-                    else Actions.reset('app');
-                }, 10 );
-        }
     }
 
     handleError(error) {
@@ -124,7 +100,7 @@ class Welcome extends Component<Props> {
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 
-                        this.setState({ errors, loading: false, done: false });
+                        return this.setState({ errors, loading: false, done: false });
 
                     } else {
 
@@ -158,7 +134,7 @@ class Welcome extends Component<Props> {
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 
-                        this.setState({ errors, loading: false, done: false });
+                        return this.setState({ errors, loading: false, done: false });
 
                     } else {
 
@@ -179,7 +155,7 @@ class Welcome extends Component<Props> {
             let _login = () => {
 
                 return setTimeout( () => {
-                    
+
                     if (!isEmpty(this.state.currentUser)) {
                         if (isEmpty(this.props.user.gender))
                             return Actions.replace('gender', { action: 'gender' });

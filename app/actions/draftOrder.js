@@ -19,11 +19,12 @@ export default function(order) {
             new Promise( (resolve, reject) => {
 
                 try {
-
+                    
                     let errorHandler = (error) => ( resolve({ errors: [error] }) );
 
                     let dbRef = firebase.database().ref('orders/drafts/' + firebase.auth().currentUser.uid).push();
 
+                    order.key = order.key || dbRef.key;
                     order.id = order.id || dbRef.key;
                     order.date = firebase.database.ServerValue.TIMESTAMP;
                     order.draft = true;
@@ -36,12 +37,12 @@ export default function(order) {
                         dbRef.once('value')
                         .then( (order) => {
 
-                            // order = { key: order.key, ...order.val() };
-                            order = {}[order.key] = order.val();
+                            let _order = {};
+                            _order[order.key] = order.val();
 
-                            resolve(order);
+                            resolve(_order);
 
-                            return dispatch( draftOrder(order) );
+                            return dispatch( draftOrder(_order) );
                         } )
                         .catch(errorHandler)
                     );

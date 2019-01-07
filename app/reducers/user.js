@@ -7,7 +7,7 @@ import isEmpty from './../utilities/isEmpty';
 * Define the reducer
 */
 export default function (state = {}, action = {}) {
-    
+
     switch(action.type) {
 
         case 'USER_LOGGED_IN':

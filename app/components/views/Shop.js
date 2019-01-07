@@ -11,6 +11,7 @@ import { Container, Header, Left, Body, Title, Right, Segment, Content, Spinner,
 import titleCase from '../../utilities/titleCase';
 import currencyFormat from '../../utilities/currencyFormat';
 import isEmpty from '../../utilities/isEmpty';
+import isObject from '../../utilities/isObject';
 import isIOS from '../../utilities/isIOS';
 import isAndroid from '../../utilities/isAndroid';
 
@@ -68,15 +69,17 @@ const Shop = function (props) {
                 }
             </Header>
             <Segment noShadow style={ [Styles.borderBottom, Styles.backgroundHeader] }>
-                <Button active={ (props.segment == 'condoms') } first style={ [Styles.border, Styles.borderPrimary, (props.segment == 'condoms') && Styles.backgroundPrimary] } onPress={ () => ( props.changeSegment('condoms') ) }>
-                    <Text style={ [(props.segment == 'condoms')? Styles.textWhite : Styles.textPrimary] }>Condoms</Text>
-                </Button>
-                <Button active={ (props.segment == 'pills') } style={ [Styles.border, Styles.borderPrimary, (props.segment == 'pills') && Styles.backgroundPrimary, (props.segment == 'pills')? Styles.textWhite : Styles.textPrimary] } onPress={ () => ( props.changeSegment('pills') ) }>
-                    <Text style={ [(props.segment == 'pills')? Styles.textWhite : Styles.textPrimary] }>Pills</Text>
-                </Button>
-                <Button active={ (props.segment == 'emergency') } last style={ [Styles.border, Styles.borderPrimary, (props.segment == 'emergency') && Styles.backgroundPrimary, (props.segment == 'emergency')? Styles.textWhite : Styles.textPrimary] } onPress={ () => ( props.changeSegment('emergency') ) }>
-                    <Text style={ [(props.segment == 'emergency')? Styles.textWhite : Styles.textPrimary] }>Emergency</Text>
-                </Button>
+                {
+                    Object.keys(props.products).map( (key, index) => {
+
+                        if (isObject(props.products[key]))
+                            return (
+                                <Button key={ key } active={ (props.segment == key) } first={ index == 0 } last={ index == 2 } style={ [Styles.border, Styles.borderPrimary, (props.segment == key) && Styles.backgroundPrimary, Styles.flexJustifyCenter, Styles.flexAlignCenter, { minWidth: '32%' }] } onPress={ () => ( props.changeSegment(key) ) }>
+                                    <Text style={ [(props.segment == key)? Styles.textWhite : Styles.textPrimary, Styles.textAlignCenter] }>{ titleCase(key) }</Text>
+                                </Button>
+                            );
+                    } )
+                }
             </Segment>
 
             <StatusBar />

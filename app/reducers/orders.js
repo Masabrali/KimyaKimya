@@ -13,7 +13,6 @@ import isEmpty from './../utilities/isEmpty';
 */
 export default function (state = {}, action = {}) {
 
-    let index = -1;
     let currentUser = firebase.auth().currentUser;
     let sort = (_orders) => {
 
@@ -33,9 +32,9 @@ export default function (state = {}, action = {}) {
             let orders = action.orders || {};
 
             return {
-                previous: sort(( orders.previous || {} )[currentUser.uid] || {}),
-                drafts: sort(( orders.drafts || {} )[currentUser.uid] || {}),
-                queued: sort(( orders.queued || {} )[currentUser.uid] || {})
+                previous: sort(( orders.previous || {} )[currentUser.uid] || state.previous || {}),
+                drafts: sort(( orders.drafts || {} )[currentUser.uid] || state.drafts || {}),
+                queued: sort(( orders.queued || {} )[currentUser.uid] || state.queued || {})
             };
 
         case 'ORDER_DRAFTED':
@@ -94,9 +93,9 @@ export default function (state = {}, action = {}) {
 
             if (isEmpty(state))
                 return {
-                    previous: [],
-                    drafts: [],
-                    queued: []
+                    previous: {},
+                    drafts: {},
+                    queued: {}
                 };
             else return state;
     }

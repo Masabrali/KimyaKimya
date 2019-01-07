@@ -27,6 +27,7 @@ export default function(order) {
 
                         let dbRef = firebase.database.ref('orders/previous/' + currentUser.uid).push();
 
+                        order.key = order.key || dbRef.key;
                         order.id = order.id || dbRef.key;
                         order.date = firebase.database.ServerValue.TIMESTAMP;
 
@@ -37,12 +38,13 @@ export default function(order) {
                         return (
                             dbRef.once('value')
                             .then( (order) => {
+                                
+                                let _order = {};
+                                _order[order.key] = order.val();
 
-                                order = { key: order.key, ...order.val() };
+                                resolve(_order);
 
-                                resolve(order);
-
-                                return dispatch( confirmOrderDelivery(order) );
+                                return dispatch( confirmOrderDelivery(_order) );
                             } )
                             .catch(errorHandler)
                         );

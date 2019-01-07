@@ -25,14 +25,16 @@ export default function(orders) {
                     let errorHandler = (error) => ( resolve({ errors: [error] }) );
                     let currentUser = firebase.auth().currentUser;
                     let dbRef = firebase.database().ref('orders');
+                    let _order;
 
                     dbRef.on('child_added', (order) => {
 
-                        order = order.val()[currentUser.uid];
-
-                        if (order.key == "drafts") return dispatch( draftOrder(order) );
-                        else if (order.key == "queued") return dispatch( submitOrder(order) );
-                        else if (order.key == "previous") return dispatch( confirmOrderDelivery(order) );
+                        if (order.key == "drafts")
+                            return dispatch( draftOrder(order.val()[currentUser.uid]) );
+                        else if (order.key == "queued")
+                            return dispatch( submitOrder(order.val()[currentUser.uid]) );
+                        else if (order.key == "previous")
+                            return dispatch( confirmOrderDelivery(order.val()[currentUser.uid]) );
 
                     }, errorHandler);
 
