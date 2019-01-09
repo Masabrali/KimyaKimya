@@ -35,7 +35,6 @@ export default function(hotpoints) {
                         resolve(hotpoints.val());
 
                         return dispatch( setHotpoints(hotpoints.val()) );
-
                     } )
                     .catch(errorHandler);
 

@@ -18,9 +18,9 @@ export default function(order) {
                 try {
 
                     return (
-                        firebase.functions().httpsCallable('hotpoint')({ order: order })
-                        .then( (hotpoint) => ( resolve(hotpoint.val()) ) )
-                        .catch( (error) => ( resolve({ errors: [error] }) ) )
+                        firebase.functions().httpsCallable('hotpoint')(order)
+                        .then(resolve)
+                        .catch(reject)
                     );
 
                 } catch (error) {

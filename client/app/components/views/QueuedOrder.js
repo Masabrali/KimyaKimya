@@ -9,6 +9,7 @@ import Moment from 'moment'; // Version can be specified in package.json
 /**
  * Import Utilities
 */
+import titleCase from '../../utilities/titleCase';
 import currencyFormat from '../../utilities/currencyFormat';
 import isEmpty from '../../utilities/isEmpty';
 import isIOS from '../../utilities/isIOS';
@@ -152,7 +153,7 @@ const QueuedOrder = function (props) {
                 </Button>
             </View>
 
-            <Loader visible={ props.loading && isEmpty(props.errors) } text="Confirming Delivery..." spinnerColor={ (props.gender == 'female')? Styles.textKimyaKimyaFemale.color : Styles.textKimyaKimyaMale.color } />
+            <Loader visible={ props.loading && isEmpty(props.errors) } text="Confirming Delivery..." spinnerColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color } />
         </Container>
     );
 }

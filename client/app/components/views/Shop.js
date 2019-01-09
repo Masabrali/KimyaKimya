@@ -95,7 +95,7 @@ const Shop = function (props) {
               contentContainerStyle={ (isEmpty(props.products[props.segment]) && !props.loading && !props.refreshing && [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch]) || ([Styles.paddingLeft]) }
             >
                 { (props.loading || (props.refreshing && isEmpty(props.products[props.segment]))) && <View style={ [Styles.flexRow, Styles.flexJustifyCenter] }>
-                        <Spinner color={ (props.gender == 'female')? Styles.textKimyaKimyaFemale.color : Styles.textKimyaKimyaMale.color } />
+                        <Spinner color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } />
                     </View>
                 }
 

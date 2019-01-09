@@ -4,11 +4,13 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Container, Header, Left, Right, Body, Title, Content, Button, Icon, Text, List, ListItem, Item, Input, Spinner } from 'native-base';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'; // Version can be specified in package.json
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Utilities
 */
+import titleCase from '../../utilities/titleCase';
 import isEmpty from '../../utilities/isEmpty';
 import isIOS from '../../utilities/isIOS';
 import isAndroid from '../../utilities/isAndroid';
@@ -44,11 +46,11 @@ const Order = function (props) {
             }
             { !props.locationFocused && !props.turnOnLocationError && isEmpty(props.hotpoints) && <Header noShadow style={ [Styles.backgroundDanger] }>
                     <Left style={ [Styles.flex, Styles.flexRow, Styles.flexJustifyStart, Styles.flexAlignCenter] }>
-                        <Text style={ [Styles.textWhite] }>No Hotpoints around here</Text>
+                        <Text style={ [Styles.textWhite] }>Hotpoints Unavailable now</Text>
                     </Left>
                     <Right>
                         <Button transparent onPress={ props.fetchHotpoints }>
-                            <Text style={ [Styles.textWhite] }>Refresh</Text>
+                            <Text style={ [Styles.textWhite] }>Reload</Text>
                         </Button>
                     </Right>
                 </Header>
@@ -80,7 +82,7 @@ const Order = function (props) {
                         }
                         { (!props.locationFocused && isAndroid()) && <Icon name="pin" ios="ios-pin" android="md-pin" style={ [isAndroid() && (isEmpty(props._location) || (isEmpty(props._location.name) && isEmpty(props._location.address))) && Styles.textPlaceholder] } /> }
                         { !props.locationFocused && <Text numberOfLines={1} style={ [(isEmpty(props._location) || (isEmpty(props._location.name) && isEmpty(props._location.address))) && Styles.textPlaceholder, Styles.flex, Styles.padding] } onPress={ () => (props.focusLocation(this.locationInput)) }>
-                                { (props.loading || props.locationLoading)? "Loading..." : (!isEmpty(props._location) && (!isEmpty(props._location.name) || !isEmpty(props._location.address)))? ((props._location.name || '') + ((props._location.address)? (', ' + props._location.address) : '')) : 'Delivery Location' }
+                                { (props.loading || props.locationLoading)? "Loading..." : (!isEmpty(props._location) && (!isEmpty(props._location.name) || !isEmpty(props._location.address)))? ((props._location.name || '') + ((props._location.address)? (', ' + props._location.address) : '')) : 'Where are you?' }
                             </Text>
                         }
                         { props.locationFocused && <Input
@@ -118,7 +120,9 @@ const Order = function (props) {
                       scrollEnabled={ (isIOS())? false : true }
                       style={ [Styles.absoluteFillObject, Styles.flex] }
                       initialRegion={ (!isEmpty(props._location))? props._location : props.initialRegion }
-                      onMapReady={ (e) => props.mapReady(this.map, this.marker) }
+                      onMapReady={ (e) => (
+                          props.mapReady(this.map, this.marker, this.hotpoint_markers)
+                      ) }
                       onRegionChangeComplete={ props.regionChanged }
                       onPress={ props.mapPressed }
                       onUserLocationChange={ props.userLocationChanged }
@@ -127,9 +131,28 @@ const Order = function (props) {
                         <MapView.Marker
                           ref={ (marker) => ( this.marker = marker ) }
                           coordinate={ (!isEmpty(props._location))? props._location : props.initialRegion }
-                          flat={ true }
-                          pinColor='#000000'
+                          pinColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color }
+                          image={ (props.gender == 'female')? require('../../assets/marker_female.png') : require('../../assets/marker_male.png') }
                         />
+                        {
+                            Object.keys(props.hotpoints).map( (key) => (
+                                <MapView.Marker
+                                  ref={ (marker) => {
+
+                                      if (isEmpty(this.hotpoint_markers)) this.hotpoint_markers = {};
+
+                                      this.hotpoint_markers[key] = marker;
+
+                                      return marker;
+                                  } }
+                                  key={ key }
+                                  coordinate={ props.hotpoints[key].location }
+                                  pinColor={ Styles['textKimyaKimya' + ( (props.gender == 'female')? 'Male' : 'Female' )].color }
+                                  image={ (props.gender == 'female')? require('../../assets/hotpoint_male.png') : require('../../assets/hotpoint_female.png') }
+                                  flat={ true }
+                                />
+                            ) )
+                        }
                     </MapView>
                 </View>
 
@@ -144,7 +167,7 @@ const Order = function (props) {
 
                 { props.locationFocused && (props.locationsLoading || !isEmpty(props.locations)) && <View style={ [Styles.flexColumn, Styles.flexJustifyStart, Styles.flexAlignStretch, Styles.backgroundWrapper] }>
                         { props.locationsLoading && <View style={ [Styles.flexRow, Styles.flexJustifyCenter] }>
-                                <Spinner color="black" />
+                                <Spinner color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } />
                             </View>
                         }
                         { !isEmpty(props.locations) && <List
@@ -164,7 +187,7 @@ const Order = function (props) {
                 }
             </Content>
 
-            <Loader visible={ props.loading && isEmpty(props.errors) } text="Setting Location..." spinnerColor={ (props.gender == 'female')? Styles.textKimyaKimyaFemale.color : Styles.textKimyaKimyaMale.color }  />
+            <Loader visible={ props.loading && isEmpty(props.errors) } text="Setting Location..." spinnerColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color }  />
         </Container>
     );
 }

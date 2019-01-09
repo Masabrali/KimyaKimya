@@ -154,7 +154,7 @@ const Orders = function (props) {
               contentContainerStyle={ (isEmpty(props.orders[props.segment]) && !props.loading && !props.refreshing && [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch]) }
             >
                 { (props.loading || (props.refreshing && isEmpty(props.orders[props.segment]))) && <View style={ [Styles.flexRow, Styles.flexJustifyCenter] }>
-                        <Spinner color={ (props.gender == 'female')? Styles.textKimyaKimyaFemale.color : Styles.textKimyaKimyaMale.color } />
+                        <Spinner color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } />
                     </View>
                 }
 

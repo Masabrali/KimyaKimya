@@ -47,12 +47,13 @@ export default function (state = {}, action = {}) {
 
         default:
 
-            if (isEmpty(state))
-                return {
-                    condoms: {},
-                    pills: {},
-                    emergency: {}
-                };
-            else return state;
+            return (
+
+                state || {
+                            condoms: {},
+                            pills: {},
+                            emergency: {}
+                        }
+            );
     }
 }

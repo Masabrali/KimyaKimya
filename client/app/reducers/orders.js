@@ -91,12 +91,13 @@ export default function (state = {}, action = {}) {
 
         default:
 
-            if (isEmpty(state))
-                return {
-                    previous: {},
-                    drafts: {},
-                    queued: {}
-                };
-            else return state;
+            return (
+
+                state || {
+                            previous: {},
+                            drafts: {},
+                            queued: {}
+                        }
+            );
     }
 }

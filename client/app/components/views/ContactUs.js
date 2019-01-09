@@ -6,6 +6,11 @@ import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import { Container, ActionSheet, Header, Left, Body, Right, Title, Content, Form, Text, Button, Item, Label, Input, Textarea, Icon } from 'native-base'; // Version can be specified in package.json
 
 /**
+ * Import Utilities
+*/
+import titleCase from '../../utilities/titleCase';
+
+/**
 * Import Utilities
 */
 import isEmpty from '../../utilities/isEmpty';
@@ -97,7 +102,7 @@ const ContactUs = function (props) {
 
             </Content>
 
-            <Loader visible={ (props.loading && isEmpty(props.errors)) } text="Contacting KimyaKimya..." spinnerColor={ (props.gender == 'female')? Styles.textKimyaKimyaFemale.color : Styles.textKimyaKimyaMale.color } />
+            <Loader visible={ (props.loading && isEmpty(props.errors)) } text="Contacting KimyaKimya..." spinnerColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color } />
         </Container>
     );
 }

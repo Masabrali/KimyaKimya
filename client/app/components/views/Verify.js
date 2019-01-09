@@ -11,6 +11,7 @@ import momentDurationFormat from 'moment-duration-format'; // Version can be spe
 /**
  * Import Utilities
 */
+import titleCase from '../../utilities/titleCase';
 import isEmpty from '../../utilities/isEmpty';
 import isIOS from '../../utilities/isIOS';
 import isAndroid from '../../utilities/isAndroid';
@@ -69,7 +70,7 @@ const Login = function (props) {
 
                     { !!props.smsWaitTime && <View style={ [Styles.flexRow, Styles.flexJustifySpaceBetween, Styles.flexAlignCenter, Styles.paddingLeft, Styles.paddingRight, Styles.marginTop, Styles.marginBottom] }>
                             <View style={ [Styles.flex, Styles.flexRow, Styles.flexJustifySpaceEvently, Styles.flexAlignCenter] }>
-                                <Spinner size="small" color={ (props.gender && props.action != 'verify')? ( (props.gender == 'female')? Styles.textKimyaKimyaFemale.color : Styles.textKimyaKimyaMale.color ) : Styles.textLabel.color } style={ [Styles.marginRight, Styles.heightAuto] } />
+                                <Spinner size="small" color={ (props.action != 'verify')? Styles['textKimyaKimya' + titleCase(props.gender)].color : undefined } style={ [Styles.marginRight, Styles.heightAuto] } />
                                 <Text style={ [styles.instruction] }>Waiting for SMS</Text>
                             </View>
                             <Text style={ [Styles.paddingRight, styles.instruction] }>
@@ -92,7 +93,7 @@ const Login = function (props) {
                 </Form>
             </Content>
 
-            <Loader visible={ (props.loading || props.resending) && isEmpty(props.errors) } text={ (props.loading)? "Validating Code" : (props.resending)? "Resending Code" : "Loading..." } spinnerColor={ (props.gender && props.action != 'verify')? ((props.gender == 'female')? Styles.textKimyaKimyaFemale.color : Styles.textKimyaKimyaMale.color) : undefined } />
+            <Loader visible={ (props.loading || props.resending) && isEmpty(props.errors) } text={ (props.loading)? "Validating Code" : (props.resending)? "Resending Code" : "Loading..." } spinnerColor={ (props.action != 'verify')? Styles['textKimyaKimya' + titleCase(props.gender)].color : undefined } />
         </Container>
     );
 }

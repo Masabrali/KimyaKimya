@@ -9,11 +9,12 @@ import { Actions } from 'react-native-router-flux';
 import RNGooglePlaces from 'react-native-google-places';
 import GooglePlaces from 'react-native-google-places';
 import Settings from 'react-native-settings';
-import { Alert, BackHandler, ListView } from 'react-native'; // Version can be specified in package.json
+import { Alert, BackHandler, ListView, Dimensions } from 'react-native'; // Version can be specified in package.json
 
 /**
  * Import Utilities
 */
+import durationFormat from '../../utilities/durationFormat';
 import isEmpty from '../../utilities/isEmpty';
 import degToRad from '../../utilities/degToRad';
 import isFunction from '../../utilities/isFunction';
@@ -50,11 +51,14 @@ class Location extends Component<Props> {
         super(props);
 
         // Initialize Componnent StateMembers
+        const screen = Dimensions.get('window');
+        const LATITUDE_DELTA = 0.0722; // const LATITUDE_DELTA = 0.0922;
+
         this.initialRegion = {
             latitude: -6.8390920866185185,
             longitude: 39.212374817579985,
-            latitudeDelta: 0.2679376264119941,
-            longitudeDelta: 0.23637201637029648
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LATITUDE_DELTA * (screen.width / screen.height)
         };
 
         // Initialize state
@@ -80,6 +84,8 @@ class Location extends Component<Props> {
         this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => ( r1 !== r2 ) });
         this.geolocationWatchId = undefined;
         this.map = undefined;
+        this.marker = undefined;
+        this.hotpoint_markers = undefined;
         this.locationInput = undefined;
         this.androidBackListener = undefined;
 
@@ -118,7 +124,6 @@ class Location extends Component<Props> {
     }
 
     componentWillMount() {
-
         (isEmpty(this.props.hotpoints))? this.fetchHotpoints() : this.fetchHotpoints(true);
 
         return ( (isEmpty(this.props.rate))? this.fetchRate() : this.fetchRate(true) );
@@ -143,12 +148,13 @@ class Location extends Component<Props> {
     }
 
     componentWillReceiveProps(props) {
-        console.log(props.hotpoints)
+
+        if (!isEmpty(props.hotpoints)) this.handleHotpoints(props.hotpoints);
+
         return this.setState({
             order: props.order,
             places: props.places || this.state.places,
             locations: props.locations || this.state.locations,
-            hotpoints: props.hotpoints || this.state.hotpoints,
             rate: props.rate || this.state.rate
         });
     }
@@ -205,11 +211,13 @@ class Location extends Component<Props> {
     /**
     * Map has finished Renderring
     */
-    mapReady(map, marker) {
+    mapReady(map, marker, markers) {
 
         this.map = map;
 
         this.marker = marker;
+
+        this.hotpoint_markers = markers;
 
         return this.setState({ mapReady: true });
     }
@@ -293,9 +301,9 @@ class Location extends Component<Props> {
 
         location = { ...location };
 
-        location.latitudeDelta = location.latitudeDelta || (isEmpty(this.state.location))? 0.00722 : this.state.location.latitudeDelta;
+        location.latitudeDelta = location.latitudeDelta || (isEmpty(this.state.location))? this.initialRegion.latitudeDelta : this.state.location.latitudeDelta;
 
-        location.longitudeDelta = location.longitudeDelta || (isEmpty(this.state.location))? 0.00321 : this.state.location.longitudeDelta;
+        location.longitudeDelta = location.longitudeDelta || (isEmpty(this.state.location))? this.initialRegion.longitudeDelta : this.state.location.longitudeDelta;
 
         location.name = location.name || this.state.selectedLocation.name || undefined;
 
@@ -328,9 +336,9 @@ class Location extends Component<Props> {
 
         location = { ...location };
 
-        location.latitudeDelta = location.latitudeDelta || (isEmpty(this.state.location))? 0.00722 : this.state.location.latitudeDelta;
+        location.latitudeDelta = location.latitudeDelta || (isEmpty(this.state.location))? this.initialRegion.latitudeDelta : this.state.location.latitudeDelta;
 
-        location.longitudeDelta = location.longitudeDelta || (isEmpty(this.state.location))? 0.00321 : this.state.location.longitudeDelta;
+        location.longitudeDelta = location.longitudeDelta || (isEmpty(this.state.location))? this.initialRegion.longitudeDelta : this.state.location.longitudeDelta;
 
         if (location != this.state.currentLocation) {
 
@@ -345,6 +353,19 @@ class Location extends Component<Props> {
 
         } else return this.state.currentLocation;
     };
+
+    /**
+    * Handle Hotpoints
+    */
+    handleHotpoints(hotpoints) {
+
+        if (this.state.mapReady && !isEmpty(this.map))
+            Object.keys(hotpoints).map( (key) => (
+                (!isEmpty(this.hotpoint_markers[key]))? this.hotpoint_markers[key].animateMarkerToCoordinate(hotpoints[key].location) : undefined
+            ) );
+
+        return this.setState({ hotpoints: hotpoints || this.state.hotpoints });
+    }
 
     /**
     * Watch and Update the current GeoLocation of the User
@@ -435,14 +456,17 @@ class Location extends Component<Props> {
     sortHotpoints() {
 
         /**
-        * Sort Places as an Array
+        * Declare variables
         */
-        let hotpoints = (this.state.hotpoints).sort( (placeA, placeB) => {
+        let hotpoints = {};
+        let { latitude, longitude } = (this.state.location || this.state.currentLocation);
 
-            let { latitude, longitude } = (this.state.location || this.state.currentLocation);
-
-            return (this.getDistance(placeA.location, { latitude, longitude }) - this.getDistance(placeB.location, { latitude, longitude }));
-        });
+        /**
+        * Sort Places as an Array using keys
+        */
+        Object.keys(this.state.hotpoints).sort( (placeA, placeB) => (
+            this.getDistance(hotpoints[placeA].location, { latitude, longitude }) - this.getDistance(hotpoints[placeB].location, { latitude, longitude })
+        ) ).map( (key) => ( hotpoints[key] = this.state.hotpoints[key] ) );
 
         /**
         * Return the sorted Places
@@ -466,7 +490,7 @@ class Location extends Component<Props> {
             return this.props.fetchHotpoints({ silent: silent }).then(
                 (data) => {
 
-                    if (!isEmpty(data.errors))
+                    if (!isEmpty(data) && !isEmpty(data.errors))
                         return this.handleError(data.errors[0]);
                     else
                         return this.setState({ loading: false, done: true, errors: {} });
@@ -479,7 +503,7 @@ class Location extends Component<Props> {
     /**
     * fetchHotpoint
     */
-    fetchHotpoint() {
+    fetchHotpoint(callback) {
 
         // Validation
         let errors = {};
@@ -492,10 +516,15 @@ class Location extends Component<Props> {
             return this.props.fetchHotpoint(this.state.order).then(
                 (data) => {
 
-                    if (!isEmpty(data.errors))
+                    if (!isEmpty(data) && !isEmpty(data.errors))
                         return this.handleError(data.errors[0]);
-                    else
-                        return this.setState({ loading: false, done: true, errors: {} });
+                    else {
+
+                        this.setState({ loading: false, done: true, errors: {} });
+
+                        if (isFunction(callback)) return callback(data);
+                        else return data;
+                    }
                 },
                 this.handleError
             );
@@ -870,7 +899,7 @@ class Location extends Component<Props> {
     * Process Location
     */
     location() {
-        console.log('location')
+
         // Validation
         let errors = {};
         if (isEmpty(this.state.location)) errors.location = "Location not Specified";
@@ -886,21 +915,15 @@ class Location extends Component<Props> {
         else {
 
             /**
-            * Set loading
+            * Function to Complete Order
             */
-            if (!this.state.loading) this.setState({ loading: true });
+            let orderLocation = (data, hotpoint) => {
 
-            /**
-            * Get Nearest Store and FetchDistance to the Store
-            */
-            /**
-            * Sort Hotpoints first
-            */
-            this.sortHotpoints();
-            /**
-            * Complete Order
-            */
-            let orderLocation = (data) => {
+                /**
+                * Check for Errors
+                */
+                if (!isEmpty(data) && !isEmpty(data.errors)) this.handleError(data.errors[0]);
+
                 /**
                 * Create a temporary location object
                 */
@@ -915,7 +938,7 @@ class Location extends Component<Props> {
                 /**
                 * Get the Distance Value
                 */
-                location.distance = (!isEmpty(data.rows))? data.rows[0].elements.distance.value / 1000 : this.getDistance(location, this.state.hotpoints[0]);
+                location.distance = (!isEmpty(data.rows))? data.rows[0].elements.distance.value / 1000 : this.getDistance(location, hotpoint.location);
 
                 /**
                 * Get the Duration Value
@@ -926,40 +949,9 @@ class Location extends Component<Props> {
                 /**
                 * Format the Duration
                 */
-                if (location.duration < 1) {
-
-                    location.duration = parseInt(Math.ceil(location.duration * 60));
-
-                    location.durationUnits = (location.duration == 1)? 'minute':'minutes';
-
-                } else {
-
-                    if (location.duration > 24) {
-
-                        location.duration = parseInt(Math.ceil(location.duration / 24));
-
-                        if (location.duration > 7) {
-
-                            location.duration = parseInt(Math.ceil(location.duration / 7));
-
-                            if (location.duration > 4) {
-
-                                location.duration = parseInt(Math.ceil(location.duration / 4));
-
-                                if (location.duration > 12) {
-
-                                    location.duration = parseInt(Math.ceil(location.duration / 12));
-
-                                    location.durationUnits = (location.duration == 1)? 'year':'years';
-
-                                } else location.durationUnits = (location.duration == 1)? 'month':'months';
-
-                            } else location.durationUnits = (location.duration == 1)? 'week':'weeks';
-
-                        } else location.durationUnits = (location.duration == 1)? 'day':'days';
-
-                    } else location.durationUnits = (location.duration == 1)? 'hour':'hours';
-                }
+                let duration = durationFormat(location.duration);
+                location.duration = duration.duration;
+                location.durationUnits = duration.units;
 
                 /**
                 * Check and add details to the location
@@ -980,10 +972,7 @@ class Location extends Component<Props> {
                         /**
                         * Add Assigned Hotpoint to Order
                         */
-                        if (this.props.setOrderHotpoint(this.state.hotpoints[0])) {
-
-                            return Actions.orderSummary();
-                        }
+                        if (this.props.setOrderHotpoint(hotpoint)) return Actions.orderSummary();
                     }
 
                 };
@@ -1004,10 +993,30 @@ class Location extends Component<Props> {
                 else
                     return orderSummary(location);
             };
+
+            /**
+            * Set loading
+            */
+            if (!this.state.loading) this.setState({ loading: true });
+
+            /**
+            * Get Nearest Store and FetchDistance to the Store
+            */
+            /**
+            * Sort Hotpoints first
+            */
+            this.sortHotpoints();
+
+            hotpoint = this.state.hotpoints[Object.keys(this.state.hotpoints)[0]];
+
             /**
             * Fetch Distance from Location to Hotpoint
             */
-            return this.props.fetchDistance({ origin: this.state.location, destination: this.state.hotpoints[0] }).then(orderLocation, orderLocation);
+            return (
+                this.props.fetchDistance({ origin: this.state.location, destination: hotpoint.location })
+                .then( (data) => ( orderLocation(data, hotpoint) ) )
+                .catch( (errors) => ( orderLocation({ errors: errors }, hotpoint) ) )
+            );
         }
     }
 
@@ -1059,7 +1068,7 @@ Location.propTypes = {
     user: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
     places: PropTypes.array.isRequired,
-    hotpoints: PropTypes.array.isRequired,
+    hotpoints: PropTypes.object.isRequired,
     rate: PropTypes.number.isRequired,
     fetchRate: PropTypes.func.isRequired,
     fetchNearby: PropTypes.func.isRequired,

@@ -73,7 +73,7 @@ const Account = function (props) {
                     { !props.loading && <ListItem itemDivider></ListItem> }
                     { props.loading && <ListItem itemDivider>
                             <View style={ [Styles.flex, Styles.flexRow, Styles.flexJustifyCenter] }>
-                                <Spinner color={ (props.user.gender == 'female')? Styles.textKimyaKimyaFemale.color : Styles.textKimyaKimyaMale.color } />
+                                <Spinner color={ Styles['textKimyaKimya' + titleCase(props.user.gender)].color } />
                             </View>
                         </ListItem>
                     }

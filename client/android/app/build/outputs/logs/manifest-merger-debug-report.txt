@@ -1,20 +1,20 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
-MERGED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-15:12
-MERGED from [:react-native-splash-screen] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-splash-screen/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-14:12
-MERGED from [:react-native-android-sms-listener] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-android-sms-listener/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-13:12
-MERGED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-23:12
-MERGED from [:react-native-carrier-info] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-carrier-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-11:12
-MERGED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-22:12
-MERGED from [:react-native-android-keyboard-adjust] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-android-keyboard-adjust/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-11:12
-MERGED from [:react-native-contacts] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-contacts/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-13:12
-MERGED from [:react-native-settings] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-settings/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-11:12
-MERGED from [:react-native-google-places] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-google-places/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-14:12
-MERGED from [:react-native-maps] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-maps/lib/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-12:12
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:2:1-46:12
+MERGED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-15:12
+MERGED from [:react-native-splash-screen] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-splash-screen/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-14:12
+MERGED from [:react-native-android-sms-listener] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-android-sms-listener/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-13:12
+MERGED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-23:12
+MERGED from [:react-native-carrier-info] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-carrier-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-22:12
+MERGED from [:react-native-android-keyboard-adjust] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-android-keyboard-adjust/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-contacts] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-contacts/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-13:12
+MERGED from [:react-native-settings] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-settings/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-google-places] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-google-places/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-14:12
+MERGED from [:react-native-maps] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-maps/lib/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-12:12
 MERGED from [com.google.android.gms:play-services-location:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-location-16.0.0.aar/4013b09fc94ea76de3b9fc15a524c5a9/AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-places:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-places-16.0.0.aar/6e4dc2dda406477e886531b409f16114/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-maps:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-maps-16.0.0.aar/9dd18fe7deae798dfde6a41b922b305e/AndroidManifest.xml:17:1-32:12
@@ -33,7 +33,7 @@ MERGED from [com.google.firebase:firebase-iid:17.0.3] /Users/mac/.gradle/caches/
 MERGED from [com.google.firebase:firebase-iid-interop:16.0.1] /Users/mac/.gradle/caches/transforms-1/files-1.1/firebase-iid-interop-16.0.1.aar/59c86f2f903eca725f7a4cfa2354810b/AndroidManifest.xml:2:1-10:12
 MERGED from [com.google.android.gms:play-services-iid:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-iid-16.0.0.aar/ccf79fb9c926133a316b7240b99876b8/AndroidManifest.xml:17:1-28:12
 MERGED from [com.google.android.gms:play-services-base:16.0.1] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-base-16.0.1.aar/04e41bec2d2c8011257506085a6c8440/AndroidManifest.xml:17:1-29:12
-MERGED from [com.facebook.react:react-native:0.57.8] /Users/mac/.gradle/caches/transforms-1/files-1.1/react-native-0.57.8.aar/03a6ee8b4710e8da80defa8f84a66766/AndroidManifest.xml:2:1-15:12
+MERGED from [com.facebook.react:react-native:0.57.8] /Users/mac/.gradle/caches/transforms-1/files-1.1/react-native-0.57.8.aar/7091dd49e0898b321b6fdc4b12a875a9/AndroidManifest.xml:2:1-15:12
 MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/mac/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/f91a31f384afb6f92afe1dd0365ea1bd/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/mac/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/a298a1350fbe6319e9c65fd9d0ff88d7/AndroidManifest.xml:2:1-11:12
 MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-places-placereport-16.0.0.aar/a922b4f146cb5ba495535a590f27213e/AndroidManifest.xml:17:1-24:12
@@ -67,29 +67,29 @@ MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/mac/.gradle/caches/t
 MERGED from [com.facebook.fresco:fbcore:1.10.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/fbcore-1.10.0.aar/7cc531a7b2838ad493e8a9d9189cc9d4/AndroidManifest.xml:2:1-9:12
 MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/0cadc82e9a2a9c8080ecfbdd2927ad37/AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.core:runtime:1.1.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/d2895e7ad31970cffa279e9c6694be6b/AndroidManifest.xml:17:1-22:12
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:2:1-46:12
 	package
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:3:5-29
-		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:3:5-29
+		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
-		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:2:1-46:12
+		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12
-		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:2:1-46:12
+		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:11-69
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:5:5-67
-MERGED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-67
-MERGED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-67
-MERGED from [:react-native-maps] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-maps/lib/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:9:5-67
-MERGED from [:react-native-maps] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-maps/lib/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:9:5-67
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:5:5-67
+MERGED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-67
+MERGED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-67
+MERGED from [:react-native-maps] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-maps/lib/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:9:5-67
+MERGED from [:react-native-maps] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-maps/lib/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:9:5-67
 MERGED from [com.google.android.gms:play-services-maps:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-maps-16.0.0.aar/9dd18fe7deae798dfde6a41b922b305e/AndroidManifest.xml:24:5-67
 MERGED from [com.google.android.gms:play-services-maps:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-maps-16.0.0.aar/9dd18fe7deae798dfde6a41b922b305e/AndroidManifest.xml:24:5-67
 MERGED from [com.google.firebase:firebase-database:16.0.5] /Users/mac/.gradle/caches/transforms-1/files-1.1/firebase-database-16.0.5.aar/952b2faca3fd2104f59cb300b4b1f12b/AndroidManifest.xml:23:5-67
@@ -109,77 +109,77 @@ MERGED from [com.google.firebase:firebase-iid:17.0.3] /Users/mac/.gradle/caches/
 MERGED from [com.google.android.gms:play-services-iid:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-iid-16.0.0.aar/ccf79fb9c926133a316b7240b99876b8/AndroidManifest.xml:24:5-67
 MERGED from [com.google.android.gms:play-services-iid:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-iid-16.0.0.aar/ccf79fb9c926133a316b7240b99876b8/AndroidManifest.xml:24:5-67
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:5:22-64
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:5:22-64
 uses-permission#android.permission.SYSTEM_ALERT_WINDOW
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:6:5-78
-MERGED from [com.facebook.react:react-native:0.57.8] /Users/mac/.gradle/caches/transforms-1/files-1.1/react-native-0.57.8.aar/03a6ee8b4710e8da80defa8f84a66766/AndroidManifest.xml:11:5-78
-MERGED from [com.facebook.react:react-native:0.57.8] /Users/mac/.gradle/caches/transforms-1/files-1.1/react-native-0.57.8.aar/03a6ee8b4710e8da80defa8f84a66766/AndroidManifest.xml:11:5-78
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:6:5-78
+MERGED from [com.facebook.react:react-native:0.57.8] /Users/mac/.gradle/caches/transforms-1/files-1.1/react-native-0.57.8.aar/7091dd49e0898b321b6fdc4b12a875a9/AndroidManifest.xml:11:5-78
+MERGED from [com.facebook.react:react-native:0.57.8] /Users/mac/.gradle/caches/transforms-1/files-1.1/react-native-0.57.8.aar/7091dd49e0898b321b6fdc4b12a875a9/AndroidManifest.xml:11:5-78
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:6:22-75
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:6:22-75
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:7:5-79
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:7:5-79
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:7:22-76
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:7:22-76
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:8:5-81
-MERGED from [:react-native-maps] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-maps/lib/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:10:5-81
-MERGED from [:react-native-maps] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-maps/lib/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:10:5-81
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:8:5-81
+MERGED from [:react-native-maps] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-maps/lib/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:10:5-81
+MERGED from [:react-native-maps] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-maps/lib/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:10:5-81
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:8:22-78
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:8:22-78
 uses-permission#android.permission.ACCESS_LOCATION_EXTRA_COMMANDS
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:9:5-89
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:9:5-89
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:9:22-86
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:9:22-86
 uses-permission#android.permission.READ_CONTACTS
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:10:5-72
-MERGED from [:react-native-contacts] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-contacts/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-72
-MERGED from [:react-native-contacts] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-contacts/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-72
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:10:5-72
+MERGED from [:react-native-contacts] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-contacts/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-72
+MERGED from [:react-native-contacts] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-contacts/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-72
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:10:22-69
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:10:22-69
 uses-permission#android.permission.RECEIVE_SMS
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:11:5-70
-MERGED from [:react-native-android-sms-listener] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-android-sms-listener/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-70
-MERGED from [:react-native-android-sms-listener] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-android-sms-listener/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-70
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:11:5-70
+MERGED from [:react-native-android-sms-listener] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-android-sms-listener/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-70
+MERGED from [:react-native-android-sms-listener] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-android-sms-listener/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-70
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:11:22-67
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:11:22-67
 uses-permission#android.permission.READ_SMS
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:12:5-67
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:12:5-67
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:12:22-64
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:12:22-64
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:13:5-81
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:13:5-81
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:13:22-78
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:13:22-78
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:14:5-80
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:14:5-80
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:14:22-77
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:14:22-77
 uses-permission#android.permission.CAMERA
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:15:5-65
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:15:5-65
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:15:22-62
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:15:22-62
 uses-permission#android.permission.VIBRATE
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:16:5-65
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:16:5-65
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:16:22-63
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:16:22-63
 uses-feature#android.hardware.camera
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:18:5-60
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:18:5-60
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:18:19-57
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:18:19-57
 uses-feature#android.hardware.camera.autofocus
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:19:5-70
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:19:5-70
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:19:19-67
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:19:19-67
 application
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:21:5-44:19
-MERGED from [:react-native-splash-screen] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-splash-screen/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-12:19
-MERGED from [:react-native-splash-screen] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-splash-screen/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-12:19
-MERGED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-21:19
-MERGED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-21:19
-MERGED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-20:19
-MERGED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-20:19
-MERGED from [:react-native-google-places] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-google-places/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:9:5-12:19
-MERGED from [:react-native-google-places] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-google-places/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:9:5-12:19
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:21:5-44:19
+MERGED from [:react-native-splash-screen] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-splash-screen/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-12:19
+MERGED from [:react-native-splash-screen] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-splash-screen/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-12:19
+MERGED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-21:19
+MERGED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-21:19
+MERGED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-20:19
+MERGED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:5-20:19
+MERGED from [:react-native-google-places] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-google-places/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:9:5-12:19
+MERGED from [:react-native-google-places] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-google-places/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:9:5-12:19
 MERGED from [com.google.android.gms:play-services-location:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-location-16.0.0.aar/4013b09fc94ea76de3b9fc15a524c5a9/AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-location:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-location-16.0.0.aar/4013b09fc94ea76de3b9fc15a524c5a9/AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-places:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-places-16.0.0.aar/6e4dc2dda406477e886531b409f16114/AndroidManifest.xml:22:5-20
@@ -212,8 +212,8 @@ MERGED from [com.google.android.gms:play-services-iid:16.0.0] /Users/mac/.gradle
 MERGED from [com.google.android.gms:play-services-iid:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-iid-16.0.0.aar/ccf79fb9c926133a316b7240b99876b8/AndroidManifest.xml:26:5-20
 MERGED from [com.google.android.gms:play-services-base:16.0.1] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-base-16.0.1.aar/04e41bec2d2c8011257506085a6c8440/AndroidManifest.xml:22:5-27:19
 MERGED from [com.google.android.gms:play-services-base:16.0.1] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-base-16.0.1.aar/04e41bec2d2c8011257506085a6c8440/AndroidManifest.xml:22:5-27:19
-MERGED from [com.facebook.react:react-native:0.57.8] /Users/mac/.gradle/caches/transforms-1/files-1.1/react-native-0.57.8.aar/03a6ee8b4710e8da80defa8f84a66766/AndroidManifest.xml:13:5-20
-MERGED from [com.facebook.react:react-native:0.57.8] /Users/mac/.gradle/caches/transforms-1/files-1.1/react-native-0.57.8.aar/03a6ee8b4710e8da80defa8f84a66766/AndroidManifest.xml:13:5-20
+MERGED from [com.facebook.react:react-native:0.57.8] /Users/mac/.gradle/caches/transforms-1/files-1.1/react-native-0.57.8.aar/7091dd49e0898b321b6fdc4b12a875a9/AndroidManifest.xml:13:5-20
+MERGED from [com.facebook.react:react-native:0.57.8] /Users/mac/.gradle/caches/transforms-1/files-1.1/react-native-0.57.8.aar/7091dd49e0898b321b6fdc4b12a875a9/AndroidManifest.xml:13:5-20
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/mac/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/a298a1350fbe6319e9c65fd9d0ff88d7/AndroidManifest.xml:9:5-20
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/mac/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/a298a1350fbe6319e9c65fd9d0ff88d7/AndroidManifest.xml:9:5-20
 MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-places-placereport-16.0.0.aar/a922b4f146cb5ba495535a590f27213e/AndroidManifest.xml:22:5-20
@@ -239,73 +239,73 @@ MERGED from [com.facebook.soloader:soloader:0.5.1] /Users/mac/.gradle/caches/tra
 MERGED from [org.webkit:android-jsc:r174650] /Users/mac/.gradle/caches/transforms-1/files-1.1/android-jsc-r174650.aar/cbce22b793c752b24add060b1edde244/AndroidManifest.xml:2:3-17
 MERGED from [org.webkit:android-jsc:r174650] /Users/mac/.gradle/caches/transforms-1/files-1.1/android-jsc-r174650.aar/cbce22b793c752b24add060b1edde244/AndroidManifest.xml:2:3-17
 	android:supportsRtl
-		ADDED from [:react-native-google-places] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-google-places/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:9-35
+		ADDED from [:react-native-google-places] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-google-places/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:9-35
 	android:label
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:25:9-41
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:25:9-41
 	android:icon
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:24:9-43
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:24:9-43
 	android:allowBackup
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:23:9-36
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:23:9-36
 	android:theme
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:26:9-40
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:26:9-40
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:22:9-40
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:22:9-40
 meta-data#com.google.android.geo.API_KEY
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:27:9-29:71
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:27:9-29:71
 	android:value
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:29:13-68
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:29:13-68
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:28:13-58
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:28:13-58
 activity#com.kimyakimya.MainActivity
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:31:9-41:20
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:31:9-41:20
 	android:label
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:34:13-45
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:34:13-45
 	android:windowSoftInputMode
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:35:13-55
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:35:13-55
 	android:configChanges
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:33:13-83
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:33:13-83
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:32:13-41
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:32:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:36:13-40:29
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:36:13-40:29
 action#android.intent.action.MAIN
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:37:17-69
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:37:17-69
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:37:25-66
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:37:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:39:17-77
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:39:17-77
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:39:27-74
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:39:27-74
 activity#com.facebook.react.devsupport.DevSettingsActivity
-ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:42:9-86
+ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:42:9-86
 	android:name
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:42:19-83
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:42:19-83
 uses-sdk
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
-MERGED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-splash-screen] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-splash-screen/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-splash-screen] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-splash-screen/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-android-sms-listener] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-android-sms-listener/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-android-sms-listener] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-android-sms-listener/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-carrier-info] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-carrier-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-carrier-info] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-carrier-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-android-keyboard-adjust] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-android-keyboard-adjust/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-android-keyboard-adjust] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-android-keyboard-adjust/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-contacts] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-contacts/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-contacts] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-contacts/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-settings] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-settings/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-settings] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-settings/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-google-places] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-google-places/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-7:41
-MERGED from [:react-native-google-places] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-google-places/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-7:41
-MERGED from [:react-native-maps] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-maps/lib/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-7:41
-MERGED from [:react-native-maps] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-maps/lib/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-7:41
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
+MERGED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-splash-screen] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-splash-screen/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-splash-screen] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-splash-screen/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-android-sms-listener] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-android-sms-listener/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-android-sms-listener] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-android-sms-listener/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-carrier-info] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-carrier-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-carrier-info] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-carrier-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-android-keyboard-adjust] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-android-keyboard-adjust/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-android-keyboard-adjust] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-android-keyboard-adjust/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-contacts] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-contacts/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-contacts] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-contacts/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-settings] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-settings/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-settings] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-settings/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-google-places] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-google-places/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-google-places] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-google-places/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-maps] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-maps/lib/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-maps] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-maps/lib/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-7:41
 MERGED from [com.google.android.gms:play-services-location:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-location-16.0.0.aar/4013b09fc94ea76de3b9fc15a524c5a9/AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-location:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-location-16.0.0.aar/4013b09fc94ea76de3b9fc15a524c5a9/AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-places:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-places-16.0.0.aar/6e4dc2dda406477e886531b409f16114/AndroidManifest.xml:20:5-44
@@ -342,8 +342,8 @@ MERGED from [com.google.android.gms:play-services-iid:16.0.0] /Users/mac/.gradle
 MERGED from [com.google.android.gms:play-services-iid:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-iid-16.0.0.aar/ccf79fb9c926133a316b7240b99876b8/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-base:16.0.1] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-base-16.0.1.aar/04e41bec2d2c8011257506085a6c8440/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-base:16.0.1] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-base-16.0.1.aar/04e41bec2d2c8011257506085a6c8440/AndroidManifest.xml:20:5-44
-MERGED from [com.facebook.react:react-native:0.57.8] /Users/mac/.gradle/caches/transforms-1/files-1.1/react-native-0.57.8.aar/03a6ee8b4710e8da80defa8f84a66766/AndroidManifest.xml:7:5-9:41
-MERGED from [com.facebook.react:react-native:0.57.8] /Users/mac/.gradle/caches/transforms-1/files-1.1/react-native-0.57.8.aar/03a6ee8b4710e8da80defa8f84a66766/AndroidManifest.xml:7:5-9:41
+MERGED from [com.facebook.react:react-native:0.57.8] /Users/mac/.gradle/caches/transforms-1/files-1.1/react-native-0.57.8.aar/7091dd49e0898b321b6fdc4b12a875a9/AndroidManifest.xml:7:5-9:41
+MERGED from [com.facebook.react:react-native:0.57.8] /Users/mac/.gradle/caches/transforms-1/files-1.1/react-native-0.57.8.aar/7091dd49e0898b321b6fdc4b12a875a9/AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/mac/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/f91a31f384afb6f92afe1dd0365ea1bd/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/mac/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/f91a31f384afb6f92afe1dd0365ea1bd/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/mac/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/a298a1350fbe6319e9c65fd9d0ff88d7/AndroidManifest.xml:5:5-7:41
@@ -408,18 +408,18 @@ MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/mac/.gradle/caches/tra
 MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/0cadc82e9a2a9c8080ecfbdd2927ad37/AndroidManifest.xml:20:5-44
 MERGED from [android.arch.core:runtime:1.1.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/d2895e7ad31970cffa279e9c6694be6b/AndroidManifest.xml:20:5-44
 MERGED from [android.arch.core:runtime:1.1.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/d2895e7ad31970cffa279e9c6694be6b/AndroidManifest.xml:20:5-44
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
-INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
+INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml
 uses-permission#android.permission.WAKE_LOCK
-ADDED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:12:5-68
+ADDED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:12:5-68
 MERGED from [com.google.firebase:firebase-measurement-connector-impl:17.0.4] /Users/mac/.gradle/caches/transforms-1/files-1.1/firebase-measurement-connector-impl-17.0.4.aar/52fec0c481b40aa1acd4fcf71ff59939/AndroidManifest.xml:24:5-68
 MERGED from [com.google.firebase:firebase-measurement-connector-impl:17.0.4] /Users/mac/.gradle/caches/transforms-1/files-1.1/firebase-measurement-connector-impl-17.0.4.aar/52fec0c481b40aa1acd4fcf71ff59939/AndroidManifest.xml:24:5-68
 MERGED from [com.google.firebase:firebase-analytics:16.0.6] /Users/mac/.gradle/caches/transforms-1/files-1.1/firebase-analytics-16.0.6.aar/78e4b81d357539b9ff0bf9fdb7e1072d/AndroidManifest.xml:25:5-68
@@ -429,9 +429,9 @@ MERGED from [com.google.firebase:firebase-analytics-impl:16.2.4] /Users/mac/.gra
 MERGED from [com.google.firebase:firebase-iid:17.0.3] /Users/mac/.gradle/caches/transforms-1/files-1.1/firebase-iid-17.0.3.aar/a3049155a7d925a4a4eacd9d3571152b/AndroidManifest.xml:24:5-68
 MERGED from [com.google.firebase:firebase-iid:17.0.3] /Users/mac/.gradle/caches/transforms-1/files-1.1/firebase-iid-17.0.3.aar/a3049155a7d925a4a4eacd9d3571152b/AndroidManifest.xml:24:5-68
 	android:name
-		ADDED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:12:22-65
+		ADDED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:12:22-65
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:13:5-79
+ADDED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:13:5-79
 MERGED from [com.google.android.gms:play-services-maps:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-maps-16.0.0.aar/9dd18fe7deae798dfde6a41b922b305e/AndroidManifest.xml:23:5-79
 MERGED from [com.google.android.gms:play-services-maps:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-maps-16.0.0.aar/9dd18fe7deae798dfde6a41b922b305e/AndroidManifest.xml:23:5-79
 MERGED from [com.google.firebase:firebase-database:16.0.5] /Users/mac/.gradle/caches/transforms-1/files-1.1/firebase-database-16.0.5.aar/952b2faca3fd2104f59cb300b4b1f12b/AndroidManifest.xml:22:5-79
@@ -445,37 +445,37 @@ MERGED from [com.google.firebase:firebase-analytics-impl:16.2.4] /Users/mac/.gra
 MERGED from [com.google.firebase:firebase-iid:17.0.3] /Users/mac/.gradle/caches/transforms-1/files-1.1/firebase-iid-17.0.3.aar/a3049155a7d925a4a4eacd9d3571152b/AndroidManifest.xml:22:5-79
 MERGED from [com.google.firebase:firebase-iid:17.0.3] /Users/mac/.gradle/caches/transforms-1/files-1.1/firebase-iid-17.0.3.aar/a3049155a7d925a4a4eacd9d3571152b/AndroidManifest.xml:22:5-79
 	android:name
-		ADDED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:13:22-76
+		ADDED from [:react-native-firebase] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-firebase/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:13:22-76
 provider#com.imagepicker.FileProvider
-ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:12:9-20:20
+ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:12:9-20:20
 	android:grantUriPermissions
-		ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:16:13-47
+		ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:16:13-47
 	android:authorities
-		ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:14:13-60
+		ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:14:13-60
 	android:exported
-		ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:15:13-37
+		ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:15:13-37
 	android:name
-		ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:13:13-56
+		ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:13:13-56
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:17:13-19:58
+ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:17:13-19:58
 	android:resource
-		ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:19:17-55
+		ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:19:17-55
 	android:name
-		ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:18:17-67
+		ADDED from [:react-native-image-picker] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-image-picker/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:18:17-67
 receiver#com.learnium.RNDeviceInfo.RNDeviceReceiver
-ADDED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:12:9-19:20
+ADDED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:12:9-19:20
 	android:enabled
-		ADDED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:14:13-35
+		ADDED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:14:13-35
 	android:exported
-		ADDED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:15:13-36
+		ADDED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:15:13-36
 	android:name
-		ADDED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:13:13-70
+		ADDED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:13:13-70
 intent-filter#action:name:com.android.vending.INSTALL_REFERRER
-ADDED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:16:13-18:29
+ADDED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:16:13-18:29
 action#com.android.vending.INSTALL_REFERRER
-ADDED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:17:17-79
+ADDED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:17:17-79
 	android:name
-		ADDED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:17:25-76
+		ADDED from [:react-native-device-info] /Users/mac/Documents/projects/react-native/KimyaKimya/client/node_modules/react-native-device-info/android/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:17:25-76
 uses-feature#0x00020000
 ADDED from [com.google.android.gms:play-services-maps:16.0.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-maps-16.0.0.aar/9dd18fe7deae798dfde6a41b922b305e/AndroidManifest.xml:26:5-28:35
 	android:glEsVersion
@@ -641,4 +641,4 @@ MERGED from [com.google.maps.android:android-maps-utils:0.5] /Users/mac/.gradle/
 	android:name
 		ADDED from [com.google.android.gms:play-services-basement:16.1.0] /Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.1.0.aar/8ce08fc5190564627b71ef3fe8b79318/AndroidManifest.xml:24:13-58
 uses-permission#android.permission.READ_PHONE_STATE
-IMPLIED from /Users/mac/Documents/projects/react-native/KimyaKimya/android/app/src/main/AndroidManifest.xml:2:1-46:12 reason: org.webkit.android_jsc has a targetSdkVersion < 4
+IMPLIED from /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/src/main/AndroidManifest.xml:2:1-46:12 reason: org.webkit.android_jsc has a targetSdkVersion < 4

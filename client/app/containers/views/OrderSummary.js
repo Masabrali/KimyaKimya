@@ -8,6 +8,11 @@ import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux'; // Version can be specified in package.json
 
 /**
+* Import Configurations
+*/
+import { GOOGLE_API_KEY } from '../../config';
+
+/**
 * Import Utilities
 */
 import isEmpty from '../../utilities/isEmpty';
@@ -129,6 +134,7 @@ class OrderSummary extends Component<Props> {
         return (
             <OrderSummaryComponent
               gender={ this.props.user.gender }
+              GOOGLE_API_KEY={ GOOGLE_API_KEY }
               loading={ this.state.loading }
               errors={ this.state.errors }
               cartCollapsed={ this.state.cartCollapsed }

@@ -12,6 +12,7 @@ import { phonecall, textWithoutEncoding } from 'react-native-communications'; //
 /**
 * Import Utilities
 */
+import durationFormat from '../../utilities/durationFormat';
 import isEmpty from '../../utilities/isEmpty';
 
 /**
@@ -70,61 +71,9 @@ class QueuedOrder extends Component<Props> {
 
     calculateDuration() {
 
-        let duration = this.props.order.location._duration - Moment(new Date()).diff(Moment(this.props.order.date), 'hours', true);
+        let duration = durationFormat(this.props.order.location._duration - Moment(new Date()).diff(Moment(this.props.order.date), 'hours', true));
 
-        let durationUnits;
-
-        if (duration < 0) {
-
-            duration = 0;
-
-            durationUnits = 'minutes';
-
-            clearInterval(this.durationInterval);
-
-        } else {
-            if (duration < 1) {
-
-                duration = parseInt(Math.ceil(duration * 60));
-
-                durationUnits = (duration == 1)? 'minute':'minutes';
-
-            } else {
-
-                if (duration > 24) {
-
-                    duration = parseInt(Math.ceil(duration / 24));
-
-                    if (duration > 7) {
-
-                        duration = parseInt(Math.ceil(duration / 7));
-
-                        if (duration > 4) {
-
-                            duration = parseInt(Math.ceil(duration / 4));
-
-                            if (duration > 12) {
-
-                                duration = parseInt(Math.ceil(duration / 12));
-
-                                durationUnits = (duration == 1)? 'year':'years';
-
-                            } else durationUnits = (duration == 1)? 'month':'months';
-
-                        } else durationUnits = (duration == 1)? 'week':'weeks';
-
-                    } else durationUnits = (duration == 1)? 'day':'days';
-
-                } else {
-
-                    duration = parseInt(Math.ceil(duration));
-
-                    durationUnits = (duration == 1)? 'hour':'hours';
-                }
-            }
-        }
-
-        return this.setState({ duration: duration, durationUnits: durationUnits });
+        return this.setState({ duration: duration.duration, durationUnits: duration.units });
     }
 
     back() {

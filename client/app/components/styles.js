@@ -245,6 +245,7 @@ const styles = StyleSheet.create({
     backgroundDisabled: { backgroundColor: '#c1c1c7' },
     backgroundSelected: { backgroundColor: '#f1f1f7' },
     backgroundWrapper: { backgroundColor: '#fbfcfc' },
+    backgroundWrapperTransparent: { backgroundColor: 'rgba(251, 252, 252, .3)' },
     backgroundHeader: { backgroundColor: '#fbfcfc' },
     backgroundStatusBar: { backgroundColor: '#fbfcfc' },
     backgroundStatusBarTransparent: { backgroundColor: 'rgba(0, 0, 0, .3)' },

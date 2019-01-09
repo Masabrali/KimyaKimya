@@ -7,12 +7,12 @@ import isEmpty from './../utilities/isEmpty';
 * Define the reducer
 */
 export default function (state = {}, action = {}) {
-
+    
     switch(action.type) {
 
         case 'HOTPOINTS_FETCHED':
 
-            return action.hotpoints;
+            return action.hotpoints || {};
 
         case 'HOTPOINT_ADDED':
 
@@ -38,6 +38,7 @@ export default function (state = {}, action = {}) {
 
             return { ...state };
 
-        default: return state;
+        default:
+            return state || {};
     }
 }

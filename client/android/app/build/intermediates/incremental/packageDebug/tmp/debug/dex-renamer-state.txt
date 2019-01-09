@@ -1,4 +1,4 @@
-#Sun Jan 06 21:01:31 EAT 2019
-base.0=/Users/mac/Documents/projects/react-native/KimyaKimya/android/app/build/intermediates/transforms/dexMerger/debug/0
+#Tue Jan 08 12:32:47 EAT 2019
+base.0=/Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/build/intermediates/transforms/dexMerger/debug/0
 renamed.0=classes.dex
 path.0=classes.dex

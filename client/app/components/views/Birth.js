@@ -10,6 +10,7 @@ import Moment from 'moment'; // Version can be specified in package.json
 /**
  * Import Utilities
 */
+import titleCase from '../../utilities/titleCase';
 import isEmpty from '../../utilities/isEmpty';
 import isIOS from '../../utilities/isIOS';
 import isAndroid from '../../utilities/isAndroid';
@@ -61,7 +62,7 @@ const Birth = function (props) {
                   titleIOS="Pick Your Birthday"
                 />
 
-                <Loader visible={ props.loading && isEmpty(props.errors) } text={ (props.action == 'edit')? "Changing Your Birthday" : "Setting up Your Birthday" } spinnerColor={ (props.gender == 'female')? Styles.textKimyaKimyaFemale.color : Styles.textKimyaKimyaMale.color } />
+                <Loader visible={ props.loading && isEmpty(props.errors) } text={ (props.action == 'edit')? "Changing Your Birthday" : "Setting up Your Birthday" } spinnerColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color } />
             </Content>
         </Container>
     );

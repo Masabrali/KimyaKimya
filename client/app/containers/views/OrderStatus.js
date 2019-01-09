@@ -13,11 +13,13 @@ import { BackHandler } from 'react-native'; // Version can be specified in packa
 /**
 * Import Utilities
 */
+import durationFormat from '../../utilities/durationFormat';
 import isEmpty from '../../utilities/isEmpty';
 
 /**
  * Import Actions
 */
+import fetchHotpoints from '../../actions/hotpoints';
 import confirmOrderDelivery from '../../actions/confirmOrderDelivery';
 
 /**
@@ -39,15 +41,22 @@ class OrderStatus extends Component<Props> {
         this.state = {
             loading: false,
             errors: {},
+            mapReady: false,
+            hotpoint: props.hotpoints[props.order.hotpoint.key] || props.order.hotpoint,
             duration: props.order.location.duration,
             durationUnits: props.order.location.durationUnits,
         };
 
         // Initialize other variables
         this.androidBackListener = undefined;
+        this.map = undefined;
+        this.marker = undefined;
+        this.hotpoint_markers = undefined;
+        this.map_directions = undefined;
 
         // Bind functions to this
         this.handleError = this.handleError.bind(this);
+        this.mapReady = this.mapReady.bind(this);
         this.calculateDuration = this.calculateDuration.bind(this);
         this.shop = this.shop.bind(this);
         this.orders = this.orders.bind(this);
@@ -78,63 +87,36 @@ class OrderStatus extends Component<Props> {
         return this.setState({ orders: props.orders });
     }
 
-    calculateDuration() {
+    mapReady(map, marker, hotpoint_marker, directions) {
 
-        let duration = this.props.order.location._duration - Moment(new Date()).diff(Moment(this.props.order.date), 'hours', true);
+        this.map = map;
 
-        let durationUnits;
+        this.marker = marker;
 
-        if (duration < 0) {
+        this.hotpoint_marker = marker;
 
-            duration = 0;
+        this.map_directions = directions;
 
-            durationUnits = 'minutes';
+        return this.setState({ mapReady: true });
+    }
 
-            clearInterval(this.durationInterval);
+    handleHotpoint(hotpoint) {
 
-        } else {
-            if (duration < 1) {
+        if (this.state.mapReady && !isEmpty(this.map) && !isEmpty(this.hotpoint_marker) && !isEmpty(this.map_directions)) {
 
-                duration = parseInt(Math.ceil(duration * 60));
+            this.hotpoint_marker.animateMarkerToCoordinate(hotpoints.location);
 
-                durationUnits = (duration == 1)? 'minute':'minutes';
-
-            } else {
-
-                if (duration > 24) {
-
-                    duration = parseInt(Math.ceil(duration / 24));
-
-                    if (duration > 7) {
-
-                        duration = parseInt(Math.ceil(duration / 7));
-
-                        if (duration > 4) {
-
-                            duration = parseInt(Math.ceil(duration / 4));
-
-                            if (duration > 12) {
-
-                                duration = parseInt(Math.ceil(duration / 12));
-
-                                durationUnits = (duration == 1)? 'year':'years';
-
-                            } else durationUnits = (duration == 1)? 'month':'months';
-
-                        } else durationUnits = (duration == 1)? 'week':'weeks';
-
-                    } else durationUnits = (duration == 1)? 'day':'days';
-
-                } else {
-
-                    duration = parseInt(Math.ceil(duration));
-
-                    durationUnits = (duration == 1)? 'hour':'hours';
-                }
-            }
+            this.map_directions.
         }
 
-        return this.setState({ duration: duration, durationUnits: durationUnits });
+        return this.setState({ hotpoint: hotpoint || this.state.hotpoint });
+    }
+
+    calculateDuration() {
+
+        let duration = durationFormat(this.props.order.location._duration - Moment(new Date()).diff(Moment(this.props.order.date), 'hours', true));
+
+        return this.setState({ duration: duration.duration, durationUnits: duration.units });
     }
 
     shop() {

@@ -25,3 +25,9 @@ exports.updateRateWithRate = functions.database.ref('rate').onWrite(updateRateMo
 */
 const inviteModules = require('./invite');
 exports.invite = functions.https.onRequest(inviteModules.invite);
+
+/**
+* Get Hotpoint
+*/
+const hotpointModules = require('./hotpoint');
+exports.hotpoint = functions.https.onRequest(hotpointModules.hotpoint);

@@ -8,6 +8,7 @@ import { Container, Header, Body, Title, Content, Button, Icon, Text, Form } fro
 /**
  * Import Utilities
 */
+import titleCase from '../../utilities/titleCase';
 import isEmpty from '../../utilities/isEmpty';
 import isAndroid from '../../utilities/isAndroid';
 import isIOS from '../../utilities/isIOS';
@@ -69,7 +70,7 @@ const Gender = function (props) {
                     </Button>
                 </Form>
 
-                <Loader visible={ props.loading && isEmpty(props.errors) } text={ (props.action == 'edit')? "Changing Your Gender" : "Setting up Your Gender" } spinnerColor={ (props._gender == 'female')? Styles.textKimyaKimyaFemale.color : Styles.textKimyaKimyaMale.color } />
+                <Loader visible={ props.loading && isEmpty(props.errors) } text={ (props.action == 'edit')? "Changing Your Gender" : "Setting up Your Gender" } spinnerColor={ Styles['textKimyaKimya' + titleCase(props._gender)].color } />
             </Content>
         </Container>
     );

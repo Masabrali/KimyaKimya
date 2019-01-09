@@ -8,6 +8,7 @@ import { Container, Content, Button, Text } from 'native-base'; // Version can b
 /**
  * Import Utilities
 */
+import titleCase from '../../utilities/titleCase';
 import isEmpty from '../../utilities/isEmpty';
 import isIOS from '../../utilities/isIOS';
 import isAndroid from '../../utilities/isAndroid';
@@ -41,7 +42,7 @@ const Invite = function (props) {
                 </View>
             </Content>
 
-            <Loader visible={ (props.inviting && isEmpty(props.errors)) } text="Inviting Friends..." spinnerColor={ (props.gender == 'female')? Styles.textKimyaKimyaFemale.color : Styles.textKimyaKimyaMale.color } />
+            <Loader visible={ (props.inviting && isEmpty(props.errors)) } text="Inviting Friends..." spinnerColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color } />
         </Container>
     );
 }

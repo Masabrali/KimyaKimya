@@ -115,7 +115,7 @@ const Login = function (props) {
               title="Select Country"
             />
 
-            <Loader visible={ (props.loading && isEmpty(props.errors)) } title={ (isIOS())? (props.countryCode + props.phone) : false } text={ (props.action != 'phone')? "Verifying " + props.countryCode + props.phone : "Loading..." } spinnerColor={ (props.gender && props.action != 'login')? ((props.gender == 'female')? Styles.textKimyaKimyaFemale.color : Styles.textKimyaKimyaMale.color) : undefined } />
+            <Loader visible={ (props.loading && isEmpty(props.errors)) } title={ (isIOS())? (props.countryCode + props.phone) : false } text={ (props.action != 'phone')? "Verifying " + props.countryCode + props.phone : "Loading..." } spinnerColor={ (props.action != 'login')? Styles['textKimyaKimya' + titleCase(props.gender)].color : undefined } />
         </Container>
     );
 }

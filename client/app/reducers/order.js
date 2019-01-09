@@ -113,7 +113,7 @@ export default function (state = {}, action = {}) {
 
         case 'ORDER_HOTPOINT_SET':
 
-            state.hotpoint = action.hotpoint;
+            state.hotpoint = { key: action.hotpoint.id, ...action.hotpoint };
 
             return { ...state };
 
