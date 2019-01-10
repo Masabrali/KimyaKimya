@@ -36,6 +36,8 @@ class Order extends Component<Props> {
 
         // Initialize state
         this.state = {
+            loading: false,
+            done: false,
             errors: {},
             order: props.order
         };
@@ -60,8 +62,43 @@ class Order extends Component<Props> {
         return Actions.pop();
     }
 
+    handleError(error) {
+
+        let errors = this.state.errors;
+
+        errors.global = {
+            type: (error.response)? error.response.status:error.name,
+            message: (error.response)? error.response.statusText:error.message
+        };
+
+        Error(errors.global, 5000);
+
+        return this.setState({ errors, loading: false, done: false });
+    }
+
     draft() {
-        if (this.props.draftOrder(this.state.order)) return Actions.pop();
+
+        // Validation
+        let errors = {};
+
+        // Hand;e Data Submission to server
+        if (isEmpty(errors)) {
+
+            if (!this.state.loading) this.setState({ loading: true });
+
+            return this.props.draftOrder(this.state.order).then(
+                (data) => {
+
+                    if (!isEmpty(data.errors)) return this.handleError(data.errors);
+                    else {
+
+                        this.setState({ loading: false, done: true, errors: {} });
+
+                        return Actions.pop();
+                    }
+                }, this.handleError
+            ).catch(this.handleError);
+        }
     }
 
     editProduct(product, secId, rowId, rowMap) {
@@ -122,6 +159,9 @@ class Order extends Component<Props> {
     render() {
         return (
             <OrderComponent
+              loading={ this.state.loading }
+              errors={ this.state.errors }
+              gender={ this.props.user.gender }
               dataSource={ this.dataSource }
               order={ this.state.order }
               previous={ this.props.previous }
@@ -142,6 +182,7 @@ class Order extends Component<Props> {
 */
 Order.propTypes = {
     languages: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
     draftOrder: PropTypes.func.isRequired,
     removeProductFromOrder: PropTypes.func.isRequired
@@ -153,6 +194,7 @@ Order.propTypes = {
 function mapStateToProps(state) {
     return {
         languages: state.languages,
+        user: state.user,
         order: state.order
     };
 }

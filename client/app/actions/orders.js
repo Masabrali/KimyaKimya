@@ -1,9 +1,8 @@
 import firebase from 'react-native-firebase';
 // import fetch from './fetch';
 import setOrders from './dispatches/setOrders';
-import draftOrder from './dispatches/draftOrder';
-import submitOrder from './dispatches/submitOrder';
-import confirmOrder from './dispatches/confirmOrder';
+import addOrder from './dispatches/addOrder';
+import changeOrder from './dispatches/changeOrder';
 import deleteOrder from './dispatches/deleteOrder';
 
 /**
@@ -21,36 +20,23 @@ export default function(orders) {
             new Promise( (resolve, reject) => {
 
                 try {
-                    
+
                     let errorHandler = (error) => ( resolve({ errors: [error] }) );
                     let currentUser = firebase.auth().currentUser;
                     let dbRef = firebase.database().ref('orders');
                     let _order;
 
-                    dbRef.on('child_added', (order) => {
+                    dbRef.on('child_added', (order) => (
+                        dispatch( addOrder(order.val()[currentUser.uid]) )
+                    ), errorHandler);
 
-                        if (order.key == "drafts")
-                            return dispatch( draftOrder(order.val()[currentUser.uid]) );
-                        else if (order.key == "queued")
-                            return dispatch( submitOrder(order.val()[currentUser.uid]) );
-                        else if (order.key == "previous")
-                            return dispatch( confirmOrder(order.val()[currentUser.uid]) );
+                    dbRef.on('child_changed', (order) => (
+                        dispatch( changeOrder(order.val()[currentUser.uid]) )
+                    ), errorHandler);
 
-                    }, errorHandler);
-
-                    dbRef.on('child_changed', (order) => {
-
-                        if (order.key == "queued")
-                            return dispatch( deleteOrder(order.val()[currentUser.uid]) );
-
-                    }, errorHandler);
-
-                    dbRef.on('child_removed', (order) => {
-
-                        if (order.key == "drafts" || order.key == "previous")
-                            return dispatch( deleteOrder(order.val()[currentUser.uid]) );
-
-                    }, errorHandler);
+                    dbRef.on('child_removed', (order) => (
+                        dispatch( deleteOrder(order.val()[currentUser.uid]) )
+                    ), errorHandler);
 
                     if (!orders.silent)
                         dbRef.once('value').then( (orders) => {

@@ -151,10 +151,10 @@ const AddLocation = function (props) {
                                 </View>
                             </ListItem>
                             <ListItem itemDivider></ListItem>
-                            <ListItem noIndent style={ [Styles.noBorderBottom, { paddingTop: 20, paddingBottom: 20}] }>
-                                <Left style={ [Styles.height100, Styles.flexColumn, Styles.flexJustifyStart, Styles.flexAlignStart, { maxWidth: 100 }] }>
+                            <ListItem noIndent style={ [Styles.noBorderBottom, Styles.doublePaddingTop, Styles.doublePaddingBottom] }>
+                                <Left style={ [Styles.height100, Styles.flexColumn, Styles.flexJustifyStart, Styles.flexAlignStart, { maxWidth: 80 }] }>
                                     <Text style={ [Styles.textBold, Styles.textLeft, Styles.width100] }>
-                                        { (!props.order.location.address)? "Delivery Time:" : "Address:" }
+                                        { (!props.order.location.address)? "Delivery" : "Address" }
                                     </Text>
                                 </Left>
                                 { (props.order.location.address || props.order.location.duration) && <Right style={ [Styles.flex, Styles.paddingRight] }>
@@ -162,7 +162,7 @@ const AddLocation = function (props) {
                                                 { props.order.location.name + ', ' + props.order.location.address }
                                             </Text>
                                         }
-                                        { props.order.location.duration && props.order.location.durationUnits && <Text>
+                                        { props.order.location.duration && <Text>
                                                 { ((!props.order.location.address)? "Approx. " : "Delivery in approx. ") + props.order.location.duration + " " + props.order.location.durationUnits }
                                             </Text>
                                         }

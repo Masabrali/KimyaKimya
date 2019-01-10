@@ -12,7 +12,8 @@ import isEmpty from './../utilities/isEmpty';
 * Define the reducer
 */
 export default function (state = {}, action = {}) {
-
+    
+    let _key;
     let currentUser = firebase.auth().currentUser;
     let sort = (_orders) => {
 
@@ -30,18 +31,46 @@ export default function (state = {}, action = {}) {
         case 'ORDERS_FETCHED':
 
             let orders = action.orders || {};
-            
+
             return {
                 previous: sort(( orders.previous || {} )[currentUser.uid] || state.previous || {}),
                 drafts: sort(( orders.drafts || {} )[currentUser.uid] || state.drafts || {}),
                 queued: sort(( orders.queued || {} )[currentUser.uid] || state.queued || {})
             };
 
+        case 'ORDER_ADDED':
+
+            Object.keys(action.order).map( (key) => {
+
+                _key = (action.order[key].draft)? 'drafts' : (action.order[key].queued)? 'queued' : 'previous';
+
+                state[_key][key] = action.order[key];
+
+                state[_key] = sort(state[_key]);
+
+                return action.order[key];
+            } );
+
+            return { ...state };
+
+        case 'ORDER_CHANGED':
+
+            Object.keys(action.order).map( (key) => {
+
+                _key = (action.order[key].draft)? 'drafts' : (action.order[key].queued)? 'queued' : 'previous';
+
+                state[_key][key] = action.order[key];
+
+                state[_key] = sort(state[_key]);
+
+                return action.order[key];
+            } );
+
+            return { ...state };
+
         case 'ORDER_DRAFTED':
 
-            Object.keys(action.order).map( (key) => (
-                state.drafts[key] = state.drafts[key] || action.order[key]
-            ) );
+            Object.keys(action.order).map( (key) => ( state.drafts[key] = action.order[key] ) );
 
             state.drafts = sort(state.drafts);
 
@@ -56,7 +85,7 @@ export default function (state = {}, action = {}) {
         case 'ORDER_DELETED':
 
             Object.keys(action.order).map( (key) => (
-                delete state[(action.order[key].draft)? 'drafts' : 'previous'][key]
+                delete state[(action.order[key].draft)? 'drafts' : (action.order[key].queued)? 'queued' : 'previous'][key]
             ) );
 
             return { ...state };

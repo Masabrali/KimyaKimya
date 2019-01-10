@@ -2,7 +2,7 @@
  * Import React and React Native
  */
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { Container, Header, Left, Right, Body, Title, Content, Button, Icon, Text, List, ListItem, Item, Input, Spinner } from 'native-base';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import moment from 'moment'; // Version can be specified in package.json
@@ -113,7 +113,7 @@ const Order = function (props) {
             <StatusBar />
 
             <Content keyboardShouldPersistTaps="handle" contentContainerStyle={ [Styles.flex] }>
-                <View style={ [Styles.positionAbsolute, Styles.verticalPositionTop, Styles.verticalPositionBottom, Styles.horizontalPositionLeft, Styles.horizontalPositionRight] }>
+                <View style={ [Styles.positionAbsolute, Styles.verticalPositionTop, Styles.verticalPositionBottom, Styles.horizontalPositionLeft, Styles.horizontalPositionRight, Styles.flexJustifyCenter, Styles.flexAlignCenter] }>
                     <MapView
                       ref={ (map) => ( this.map = map ) }
                       provider={ (isAndroid())? PROVIDER_GOOGLE : null }
@@ -121,19 +121,13 @@ const Order = function (props) {
                       style={ [Styles.absoluteFillObject, Styles.flex] }
                       initialRegion={ (!isEmpty(props._location))? props._location : props.initialRegion }
                       onMapReady={ (e) => (
-                          props.mapReady(this.map, this.marker, this.hotpoint_markers)
+                          props.mapReady(this.map, this.hotpoint_markers)
                       ) }
                       onRegionChangeComplete={ props.regionChanged }
                       onPress={ props.mapPressed }
                       onUserLocationChange={ props.userLocationChanged }
                       showsUserLocation={ true }
                     >
-                        <MapView.Marker
-                          ref={ (marker) => ( this.marker = marker ) }
-                          coordinate={ (!isEmpty(props._location))? props._location : props.initialRegion }
-                          pinColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color }
-                          image={ (props.gender == 'female')? require('../../assets/marker_female.png') : require('../../assets/marker_male.png') }
-                        />
                         {
                             Object.keys(props.hotpoints).map( (key) => (
                                 <MapView.Marker
@@ -154,6 +148,7 @@ const Order = function (props) {
                             ) )
                         }
                     </MapView>
+                    <Image source={ (props.gender == 'female')? require('../../assets/marker_female.png') : require('../../assets/marker_male.png') } style={ [Styles.positionAbsolute, Styles.verticalPositionBottom50, Styles.imageResizeModeContain, styles.marker] } />
                 </View>
 
                 { !props.locationFocused && <View style={ [Styles.positionAbsolute, Styles.verticalPositionBottom, Styles.horizontalPositionLeft, Styles.horizontalPositionRight, Styles.backgroundTransparent, Styles.padding] }>
@@ -200,6 +195,10 @@ const styles = StyleSheet.create({
     locationDescription: {
         fontSize: 14,
         color: '#616167'
+    },
+    marker: {
+      width: 28,
+      height: 52
     }
 });
 

@@ -29,7 +29,7 @@ const Welcome = function (props) {
             <Content scrollEnabled={ false } contentContainerStyle={ [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch] }>
                 <View style={ [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignCenter] }>
                     <View style={ [styles.logoContainer, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignCenter] }>
-                        <Image source={ require('../../assets/logo_text.png') } resizeMode="contain" style={ [styles.logo] } />
+                        <Image source={ require('../../assets/logo_text.png') } resizeMode="contain" style={ [Styles.imageResizeModeContain, styles.logo] } />
                         <Text style={ [Styles.textAlignCenter, styles.catchPhrase, isAndroid() && { fontFamily: 'sans-serif-thin' }] }>Healthy and Enjoyable Moments</Text>
                     </View>
                 </View>
@@ -53,8 +53,7 @@ const styles = StyleSheet.create({
     logoContainer: { padding: StatusBar.currentHeight },
     logo: {
         width: 140,
-        height: 140,
-        resizeMode: 'contain'
+        height: 140
     },
     catchPhrase: { fontSize: 13 },
     instruction: { fontSize: 18 }

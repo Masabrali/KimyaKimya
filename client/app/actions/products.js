@@ -24,11 +24,17 @@ export default function products(products) {
                     let errorHandler = (error) => ( resolve({ errors: [error] }) );
                     let dbRef = firebase.database().ref('products');
 
-                    dbRef.on('child_added', (product) => ( dispatch( addProduct({ key: product.key, ...product.val() }) ) ), errorHandler);
+                    dbRef.on('child_added', (product) => (
+                        dispatch( addProduct(product.val()) )
+                    ), errorHandler);
 
-                    dbRef.on('child_changed', (product) => ( dispatch( changeProduct({ key: product.key, ...product.val() }) ) ), errorHandler);
+                    dbRef.on('child_changed', (product) => (
+                        dispatch( changeProduct(product.val()) )
+                    ), errorHandler);
 
-                    dbRef.on('child_removed', (product) => ( dispatch( removeProduct({ key: product.key, ...product.val() }) ) ), errorHandler);
+                    dbRef.on('child_removed', (product) => (
+                        dispatch( removeProduct(product.val()) )
+                    ), errorHandler);
 
                     if (!products.silent)
                         dbRef.once('value').then( (products) => {

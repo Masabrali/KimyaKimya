@@ -220,10 +220,7 @@ class Login extends Component<Props> {
 
             if (isEmpty(this.content) || isEmpty(this.content._root)) this.content = content;
 
-            return ( setTimeout( () => {
-                if (!isEmpty(content) && !isEmpty(content._root))
-                    content._root.scrollToEnd({ animated: true })
-            }, 1) );
+            setTimeout( () => ( this.content._root.scrollToEnd({ animated: true }) ) );
 
         } else return 1;
     }

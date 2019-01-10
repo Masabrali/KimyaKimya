@@ -79,7 +79,7 @@ const OrderStatus = function (props) {
                           strokeColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color }
                           onStart={ props.mapDirectionsLoading }
                           onReady={ props.mapDirectionsReady }
-                          onError={ props.handleError }
+                          onError={ props.handleMapDirectionsError }
                         />
                     </MapView>
                 </View>
@@ -95,6 +95,7 @@ const OrderStatus = function (props) {
                             <Text style={ [Styles.textAlignCenter, styles.time] }>
                                 { props.duration + " " + props.durationUnits }
                             </Text>
+                            { props.duration != 0 && <Text style={ [Styles.halfMarginTop] }>Order has arrived</Text> }
                         </View>
 
                         <View style={ [Styles.flexAlignCenter, Styles.marginTop] }>

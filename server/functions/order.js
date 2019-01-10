@@ -18,8 +18,22 @@ exports.order = (order, context) => {
                     return resolve({ errors: [{ message: 'Invalid Order' }] });
                 else {
 
-                    let dbRef = admin.database().ref('orders/queued/' + context.auth.uid).push();
+                    let dbRef = admin.database().ref('orders/queued/' + context.auth.uid);
                     // let hotpointDbRef = admin.database().ref('')
+
+                    dbRef.once('child_added')
+                    .then( (order) => {
+
+                        let _order = {};
+                        _order[order.key] = order.val();
+
+                        return resolve(_order);
+
+                    }, reject)
+                    .catch(reject);
+
+
+                    dbRef = dbRef.push();
 
                     order.key = dbRef.key;
                     order.id = dbRef.key;
@@ -29,20 +43,9 @@ exports.order = (order, context) => {
                     order.queuedDate = admin.database.ServerValue.TIMESTAMP;
                     order.date = admin.database.ServerValue.TIMESTAMP;
 
-                    dbRef.set(order)
-                    .then(resolve, reject)
-                    .catch(reject);
-
                     return (
-                        dbRef.once('value')
-                        .then( (order) => {
-
-                            let _order = {};
-                            _order[order.key] = order.val();
-
-                            return resolve(_order);
-
-                        }, reject)
+                        dbRef.set(order)
+                        .then(resolve, reject)
                         .catch(reject)
                     );
                 }

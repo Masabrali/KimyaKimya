@@ -17,6 +17,7 @@ import { GOOGLE_API_KEY } from '../../config';
 */
 import isEmpty from '../../utilities/isEmpty';
 import durationFormat from '../../utilities/durationFormat';
+import isAndroid from '../../utilities/isAndroid';
 
 /**
  * Import Actions
@@ -85,14 +86,14 @@ class OrderSummary extends Component<Props> {
     mapReady(map, marker, hotpoint_marker, directions) {
 
         this.map = map;
-        this.map.animateToRegion(this.props.order.location);
-        this.map.fitToCoordinates([this.props.order.location, this.props.order.hotpoint.location]);
+        this.map.animateToRegion(this.state.order.location);
+        this.map.fitToCoordinates([this.state.order.location, this.state.order.hotpoint.location]);
 
         this.marker = marker;
-        this.marker.animateMarkerToCoordinate(this.props.order.location);
+        this.marker.animateMarkerToCoordinate(this.state.order.location);
 
         this.hotpoint_marker = hotpoint_marker;
-        this.hotpoint_marker.animateMarkerToCoordinate(this.props.order.hotpoint.location);
+        this.hotpoint_marker.animateMarkerToCoordinate(this.state.order.hotpoint.location);
 
         this.map_directions = directions;
 

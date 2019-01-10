@@ -16,6 +16,7 @@ import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.database.RNFirebaseDatabasePackage;
 import io.invertase.firebase.functions.RNFirebaseFunctionsPackage;
+import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 
 import io.rumors.reactnativesettings.RNSettingsPackage;
 import io.rumors.reactnativesettings.receivers.GpsLocationReceiver;
@@ -56,7 +57,8 @@ public class MainApplication extends Application implements ReactApplication {
               new RNFirebasePackage(),
               new RNFirebaseAuthPackage(),
               new RNFirebaseDatabasePackage(),
-              new RNFirebaseFunctionsPackage()
+              new RNFirebaseFunctionsPackage(),
+              new RNFirebaseFirestorePackage()
         );
     }
 

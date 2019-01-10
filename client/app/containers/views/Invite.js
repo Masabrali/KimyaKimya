@@ -281,9 +281,11 @@ class Invite extends Component<Props> {
 
     invite() {
 
-        return (
-            textWithoutEncoding([], 'Great things are ment to be enjoyed by all. Try the KimyaKimya experience for yourself. Click the link to download: https://kimyakimya-222006.firebaseapp.com/.')
-        );
+        console.log(this.state._contacts);
+        
+        // return (
+        //     textWithoutEncoding([], 'Great things are ment to be enjoyed by all. Try the KimyaKimya experience for yourself. Click the link to download: https://kimyakimya-222006.firebaseapp.com/.')
+        // );
 
         // // Validation
         // let errors = {};

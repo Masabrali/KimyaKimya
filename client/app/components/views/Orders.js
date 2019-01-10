@@ -16,6 +16,7 @@ import isEmpty from '../../utilities/isEmpty';
 import isObject from '../../utilities/isObject';
 import isIOS from '../../utilities/isIOS';
 import isAndroid from '../../utilities/isAndroid';
+import getDistance from '../../utilities/getDistance';
 
 /**
  * Import other components
@@ -45,8 +46,8 @@ const Orders = function (props) {
                     </Body>
                     <Right style={ [Styles.flex, Styles.flexRow, Styles.flexJustifyEnd, Styles.flexAlignCenter] }>
                         <Button iconRight transparent onPress={ () => ( (!props.loading)? props.selectAllOrders() : undefined ) }>
-                            { (Object.keys(props.selected).length != Object.keys(props.orders).length) && <Icon name="checkbox-outline" ios="ios-checkbox-outline" android="md-checkbox-outline" style={ [isAndroid() && Styles.textDark] } /> }
-                            { (Object.keys(props.selected).length == Object.keys(props.orders).length) && <Icon name="checkbox" ios="ios-checkbox" android="md-checkbox" style={ [isAndroid() && Styles.textDark] } /> }
+                            { (Object.keys(props.selected).length !== Object.keys(props.orders[props.segment]).length) && <Icon name="checkbox-outline" ios="ios-checkbox-outline" android="md-checkbox-outline" style={ [isAndroid() && Styles.textDark] } /> }
+                            { (Object.keys(props.selected).length === Object.keys(props.orders[props.segment]).length) && <Icon name="checkbox" ios="ios-checkbox" android="md-checkbox" style={ [isAndroid() && Styles.textDark] } /> }
                         </Button>
                         <Button iconRight transparent onPress={ () => {
 
@@ -145,7 +146,7 @@ const Orders = function (props) {
 
             <Content
               refreshControl={
-                <RefreshControl
+                (isEmpty(props.selected) || props.segment != 'drafts') && <RefreshControl
                   refreshing={ props.refreshing }
                   onRefresh={ props.refresh }
                 />
@@ -175,15 +176,15 @@ const Orders = function (props) {
                       rightOpenValue={-75}
                       dataSource={ props.dataSource.cloneWithRows(props.orders[props.segment]) }
                       renderRow={ (order) =>
-                          <ListItem noInden thumbnail key={order.id} style={ [Styles.paddingLeft, !!order.selected && Styles.backgroundSelected] } onLongPress={ () => {
+                          <ListItem noInden thumbnail key={order.key} style={ [Styles.paddingLeft, !!order.selected && Styles.backgroundSelected] } onLongPress={ () => {
                               if (props.segment != 'queued' && !props.loading)
                                   return props.toggleOrderSelection(order);
                           } } onPress={ () => {
                               if (!isEmpty(props.selected) && props.segment != 'queued' && !props.loading)
                                   return props.toggleOrderSelection(order);
                           } }>
-                              <Left style={ [Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch, Styles.paddingTop, Styles.paddingBottom] }>
-                                  <View style={ [Styles.flexRow, Styles.noMarginBottom, Styles.noPaddingBottom] }>
+                              <Left style={ [Styles.flexColumn, Styles.flexJustifyStart, Styles.flexAlignStretch, Styles.paddingTop, Styles.paddingBottom, Styles.height100] }>
+                                  <View style={ [Styles.flexRow, Styles.noMarginBottom, Styles.noPaddingBottom, Styles.halfMarginTop] }>
                                       <Text style={ [styles.date] }>
                                           { Moment(order.date).format('DD') }
                                       </Text>
@@ -206,9 +207,17 @@ const Orders = function (props) {
                                           )
                                       }
                                   </Text>
-                                  <Text style={ [styles.location] }>
-                                      { (!isEmpty(order.location))? ((order.location.name || '') + ((order.location.address)? (', ' + order.location.address) : '')) : '...' }
+                                  <Text numberOfLines={1} style={ [Styles.textSubTitle, styles.location] }>
+                                      { (!isEmpty(order.location))? ((order.location.name || '') + ((order.location.address)? (', ' + order.location.address) : '...')) : '...' }
                                   </Text>
+                                  { props.segment == 'queued' && !isEmpty(props.durations[order.key]) && props.durations[order.key].duration != 0 && <Text numberOfLines={1} style={ [Styles.textCopyRight, styles.duration] }>
+                                          Delivery in approx. { props.durations[order.key].duration + ' ' + props.durations[order.key].units }
+                                      </Text>
+                                  }
+                                  { props.segment == 'queued' && !isEmpty(props.durations[order.key]) && props.durations[order.key].duration == 0 && <Text numberOfLines={1} style={ [Styles.textCopyRight, styles.duration] }>
+                                          Order has arrived
+                                      </Text>
+                                  }
                               </Body>
                               <Right style={ [Styles.flexColumn, Styles.flexJustifyStart, Styles.flexAlignRight] }>
                                   <Button
@@ -276,8 +285,9 @@ const styles = StyleSheet.create({
     products: { fontSize: 18 },
     location: {
         fontSize: 14,
-        color: '#616167'
+        marginBottom: 5
     },
+    duration: { fontSize: 14 },
     amount: { fontSize: 14 }
 });
 

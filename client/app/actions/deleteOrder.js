@@ -36,7 +36,7 @@ export default function(order) {
                         resolve(_order);
 
                         return dispatch( deleteOrder(_order) );
-                        
+
                     }, errorHandler)
                     .catch(errorHandler);
 

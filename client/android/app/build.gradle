@@ -106,6 +106,7 @@ android {
         // ndk {
         //    abiFilters "arm64-v8a", "armeabi-v7a", "x86"
         // }
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -163,6 +164,7 @@ dependencies {
     implementation "com.google.firebase:firebase-auth:${rootProject.ext.googleFirebaseAuthenicationVersion}"
     implementation "com.google.firebase:firebase-database:${rootProject.ext.googleFirebaseDatabaseVersion}"
     implementation "com.google.firebase:firebase-functions:${rootProject.ext.googleFirebaseFunctionsVersion}"
+     implementation "com.google.firebase:firebase-firestore:${rootProject.ext.googleFirebaseFirestoreVersion}"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"

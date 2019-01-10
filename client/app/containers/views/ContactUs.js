@@ -50,9 +50,14 @@ class ContactUs extends Component<Props> {
             keyboardHidden: true
         };
 
+        // Class Members
+        this.messageInput = undefined;
+        this.content = undefined;
+
         // Bind functions to this
         this.back = this.back.bind(this);
         this.handleError = this.handleError.bind(this);
+        this.messageFocused = this.messageFocused.bind(this);
         this.messageChanged = this.messageChanged.bind(this);
         this.pickImage = this.pickImage.bind(this);
         this.removeImage = this.removeImage.bind(this);
@@ -97,6 +102,15 @@ class ContactUs extends Component<Props> {
         return this.setState({ errors, loading: false, done: false });
     }
 
+    messageFocused(messageInput, content) {
+
+        if (isEmpty(this.messageInput)) this.messageInput = messageInput;
+
+        if (isEmpty(this.content)) this.content = content;
+
+        return 1;
+    }
+
     messageChanged(message) {
         return this.setState({ message: message });
     }
@@ -134,7 +148,7 @@ class ContactUs extends Component<Props> {
     }
 
     contactUs(messageInput) {
-        
+
         // Validation
         let errors = {};
         if (!this.state.message || this.state.message == '') errors.message = "Message not Typed";
@@ -145,6 +159,9 @@ class ContactUs extends Component<Props> {
         if (!isEmpty(errors)) {
 
             Error(errors[Object.keys(errors)[0]]);
+            
+            if (!isEmpty(this.content) && !isEmpty(this.content._root))
+                this.content._root.scrollToPosition(0, 0);
 
             if (errors.message) return messageInput._root.focus();
             else return;
@@ -163,6 +180,9 @@ class ContactUs extends Component<Props> {
                         this.handleError(data.errors[Object.keys(data.errors)[0]]);
 
                         if (errors.message) messageInput._root.focus();
+
+                        if (!isEmpty(this.content) && !isEmpty(this.content._root))
+                            this.content._root.scrollToPosition(0, 0);
 
                         return this.setState({ errors, loading: false, done: false });
 
@@ -183,6 +203,7 @@ class ContactUs extends Component<Props> {
                 gender={ this.props.user.gender }
                 back={ this.back }
                 screenshot={ this.state.screenshot }
+                messageFocused={ this.messageFocused }
                 messageChanged={ this.messageChanged }
                 pickImage={ this.pickImage }
                 removeImage={ this.removeImage }

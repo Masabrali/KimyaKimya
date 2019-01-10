@@ -21,27 +21,31 @@ export default function (state = {}, action = {}) {
 
         case 'PRODUCT_ADDED':
 
-            if (action.product.id && isEmpty(state[action.product.category][action.product.key]))
-                state[action.product.category][action.product.key] = action.product;
+            Object.keys(action.product).map( (key) => (
+                state[action.product[key].category][key] = action.product[key]
+            ) );
 
             return { ...state };
 
         case 'PRODUCT_CHANGED':
 
-            if (action.product.id && !isEmpty(state[action.product.category][action.product.key]))
-                state[action.product.category][action.product.key] = action.product;
+            Object.keys(action.product).map( (key) => (
+                state[action.product[key].category][key] = action.product[key]
+            ) );
 
             return { ...state };
 
         case 'PRODUCT_REMOVED':
 
-            if (action.product.id && !isEmpty(state[action.product.category][action.product.key])) {
+            Object.keys(action.product).map( (key) => {
 
-                if (isArray(state[action.product.category]))
-                    state[action.product.category].splice(action.product.key, 1);
+                if (isArray(state[action.product[key].category]))
+                    state[action.product[key].category].splice(key, 1);
                 else
-                    delete state[action.product.category][action.product.key];
-            }
+                    delete state[action.product[key].category][key];
+
+                return action.product[key];
+            } );
 
             return { ...state };
 

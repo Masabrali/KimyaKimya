@@ -21,30 +21,32 @@ export default function(order) {
                 try {
 
                     let errorHandler = (error) => ( resolve({ errors: [error] }) );
+                    let dbRef = firebase.database().ref('orders/drafts/' + firebase.auth().currentUser.uid);
 
-                    let dbRef = firebase.database().ref('orders/drafts/' + firebase.auth().currentUser.uid).push();
+                    dbRef.once('child_added')
+                    .then( (order) => {
+
+                        let _order = {};
+                        _order[order.key] = order.val();
+
+                        resolve(_order);
+
+                        return dispatch( draftOrder(_order) );
+
+                    }, errorHandler)
+                    .catch(errorHandler);
+
+
+                    dbRef = dbRef.push();
 
                     order.key = order.key || dbRef.key;
                     order.id = order.id || dbRef.key;
                     order.date = firebase.database.ServerValue.TIMESTAMP;
                     order.draft = true;
 
-                    dbRef.set(order)
-                    .then( (order) => ( order ), errorHandler)
-                    .catch(errorHandler)
-
                     return (
-                        dbRef.once('value')
-                        .then( (order) => {
-
-                            let _order = {};
-                            _order[order.key] = order.val();
-
-                            resolve(_order);
-
-                            return dispatch( draftOrder(_order) );
-
-                        }, errorHandler)
+                        dbRef.set(order)
+                        .then( (order) => ( order ), errorHandler)
                         .catch(errorHandler)
                     );
 

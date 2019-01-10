@@ -1,4 +1,22 @@
 <Container style={ [Styles.wrapper] }>
+    <StatusBar />
+    <Content scrollEnabled={ false } contentContainerStyle={ [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch] }>
+        <View style={ [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignCenter, Styles.padding, Styles.noPaddingTop] }>
+            <Image source={ require('../../assets/logo_text.png') } resizeMode="contain" style={ [Styles.marginBottom, styles.logo] } />
+            <Text style={ [Styles.marginTop, Styles.marginBottom, Styles.textAlignCenter, styles.catchPhrase] }>Just like our Wonderful World, Great things are ment to be enjoyed by all!</Text>
+            <Text style={ [Styles.textAlignCenter, styles.instruction] }>Change lives now. Share KimyaKimya with your friends</Text>
+        </View>
+        <View style={ [Styles.padding] }>
+            <Button block onPress={ props.invite }>
+                <Text>Start Inviting</Text>
+            </Button>
+        </View>
+    </Content>
+
+    <Loader visible={ (props.inviting && isEmpty(props.errors)) } text="Inviting Friends..." spinnerColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color } />
+</Container>
+
+<Container style={ [Styles.wrapper] }>
     { !props.searchFocused &&  <Header noShadow style={ [Styles.noBorder, Styles.backgroundHeader, Styles.backgroundKimyaKimyaMal] }>
             <Left>
                 <Button iconLeft transparent onPress={ props.back }>

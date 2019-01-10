@@ -34,6 +34,16 @@ export default class App extends Component<Props> {
 
     render() {
 
+        // return (
+        //     <Root>
+        //         <Provider store={ store }>
+        //
+        //                 <Routes />
+        //
+        //         </Provider>
+        //     </Root>
+        // );
+
         return (
             <Root>
                 <Provider store={ store }>

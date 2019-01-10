@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { phonecall, textWithoutEncoding } from 'react-native-communications';
-import moment from 'moment';
+import Moment from 'moment';
 import { BackHandler } from 'react-native'; // Version can be specified in package.json
 
 /**
@@ -18,8 +18,10 @@ import { GOOGLE_API_KEY } from '../../config';
 /**
 * Import Utilities
 */
+import getDistance from '../../utilities/getDistance';
 import durationFormat from '../../utilities/durationFormat';
 import isEmpty from '../../utilities/isEmpty';
+import isAndroid from '../../utilities/isAndroid';
 
 /**
  * Import Actions
@@ -46,13 +48,13 @@ class OrderStatus extends Component<Props> {
         this.state = {
             loading: false,
             errors: {},
+            mapDirectionsErrors: [],
             mapLoading: false,
             mapReady: false,
             hotpoint: props.hotpoints[props.order.hotpoint.key] || props.order.hotpoint,
             duration: props.order.location.duration,
             _duration: props.order.location._duration,
-            durationUnits: props.order.location.durationUnits,
-            timestamp: props.order.queuedDate
+            durationUnits: props.order.location.durationUnits
         };
 
         // Initialize other variables
@@ -64,6 +66,7 @@ class OrderStatus extends Component<Props> {
 
         // Bind functions to this
         this.handleError = this.handleError.bind(this);
+        this.handleMapDirectionsError = this.handleMapDirectionsError.bind(this);
         this.mapReady = this.mapReady.bind(this);
         this.mapDirectionsLoading = this.mapDirectionsLoading.bind(this);
         this.mapDirectionsReady = this.mapDirectionsReady.bind(this);
@@ -81,11 +84,7 @@ class OrderStatus extends Component<Props> {
 
         this.fetchHotpoints(true);
 
-        this.calculateDuration();
-
-        this.durationInterval = setInterval(this.calculateDuration, 60000);
-
-        return this.durationInterval;
+        return this.calculateDuration();
     }
 
     componentDidMount() {
@@ -100,8 +99,11 @@ class OrderStatus extends Component<Props> {
         return this.setState({ orders: props.orders });
     }
 
-    componentWillUnmount() {
-        return clearInterval(this.durationInterval);
+    calculateDuration() {
+
+        let duration = durationFormat(getDistance(this.state.hotpoint.location, this.props.order.location) / ((this.state.hotpoint.speed !== undefined)? this.state.hotpoint.speed : 50));
+
+        return this.setState({ duration: duration.duration, durationUnits: duration.units });
     }
 
     mapReady(map, marker, hotpoint_marker, directions) {
@@ -111,10 +113,10 @@ class OrderStatus extends Component<Props> {
         this.map.fitToCoordinates([this.props.order.location, this.state.hotpoint.location]);
 
         this.marker = marker;
-        this.marker.animateMarkerToCoordinate(this.props.order.location);
+        if (isAndroid()) this.marker.animateMarkerToCoordinate(this.props.order.location);
 
         this.hotpoint_marker = hotpoint_marker;
-        this.hotpoint_marker.animateMarkerToCoordinate(this.state.hotpoint.location);
+        if (isAndroid())  this.hotpoint_marker.animateMarkerToCoordinate(this.state.hotpoint.location);
 
         this.map_directions = directions;
 
@@ -125,9 +127,11 @@ class OrderStatus extends Component<Props> {
 
         if (this.state.mapReady && !isEmpty(this.map) && !isEmpty(this.marker) && !isEmpty(this.hotpoint_marker) && !isEmpty(this.map_directions)) {
 
-            this.hotpoint_marker.animateMarkerToCoordinate(hotpoint.location);
+            if (isAndroid()) this.hotpoint_marker.animateMarkerToCoordinate(hotpoint.location);
 
             this.map.fitToCoordinates([this.props.order.location, hotpoint.location]);
+
+            if (!isEmpty(this.state.mapDirectionsErrors)) this.calculateDuration();
         }
 
         return this.setState({ hotpoint: hotpoint || this.state.hotpoint });
@@ -145,6 +149,13 @@ class OrderStatus extends Component<Props> {
         Error(errors.global, 5000);
 
         return this.setState({ errors, loading: false, mapLoading: false });
+    }
+
+    handleMapDirectionsError(error) {
+
+        this.handleError(error);
+
+        return this.setState({ mapDirectionsErrors: this.state.mapDirectionsErrors.push(error) });
     }
 
     fetchHotpoints(silent) {
@@ -170,13 +181,6 @@ class OrderStatus extends Component<Props> {
         }
     }
 
-    calculateDuration(_duration) {
-
-        let duration = durationFormat(this.state._duration - Moment(new Date()).diff(Moment(this.state.timestamp), 'hours', true));
-
-        return this.setState({ duration: (duration.duration < 1)? 0 : duration.duration, durationUnits: duration.units });
-    }
-
     mapDirectionsLoading(directions) {
         return this.setState({ mapLoading: true });
     }
@@ -187,7 +191,7 @@ class OrderStatus extends Component<Props> {
 
         if (!isEmpty(this.map)) this.map.fitToCoordinates(directions.coordinates);
 
-        return this.setState({ duration: duration.duration, _duration: duration.duration, durationUnits: duration.units, timestamp: (new Date()).getTime() });
+        return this.setState({ duration: duration.duration, _duration: duration.duration, durationUnits: duration.units });
     }
 
     shop() {
@@ -256,7 +260,7 @@ class OrderStatus extends Component<Props> {
               hotpoint={ this.state.hotpoint }
               duration={ this.state.duration }
               durationUnits={ this.state.durationUnits }
-              handleError={ this.handleError }
+              handleMapDirectionsError={ this.handleMapDirectionsError }
               mapReady={ this.mapReady }
               mapDirectionsLoading={ this.mapDirectionsLoading }
               mapDirectionsReady={ this.mapDirectionsReady }

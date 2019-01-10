@@ -23,6 +23,7 @@ import deleteOrder from '../../actions/deleteOrder';
  * Import Components
 */
 import ReOrderComponent from '../../components/views/ReOrder';
+import Error from '../../components/others/Error';
 
 type Props = {};
 
@@ -37,6 +38,7 @@ class ReOrder extends Component<Props> {
         this.state = {
             loading: false,
             done: false,
+            action: undefined,
             errors: {},
             cartCollapsed: true
         };
@@ -78,7 +80,7 @@ class ReOrder extends Component<Props> {
 
         Error(errors.global, 5000);
 
-        return this.setState({ errors, loading: false, done: false });
+        return this.setState({ errors, loading: false, done: false, action: undefined });
     }
 
     delete() {
@@ -93,7 +95,7 @@ class ReOrder extends Component<Props> {
             // Hand;e Data Submission to server
             if (isEmpty(errors)) {
 
-                if (!this.state.loading) this.setState({ loading: true });
+                if (!this.state.loading) this.setState({ loading: true, action: 'delete' });
 
                 return this.props.deleteOrder(this.props.order).then(
                     (data) => {
@@ -101,7 +103,7 @@ class ReOrder extends Component<Props> {
                       if (!isEmpty(data.errors)) return this.handleError(data.errors);
                       else {
 
-                          this.setState({ loading: false, done: true, errors: {} });
+                          this.setState({ loading: false, done: true, errors: {}, action: undefined });
 
                           return Actions.pop();
                       }
@@ -122,7 +124,21 @@ class ReOrder extends Component<Props> {
         // Hand;e Data Submission to server
         if (!isEmpty(errors)) Error(errors[Object.keys(errors)[0]]);
         else {
-            if (this.props.reOrder(order, this.props.products)) return Actions.pop();
+
+            if (!this.state.loading) this.setState({ loading: true, action: 'reorder' });
+
+            return this.props.reOrder(order, this.props.products).then(
+                (data) => {
+
+                    if (!isEmpty(data.errors)) return this.handleError(data.errors);
+                    else {
+
+                        this.setState({ loading: false, done: true, errors: {}, action: undefined });
+
+                        return Actions.pop();
+                    }
+                }, this.handleError
+            ).catch(this.handleError);
         }
     }
 
@@ -131,6 +147,8 @@ class ReOrder extends Component<Props> {
             <ReOrderComponent
               loading={ this.state.loading }
               errors={ this.state.errors }
+              action={ this.state.action }
+              gender={ this.props.user.gender }
               cartCollapsed={ this.state.cartCollapsed }
               order={ this.props.order }
               _order={ this.props._order }
@@ -151,6 +169,7 @@ class ReOrder extends Component<Props> {
 */
 ReOrder.propTypes = {
     languages: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
     months: PropTypes.array.isRequired,
     products: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
@@ -165,6 +184,7 @@ ReOrder.propTypes = {
 function mapStateToProps(state) {
     return {
         languages: state.languages,
+        user: state.user,
         months: state.months,
         products: state.products,
         _order: state.order

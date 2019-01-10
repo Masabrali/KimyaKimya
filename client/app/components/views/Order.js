@@ -9,12 +9,14 @@ import { Container, ActionSheet, Header, Left, Right, Body, Title, Content, List
  * Import Utilities
 */
 import currencyFormat from '../../utilities/currencyFormat';
+import titleCase from '../../utilities/titleCase';
 import isIOS from '../../utilities/isIOS';
 import isAndroid from '../../utilities/isAndroid';
 
 /**
  * Import other components
 */
+import Loader from '../others/Loader';
 import StatusBar from '../../components/others/StatusBar';
 
 /**
@@ -82,7 +84,8 @@ const Order = function (props) {
                                   return props.editProduct(product, secId, rowId, rowMap);
                               else if (index == 1)
                                   return props.remove(product, secId, rowId, rowMap);
-                              else return;
+
+                              return rowMap[`${secId}${rowId}`].props.closeRow();
                           })
                       }>
                           <Icon name="more" ios="ios-more" android="md-more" />
@@ -121,6 +124,8 @@ const Order = function (props) {
                     <Text>Set Delivery Location</Text>
                 </Button>
             </View>
+
+            <Loader visible={ props.loading && isEmpty(props.errors) } text="Drafting Order..." spinnerColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color } />
         </Container>
     );
 }

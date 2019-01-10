@@ -17,8 +17,10 @@ import { GOOGLE_API_KEY } from '../../config';
 /**
 * Import Utilities
 */
+import getDistance from '../../utilities/getDistance';
 import durationFormat from '../../utilities/durationFormat';
 import isEmpty from '../../utilities/isEmpty';
+import isAndroid from '../../utilities/isAndroid';
 
 /**
  * Import Actions
@@ -45,12 +47,12 @@ class QueuedOrder extends Component<Props> {
         this.state = {
             loading: false,
             errors: {},
+            mapDirectionsErrors: [],
             mapLoading: false,
             mapReady: false,
             duration: props.order.location.duration,
             _duration: props.order.location._duration,
             durationUnits: props.order.location.durationUnits,
-            timestamp: props.order.queuedDate,
             hotpoint: props.hotpoints[props.order.hotpoint.key] || props.order.hotpoint,
             cartCollapsed: true
         };
@@ -66,6 +68,7 @@ class QueuedOrder extends Component<Props> {
         this.closeCart = this.closeCart.bind(this);
         this.toggleCart = this.toggleCart.bind(this);
         this.handleError = this.handleError.bind(this);
+        this.handleMapDirectionsError = this.handleMapDirectionsError.bind(this);
         this.mapReady = this.mapReady.bind(this);
         this.mapDirectionsLoading = this.mapDirectionsLoading.bind(this);
         this.mapDirectionsReady = this.mapDirectionsReady.bind(this);
@@ -81,11 +84,7 @@ class QueuedOrder extends Component<Props> {
 
         (isEmpty(this.props.hotpoints))? this.fetchHotpoints() : this.fetchHotpoints(true);
 
-        this.calculateDuration();
-
-        this.durationInterval = setInterval(this.calculateDuration, 60000);
-
-        return this.durationInterval;
+        return this.calculateDuration();
     }
 
     componentWillReceiveProps(props) {
@@ -93,8 +92,11 @@ class QueuedOrder extends Component<Props> {
             return this.handleHotpoint(props.hotpoints[this.props.order.hotpoint.key]);
     }
 
-    componentWillUnmount() {
-        return clearInterval(this.durationInterval);
+    calculateDuration() {
+
+        let duration = durationFormat(getDistance(this.state.hotpoint.location, this.props.order.location) / ((this.state.hotpoint.speed !== undefined)? this.state.hotpoint.speed : 50));
+
+        return this.setState({ duration: duration.duration, durationUnits: duration.units });
     }
 
     mapReady(map, marker, hotpoint_marker, directions) {
@@ -104,10 +106,10 @@ class QueuedOrder extends Component<Props> {
         this.map.fitToCoordinates([this.props.order.location, this.state.hotpoint.location]);
 
         this.marker = marker;
-        this.marker.animateMarkerToCoordinate(this.props.order.location);
+        if (isAndroid()) this.marker.animateMarkerToCoordinate(this.props.order.location);
 
         this.hotpoint_marker = hotpoint_marker;
-        this.hotpoint_marker.animateMarkerToCoordinate(this.state.hotpoint.location);
+        if (isAndroid()) this.hotpoint_marker.animateMarkerToCoordinate(this.state.hotpoint.location);
 
         this.map_directions = directions;
 
@@ -118,9 +120,11 @@ class QueuedOrder extends Component<Props> {
 
         if (this.state.mapReady && !isEmpty(this.map) && !isEmpty(this.hotpoint_marker) && !isEmpty(this.map_directions)) {
 
-            this.hotpoint_marker.animateMarkerToCoordinate(hotpoint.location);
+            if (isAndroid()) this.hotpoint_marker.animateMarkerToCoordinate(hotpoint.location);
 
             this.map.fitToCoordinates([this.props.order.location, hotpoint.location]);
+
+            if (!isEmpty(this.state.mapDirectionsErrors)) this.calculateDuration();
         }
 
         return this.setState({ hotpoint: hotpoint || this.state.hotpoint });
@@ -138,6 +142,13 @@ class QueuedOrder extends Component<Props> {
         Error(errors.global, 5000);
 
         return this.setState({ errors, loading: false, mapLoading: false });
+    }
+
+    handleMapDirectionsError(error) {
+
+        this.handleError(error);
+
+        return this.setState({ mapDirectionsErrors: this.state.mapDirectionsErrors.push(error) });
     }
 
     fetchHotpoints(silent) {
@@ -163,13 +174,6 @@ class QueuedOrder extends Component<Props> {
         }
     }
 
-    calculateDuration(_duration) {
-
-        let duration = durationFormat(this.state._duration - Moment(new Date()).diff(Moment(this.state.timestamp), 'hours', true));
-
-        return this.setState({ duration: (duration.duration < 1)? 0 : duration.duration, durationUnits: duration.units });
-    }
-
     mapDirectionsLoading(directions) {
         return this.setState({ mapLoading: true });
     }
@@ -180,7 +184,7 @@ class QueuedOrder extends Component<Props> {
 
         if (!isEmpty(this.map)) this.map.fitToCoordinates(directions.coordinates);
 
-        return this.setState({ duration: duration.duration, _duration: duration.duration, durationUnits: duration.units, timestamp: (new Date()).getTime() });
+        return this.setState({ duration: duration.duration, _duration: duration.duration, durationUnits: duration.units });
     }
 
     back() {
@@ -253,7 +257,7 @@ class QueuedOrder extends Component<Props> {
               hotpoint={ this.state.hotpoint }
               duration={ this.state.duration }
               durationUnits={ this.state.durationUnits }
-              handleError={ this.handleError }
+              handleMapDirectionsError={ this.handleMapDirectionsError }
               mapReady={ this.mapReady }
               mapDirectionsLoading={ this.mapDirectionsLoading }
               mapDirectionsReady={ this.mapDirectionsReady }

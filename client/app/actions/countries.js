@@ -1,6 +1,7 @@
 import firebase from 'react-native-firebase';
 // import fetch from './fetch';
 import setCountries from './dispatches/setCountries';
+
 /**
 * Import Error handler
 */
@@ -26,7 +27,7 @@ export default function() {
                             resolve(countries.val());
 
                             return dispatch( setCountries(countries.val()) );
-                            
+
                         }, errorHandler)
                         .catch(errorHandler)
                     );

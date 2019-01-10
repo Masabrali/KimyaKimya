@@ -46,7 +46,7 @@ const ContactUs = function (props) {
 
             <StatusBar />
 
-            <Content padder keyboardShouldPersistTaps="handle" contentContainerStyle={ [isIOS() && props.keyboardHidden && Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch, Styles.paddingTop, Styles.paddingBottom] }>
+            <Content ref={ (content) => ( this.content = content) } padder keyboardShouldPersistTaps="handle" contentContainerStyle={ [isIOS() && props.keyboardHidden && Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch, Styles.paddingTop, Styles.paddingBottom] }>
 
                 <Form block style={ [Styles.padding, Styles.marginBottom, styles.contactUsForm] }>
 
@@ -56,7 +56,7 @@ const ContactUs = function (props) {
                           ref={ (textarea) => ( this.messageInput = textarea ) }
                           rowSpan={3}
                           style={ [Styles.textAlignLeft, Styles.width100] }
-                          onFocus={ props.focusMessage }
+                          onFocus={ () => ( props.messageFocused(this.messageInput, this.content) ) }
                           onChangeText={ props.messageChanged }
                         />
                     </Item>
@@ -89,7 +89,7 @@ const ContactUs = function (props) {
                             <View style={ [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, !props.screenshot && Styles.flexAlignCenter, props.screenshot && Styles.flexAlignStretch, Styles.margin, !props.screenshot && styles.screenshotPlaceholder, props.screenshot && styles.screeshotContainer] }>
                                 { !props.screenshot && <Icon name="add-circle" ios="ios-add-circle" android="md-add-circle" style={ [Styles.textPlaceholder, styles.screeshotPlaceholderIcon] } /> }
 
-                                { props.screenshot && <Image source={ props.screenshot } resizeMode="contain" style={ [Styles.flex, styles.screenshot] } /> }
+                                { props.screenshot && <Image source={ props.screenshot } resizeMode="contain" style={ [Styles.flex, Styles.imageResizeModeContain, styles.screenshot] } /> }
                             </View>
                         </TouchableOpacity>
 
@@ -115,14 +115,13 @@ const styles = StyleSheet.create({
         borderColor: Styles.textPlaceholder.color,
         borderWidth: 1,
         borderRadius: 5,
-        padding: 70
+        padding: 71
     },
     screenshotPlaceholderIcon: {},
     screenshotContainer: {},
     screenshot: {
-        width: 180,
-        height: 160,
-        resizeMode: 'contain'
+        width: 192,
+        height: 172
     }
 });
 

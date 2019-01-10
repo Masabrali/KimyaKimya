@@ -12,6 +12,8 @@ import Moment from 'moment'; // Version can be specified in package.json
 /**
  * Import Utilities
 */
+import getDistance from '../../utilities/getDistance';
+import durationFormat from '../../utilities/durationFormat';
 import isEmpty from '../../utilities/isEmpty';
 import isNumber from '../../utilities/isNumber';
 import isAndroid from '../../utilities/isAndroid';
@@ -24,6 +26,7 @@ import reOrder from '../../actions/reOrder';
 import deleteOrder from '../../actions/deleteOrder';
 import deleteOrders from '../../actions/deleteOrders';
 import readQueuedOrder from '../../actions/readQueuedOrder';
+import fetchHotpoints from '../../actions/hotpoints';
 
 /**
  * Import Components
@@ -55,6 +58,8 @@ class Orders extends Component<Props> {
             orders: props.orders,
             selected: {},
             segment: (props.orders.newOrderQueued && !isEmpty(props.orders.queued))? 'queued' : 'previous',
+            hotpoints: props.hotpoints,
+            durations: {},
             searchFocused: false,
             searchKey: undefined
         };
@@ -65,6 +70,7 @@ class Orders extends Component<Props> {
 
         // Bind functions to this
         this.handleError = this.handleError.bind(this);
+        this.calculateDurations = this.calculateDurations.bind(this);
         this.focusSearch = this.focusSearch.bind(this);
         this.clearSearch = this.clearSearch.bind(this);
         this.blurSearch = this.blurSearch.bind(this);
@@ -78,6 +84,7 @@ class Orders extends Component<Props> {
         this.quickReOrder = this.quickReOrder.bind(this);
         this.delete = this.delete.bind(this);
         this.deleteOrders = this.deleteOrders.bind(this);
+        this.fetchHotpoints = this.fetchHotpoints.bind(this);
         this.refresh = this.refresh.bind(this);
         this.shop = this.shop.bind(this);
         this.checkout = this.checkout.bind(this);
@@ -88,22 +95,56 @@ class Orders extends Component<Props> {
         if (isEmpty(this.props.orders.previous) && isEmpty(this.props.orders.drafts) && isEmpty(this.props.orders.queued)) this.refresh();
         else this.refresh(true);
 
+        (isEmpty(this.props.hotpoints))? this.fetchHotpoints() : this.fetchHotpoints(true);
+
         if (this.props.orders.newOrderQueued) this.props.readQueuedOrder();
 
-        return 1;
+        return this.calculateDurations();
     }
 
     componentWillReceiveProps(props) {
 
-        this.setState({ cartSize: props.order.quantity, orders: props.orders });
+        this.setState({ cartSize: props.order.quantity, orders: props.orders, hotpoints: props.hotpoints });
 
         if (this.state.searchKey) this.search(this.state.searchKey);
 
-        return 1;
+        if (props.hotpoints || props.orders) return this.calculateDurations();
+        else return 1;
     }
 
     componentWillUnmount() {
         if (isAndroid()) return AndroidKeyboardAdjust.setAdjustResize();
+    }
+
+    calculateDurations() {
+
+        if (!isEmpty(this.state.orders.queued) && !isEmpty(this.state.hotpoints)) {
+
+            let durations = this.state.durations;
+            let order;
+            let hotpoint;
+
+            Object.keys(this.state.orders.queued).map( (key) => {
+
+                order = this.state.orders.queued[key];
+
+                if (!isEmpty(order)) {
+
+                    hotpoint = this.state.hotpoints[order.hotpoint.key];
+
+                    if (!isEmpty(hotpoint)) {
+
+                        durations[key] = durationFormat(getDistance(hotpoint.location, order.location) / ((hotpoint.speed !== undefined)? hotpoint.speed : 50));
+
+                        return durations[key];
+
+                    } else return hotpoint;
+
+                } else return order;
+            } );
+
+            return this.setState({ durations: durations });
+        }
     }
 
     focusSearch(search) {
@@ -285,6 +326,29 @@ class Orders extends Component<Props> {
         return this.setState({ errors, loading: false, done: false });
     }
 
+    fetchHotpoints(silent) {
+
+        // Validation
+        let errors = {};
+
+        // Hand;e Data Submission to server
+        if (isEmpty(errors)) {
+
+            if (!silent && !this.state.loading) this.setState({ loading: true });
+
+            return this.props.fetchHotpoints({ silent: silent }).then(
+                (data) => {
+
+                    if (!isEmpty(data) && !isEmpty(data.errors))
+                        return this.handleError(data.errors[0]);
+                    else
+                        return this.setState({ loading: false, done: true, errors: {} });
+                },
+                this.handleError
+            ).catch(this.handleError);
+        }
+    }
+
     refresh(silent) {
 
         // Validation
@@ -417,6 +481,7 @@ class Orders extends Component<Props> {
               segment={ this.state.segment }
               orders={ this.state.orders }
               selected={ this.state.selected }
+              durations={ this.state.durations }
               searchFocused={ this.state.searchFocused }
               focusSearch={ this.focusSearch }
               clearSearch={ this.clearSearch }
@@ -450,10 +515,12 @@ Orders.propTypes = {
     segment: PropTypes.string,
     orders: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
+    hotpoints: PropTypes.object.isRequired,
     fetchOrders: PropTypes.func.isRequired,
     reOrder: PropTypes.func.isRequired,
     deleteOrder: PropTypes.func.isRequired,
-    readQueuedOrder: PropTypes.func.isRequired
+    readQueuedOrder: PropTypes.func.isRequired,
+    fetchHotpoints: PropTypes.func.isRequired,
 };
 
 /**
@@ -466,7 +533,8 @@ function mapStateToProps(state) {
         user: state.user,
         products: state.products,
         orders: state.orders,
-        order: state.order
+        order: state.order,
+        hotpoints: state.hotpoints
     };
 }
 
@@ -479,7 +547,8 @@ function matchDispatchToProps(dispatch) {
         reOrder: reOrder,
         deleteOrder: deleteOrder,
         deleteOrders: deleteOrders,
-        readQueuedOrder: readQueuedOrder
+        readQueuedOrder: readQueuedOrder,
+        fetchHotpoints: fetchHotpoints
     }, dispatch);
 }
 

@@ -28,9 +28,9 @@ const styles = StyleSheet.create({
     flex: { flex: 1 },
     flex2: { flex: 2 },
     flex3: { flex: 3 },
-    lex4: { flex: 4 },
-    lex5: { flex: 5 },
-    lex6: { flex: 6 },
+    flex4: { flex: 4 },
+    flex5: { flex: 5 },
+    flex6: { flex: 6 },
     flexColumn: { flexDirection: 'column' },
     flexRow: { flexDirection: 'row' },
     flexJustifyStart: { justifyContent: 'flex-start' },
@@ -51,8 +51,10 @@ const styles = StyleSheet.create({
     */
     positionAbsolute: { position: 'absolute' },
     verticalPositionTop: { top: 0 },
+    verticalPositionTop50: { bottom: '50%' },
     verticalPositionTopStatusBar: { top: (isAndroid())? StatusBar.currentHeight : 20 },
     verticalPositionBottom: { bottom: 0 },
+    verticalPositionBottom50: { bottom: '50%' },
     verticalPositionBottomStatusBar: { bottom: (isAndroid())? StatusBar.currentHeight : 20 },
     horizontalPositionLeft: { left: 0 },
     horizontalPositionRight: { right: 0 },
@@ -77,6 +79,7 @@ const styles = StyleSheet.create({
     textLink: { color: '#007bff' },
     textPlaceholder: { color: '#777777' },
     textLabel: { color: '#666666' },
+    textSubTitle: { color: '#616167' },
     textCopyRight: {
         color: '#555555',
         fontSize: 14
@@ -150,28 +153,55 @@ const styles = StyleSheet.create({
     noMargin: { margin: 0 },
     noMarginTop: { marginTop: 0 },
     noMarginBottom: { marginBottom: 0 },
+    noMarginLeft: { marginLeft: 0 },
+    noMarginRight: { marginRight: 0 },
     margin: { margin: 10  },
+    halfMargin: { margin: 5  },
+    marginStatusBar: { margin: (isAndroid())? StatusBar.currentHeight : 20  },
     marginTop: { marginTop: 10 },
+    halfMarginTop: { marginTop: 5 },
+    doubleMarginTop: { marginTop: 20 },
+    marginTopStatusBar: { marginTop: (isAndroid())? StatusBar.currentHeight : 20 },
     marginBottom: { marginBottom: 10 },
+    halfMarginBottom: { marginBottom: 5 },
+    doubleMarginBottom: { marginBottom: 20 },
     marginBottomStatusBar: { marginBottom: (isAndroid())? StatusBar.currentHeight : 20 },
     marginLeft: { marginLeft: 10 },
+    halfMarginLeft: { marginLeft: 5 },
+    doubleMarginLeft: { marginLeft: 20 },
+    marginLeftStatusBar: { marginLeft: (isAndroid())? StatusBar.currentHeight : 20 },
     marginRight: { marginRight: 10 },
+    halfMarginRight: { marginRight: 5 },
+    doubleMarginRight: { marginRight: 20 },
+    marginRightStatusBar: { marginRight: (isAndroid())? StatusBar.currentHeight : 20 },
     /**
      * Margin Style Utilities
      */
     noPadding: { padding: 0 },
-    padding: { padding: 10 },
-    padder: { padding: (isAndroid())? StatusBar.currentHeight : 20 },
-    noPaddingLeft: { paddingLeft: 0 },
     noPaddingTop: { paddingTop: 0 },
     noPaddingBottom: { paddingBottom: 0 },
+    noPaddingLeft: { paddingLeft: 0 },
+    noPaddingRight: { paddingRight: 0 },
+    padding: { padding: 10 },
+    halfPadding: { padding: 5 },
+    doublePadding: { padding: 20 },
+    padder: { padding: (isAndroid())? StatusBar.currentHeight : 20 },
     paddingTop: { paddingTop: 10 },
+    halfPaddingTop: { paddingTop: 5 },
+    doublePaddingTop: { paddingTop: 20 },
     paddingTopStatusBar: { paddingTop: (isAndroid())? StatusBar.currentHeight : 20 },
     paddingBottom: { paddingBottom: 10 },
+    halfPaddingBottom: { paddingBottom: 5 },
+    doublePaddingBottom: { paddingBottom: 20 },
     paddingBottomStatusBar: { paddingBottom: (isAndroid())? StatusBar.currentHeight : 20 },
     paddingLeft: { paddingLeft: 10 },
+    halfPaddingLeft: { paddingLeft: 5 },
+    doublePaddingLeft: { paddingLeft: 20 },
+    paddingLeftStatusBar: { paddingLeft: (isAndroid())? StatusBar.currentHeight : 20 },
     paddingRight: { paddingRight: 10 },
-    noPaddingRight: { paddingRight: 0 },
+    halfPaddingRight: { paddingRight: 5 },
+    doublePaddingRight: { paddingRight: 20 },
+    paddingRightStatusBar: { paddingRight: (isAndroid())? StatusBar.currentHeight : 20 },
     /**
      * Width Utilities
      */
@@ -218,6 +248,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#666666'
     },
+    /**
+    * Image Styles
+    */
+    imageResizeModeContain: { resizeMode: 'contain' },
     /**
      * Cover Image
      */
