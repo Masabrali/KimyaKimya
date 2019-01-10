@@ -18,6 +18,8 @@ export default function login(user) {
 
                 try {
 
+                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
+
                     return (
                         firebase.auth().signInWithPhoneNumber(user.countryCode + user.phone)
                         .then( (confirmResults) => {
@@ -25,8 +27,9 @@ export default function login(user) {
                             resolve({ user: user, confirmResults: confirmResults});
 
                             return dispatch( loginUser(user) );
-                        } )
-                        .catch( (error) => ( resolve({ errors: [error] }) ) )
+
+                        }, errorHandler)
+                        .catch(errorHandler)
                     );
 
                 } catch (error) {

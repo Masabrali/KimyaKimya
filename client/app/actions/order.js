@@ -20,30 +20,15 @@ export default function(order) {
 
                     let errorHandler = (error) => ( resolve({ errors: [error] }) );
 
-                    let dbRef = firebase.database().ref('orders/queued/' + firebase.auth().currentUser.uid).push();
-
-                    order.key = order.key || dbRef.key;
-                    order.id = order.id || dbRef.key;
-                    order.orderID = dbRef.key;
-                    order.queued = true;
-                    order.queueDate = firebase.database.ServerValue.TIMESTAMP;
-                    order.date = firebase.database.ServerValue.TIMESTAMP;
-
-                    dbRef.set(order)
-                    .then( (order) => ( order ) )
-                    .catch(errorHandler);
-
                     return (
-                        dbRef.once('value')
+                        firebase.functions().httpsCallable('order')(order)
                         .then( (order) => {
 
-                            let _order = {};
-                            _order[order.key] = order.val();
+                            resolve(order.data)
 
-                            resolve(_order);
+                            return dispatch( submitOrder(order.data) );
 
-                            return dispatch( submitOrder(_order) );
-                        } )
+                        }, errorHandler)
                         .catch(errorHandler)
                     );
 

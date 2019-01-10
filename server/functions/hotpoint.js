@@ -33,30 +33,40 @@ function getDistance(placeA, placeB) {
 /**
 * Fetch for the most suitable and nearest hotpoint
 */
-exports.hotpoint = (order) => {
+exports.hotpoint = (order, context) => {
 
     return (
         new Promise( (resolve, reject) => {
 
             try {
 
-                let _hotpoints = {};
+                if (!order || !order.location || !order.products)
+                    return resolve({ errors: [{ message: 'Invalid Order' }] });
+                else {
 
-                return (
-                    admin.database().ref('hotpoints').once('value')
-                    .then( (hotpoints) => {
+                    let { latitude, longitude } = order.location;
+                    let _hotpoints = {};
+                    let keys;
 
-                        Object.keys(hotpoints.val()).sort( (placeA, placeB) => (
-                            getDistance(hotpoints[placeA].location, { latitude, longitude }) - getDistance(hotpoints[placeB].location, { latitude, longitude })
-                        ) ).map( (key) => ( _hotponts[key] = hotpoints[key] ) );
+                    return (
+                        admin.database().ref('live_hotpoints').once('value')
+                        .then( (hotpoints) => {
 
-                        return resolve(_hotpoints);
-                    } )
-                    .catch( (error) => ( resolve({ errors: [error] }) ) )
-                );
+                            hotpoints = hotpoints.val();
+                            keys = Object.keys(hotpoints);
+
+                            Object.keys(hotpoints).sort( (placeA, placeB) => (
+                                getDistance(hotpoints[placeA].location, { latitude, longitude }) - getDistance(hotpoints[placeB].location, { latitude, longitude })
+                            ) ).map( (key) => ( _hotpoints[key] = hotpoints[key] ) );
+
+                            return resolve(_hotpoints[keys[0]]);
+
+                        }, reject)
+                        .catch(reject)
+                    );
+                }
 
             } catch (error) {
-
                 return reject(error);
             }
         } )

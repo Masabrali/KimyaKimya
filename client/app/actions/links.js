@@ -31,7 +31,7 @@ export default function links(links) {
 
                             return dispatch( setLinks(links.val()) );
 
-                        } )
+                        }, errorHandler)
                         .catch(errorHandler);
 
                 } catch (error) {

@@ -18,8 +18,8 @@ export default function gender(user) {
 
                 try {
 
+                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
                     let currentUser = firebase.auth().currentUser;
-
                     let userRef = firebase.database().ref('users/' + currentUser.uid);
 
                     return (
@@ -34,11 +34,12 @@ export default function gender(user) {
                                     resolve(_user.val());
 
                                     return dispatch( setUserGender(_user.val()) );
-                                } )
-                                .catch( (error) => ( resolve({ errors: [error] }) ) )
+
+                                }, errorHandler)
+                                .catch(errorHandler)
                             );
-                        } )
-                        .catch( (error) => ( resolve({ errors: [error] }) ) )
+                        }, errorHandler)
+                        .catch(errorHandler)
                     );
 
                 } catch (error) {

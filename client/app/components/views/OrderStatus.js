@@ -3,8 +3,10 @@
  */
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Container, Header, Left, Right, Body, Title, Subtitle, Content, Button, Icon, Text } from 'native-base';
-import Moment from 'moment'; // Version can be specified in package.json
+import { Container, Header, Left, Right, Body, Title, Subtitle, Content, Spinner, Button, Icon, Text } from 'native-base';
+import Moment from 'moment';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions'; // Version can be specified in package.json
 
 /**
 * Import Utilities
@@ -28,7 +30,7 @@ import Styles from '../styles';
 const OrderStatus = function (props) {
     return (
         <Container style={ [Styles.backgroundWrapper] }>
-            <Header noShadow style={ [Styles.backgroundHeader, Styles.borderBottom] }>
+            <Header noShadow style={ [Styles.backgroundHeader] }>
                 <Body style={ [isAndroid() && Styles.marginLeft, isAndroid() && Styles.paddingLeft] }>
                     <Title style={ [Styles.textDark, Styles.textBold] }>Queued Order</Title>
                     <Subtitle style={ [Styles.textSecondary, Styles.textBold] }>{ Moment(props.order.date).format('DD MMM YYYY') + " at " + Moment(props.order.date).format('HH:mm')}</Subtitle>
@@ -75,15 +77,20 @@ const OrderStatus = function (props) {
                           apikey={ props.GOOGLE_API_KEY }
                           strokeWidth={ 3 }
                           strokeColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color }
+                          onStart={ props.mapDirectionsLoading }
+                          onReady={ props.mapDirectionsReady }
+                          onError={ props.handleError }
                         />
                     </MapView>
                 </View>
-                <Content contentContainerStyle={ [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch] }>
-                    <View style={ [Styles.backgroundWrapperTransparent, styles.mapViewOverlay] } />
-                    <View style={ [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignCenter, Styles.padding] }>
+                <Content contentContainerStyle={ [Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch] }>
+                    <View style={ [Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignCenter, Styles.backgroundWrapperTransparent, styles.mapViewOverlay] }>
+                        { props.mapLoading && <Spinner color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } /> }
+                    </View>
+                    <View style={ [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignCenter, Styles.padding, Styles.backgroundWrapper] }>
                         <View style={ [Styles.flexAlignCenter, Styles.padding, Styles.marginBottom] }>
                             <Text style={ [styles.title] }>
-                                { "Your order has been received and will arrive" + ((!isEmpty(props.order.location.name) || !isEmpty(props.order.location.address))? (" at " + ((props.order.location.name || '') + ((props.order.location.address)? (', ' + props.order.location.address) : ''))) : "") + " in:" }
+                                { "Your order will arrive" + ((!isEmpty(props.order.location.name) || !isEmpty(props.order.location.address))? (" at " + ((props.order.location.name || '') + ((props.order.location.address)? (', ' + props.order.location.address) : ''))) : "") + " in:" }
                             </Text>
                             <Text style={ [Styles.textAlignCenter, styles.time] }>
                                 { props.duration + " " + props.durationUnits }
@@ -111,8 +118,8 @@ const OrderStatus = function (props) {
                 </Content>
             </View>
 
-            <View style={ [Styles.padding, Styles.width100] }>
-                <Button block onPress={ props.confirmOrderDelivery }>
+            <View style={ [Styles.padding, Styles.borderTop] }>
+                <Button block onPress={ props.confirmOrder }>
                     <Text>Confirm Order Delivery</Text>
                 </Button>
             </View>
@@ -129,7 +136,7 @@ const styles = StyleSheet.create({
     mapView: { height: 200 },
     mapViewOverlay: { minHeight: 200 },
     title: { fontSize: 18 },
-    time: { fontSize: 32 }
+    time: { fontSize: 28 }
 });
 
 export default OrderStatus;

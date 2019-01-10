@@ -16,6 +16,7 @@ import { GOOGLE_API_KEY } from '../../config';
 * Import Utilities
 */
 import isEmpty from '../../utilities/isEmpty';
+import durationFormat from '../../utilities/durationFormat';
 
 /**
  * Import Actions
@@ -43,10 +44,22 @@ class OrderSummary extends Component<Props> {
             errors: {},
             done: false,
             cartCollapsed: true,
-            order: props.order
+            order: props.order,
+            mapLoading: false,
+            mapReady: false
         };
 
+        // Initialize other variables
+        this.androidBackListener = undefined;
+        this.map = undefined;
+        this.marker = undefined;
+        this.hotpoint_marker = undefined;
+        this.map_direction = undefined;
+
         // Bind functions to this
+        this.mapReady = this.mapReady.bind(this);
+        this.mapDirectionsLoading = this.mapDirectionsLoading.bind(this);
+        this.mapDirectionsReady = this.mapDirectionsReady.bind(this);
         this.handleError = this.handleError.bind(this);
         this.openCart = this.openCart.bind(this);
         this.closeCart = this.closeCart.bind(this);
@@ -60,13 +73,50 @@ class OrderSummary extends Component<Props> {
         let errors = this.state.errors;
 
         errors.global = {
-            type: (error.response)? error.response.status:error.name,
-            message: (error.response)? error.response.statusText:error.message
+            type: (error.response)? error.response.status : error.name,
+            message: (error.response)? error.response.statusText : (error.message)? error.message : error
         };
 
         Error(errors.global, 5000);
 
-        return this.setState({ errors, loading: false, done: false });
+        return this.setState({ errors, loading: false, mapLoading: false });
+    }
+
+    mapReady(map, marker, hotpoint_marker, directions) {
+
+        this.map = map;
+        this.map.animateToRegion(this.props.order.location);
+        this.map.fitToCoordinates([this.props.order.location, this.props.order.hotpoint.location]);
+
+        this.marker = marker;
+        this.marker.animateMarkerToCoordinate(this.props.order.location);
+
+        this.hotpoint_marker = hotpoint_marker;
+        this.hotpoint_marker.animateMarkerToCoordinate(this.props.order.hotpoint.location);
+
+        this.map_directions = directions;
+
+        return this.setState({ mapReady: true, mapLoading: false });
+    }
+
+    mapDirectionsLoading(directions) {
+        return this.setState({ mapLoading: true });
+    }
+
+    mapDirectionsReady(directions) {
+
+        let order = this.state.order;
+        let duration = durationFormat(directions.duration / 60);
+
+        order.location._duration = duration.duration;
+        order.location.duration = duration.duration;
+        order.location.durationUnits = duration.units;
+
+        order.location.distance = directions.distance;
+
+        if (!isEmpty(this.map)) this.map.fitToCoordinates(directions.coordinates);
+
+        return this.setState({ order: order });
     }
 
     checkout() {
@@ -107,7 +157,7 @@ class OrderSummary extends Component<Props> {
 
                         this.setState({ loading: false, done: true, errors: {} });
 
-                        return Actions.orderStatus({ order: data });
+                        return Actions.orderStatus({ order: data[Object.keys(data)[0]] });
                     }
                 }, this.handleError)
                 .catch(this.handleError);
@@ -136,8 +186,13 @@ class OrderSummary extends Component<Props> {
               gender={ this.props.user.gender }
               GOOGLE_API_KEY={ GOOGLE_API_KEY }
               loading={ this.state.loading }
+              mapLoading={ this.state.mapLoading }
               errors={ this.state.errors }
               cartCollapsed={ this.state.cartCollapsed }
+              handleError={ this.handleError }
+              mapReady={ this.mapReady }
+              mapDirectionsLoading={ this.mapDirectionsLoading }
+              mapDirectionsReady={ this.mapDirectionsReady }
               order={ this.state.order }
               openCart={ this.openCart }
               closeCart={ this.closeCart }

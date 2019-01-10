@@ -37,7 +37,7 @@ export default function products(products) {
 
                             return dispatch( setProducts(products.val()) );
 
-                        } )
+                        }, errorHandler)
                         .catch(errorHandler);
 
                 } catch (error) {

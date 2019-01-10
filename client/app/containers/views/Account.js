@@ -43,6 +43,7 @@ class Account extends Component<Props> {
 
         // Bind functions to this
         this.back = this.back.bind(this);
+        this.handleError = this.handleError.bind(this);
         this.fetchUser = this.fetchUser.bind(this);
         this.changePhone = this.changePhone.bind(this);
         this.editGender = this.editGender.bind(this);
@@ -61,6 +62,20 @@ class Account extends Component<Props> {
 
     back() {
         return Actions.pop();
+    }
+
+    handleError(error) {
+
+        let errors = this.state.errors;
+
+        errors.global = {
+            type: (error.response)? error.response.status:error.name,
+            message: (error.response)? error.response.statusText:error.message
+        };
+
+        Error(errors.global, 5000);
+
+        return this.setState({ errors, loading: false });
     }
 
     fetchUser() {
@@ -86,21 +101,9 @@ class Account extends Component<Props> {
 
                     } else
                         return this.setState({ loading: false, refreshing: false, done: true, errors: {} });
-                },
-                (error) => {ß
 
-                    let errors = this.state.errors;
-
-                    errors.global = {
-                        type: (error.response)? error.response.status:error.name,
-                        message: (error.response)? error.response.statusText:error.message
-                    };
-
-                    Error(errors.global, 5000);
-
-                    return this.setState({ errors, loading: false, refreshing: false, done: false });
-                }
-            );
+                }, this.handleError)
+                .catch(this.handleError);
         }
     }
 
@@ -143,21 +146,8 @@ class Account extends Component<Props> {
 
                         return  Actions.reset('root');
                     }
-                },
-                (error) => {
-
-                    let errors = this.state.errors;
-
-                    errors.global = {
-                        type: (error.response)? error.response.status:error.name,
-                        message: (error.response)? error.response.statusText:error.message
-                    };
-
-                    Error(errors.global, 5000);
-
-                    return this.setState({ errors, loading: false, refreshing: false, done: false });
-                }
-            );
+                }, this.handleError)
+                .catch(this.handleError);
         }
     }
 

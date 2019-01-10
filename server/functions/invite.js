@@ -7,9 +7,6 @@ const admin = require('firebase-admin');
 /**
 * Update Delivery Rate based on Changes in Fuel Prices
 */
-exports.invite = (request, response) => {
-
-    let friends = request.body.friends;
-
-    return response.status(200).send(JSON.stringify({ invitations: friends.length }));
+exports.invite = (friends, context) => {
+    return friends.length;
 };

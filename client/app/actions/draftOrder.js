@@ -19,7 +19,7 @@ export default function(order) {
             new Promise( (resolve, reject) => {
 
                 try {
-                    
+
                     let errorHandler = (error) => ( resolve({ errors: [error] }) );
 
                     let dbRef = firebase.database().ref('orders/drafts/' + firebase.auth().currentUser.uid).push();
@@ -30,7 +30,7 @@ export default function(order) {
                     order.draft = true;
 
                     dbRef.set(order)
-                    .then( (order) => ( order ) )
+                    .then( (order) => ( order ), errorHandler)
                     .catch(errorHandler)
 
                     return (
@@ -43,7 +43,8 @@ export default function(order) {
                             resolve(_order);
 
                             return dispatch( draftOrder(_order) );
-                        } )
+
+                        }, errorHandler)
                         .catch(errorHandler)
                     );
 

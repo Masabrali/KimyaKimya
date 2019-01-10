@@ -124,6 +124,7 @@ class Location extends Component<Props> {
     }
 
     componentWillMount() {
+
         (isEmpty(this.props.hotpoints))? this.fetchHotpoints() : this.fetchHotpoints(true);
 
         return ( (isEmpty(this.props.rate))? this.fetchRate() : this.fetchRate(true) );
@@ -204,7 +205,7 @@ class Location extends Component<Props> {
                         return this.setState({ loading: false, done: true, errors: {} });
                 },
                 this.handleError
-            );
+            ).catch(this.handleError);
         }
     }
 
@@ -262,7 +263,8 @@ class Location extends Component<Props> {
 
               if (isFunction(callback)) return callback(result);
               else return result;
-          }
+          },
+          this.handleError
         ).catch(this.handleError);
     }
 
@@ -313,7 +315,7 @@ class Location extends Component<Props> {
 
             if (isEmpty(this.state.hotpoints)) this.fetchHotpoints(location);
 
-            if (isEmpty(this.state.places) && this.state.regionChanged < 1)
+            if (isEmpty(this.state.places) && this.state.regionChanged < 2)
                 this.fetchNearby(location);
 
             if (this.state.mapReady && !isEmpty(this.map) && !isEmpty(this.map.props.initialRegion) && this.map.props.region != location) {
@@ -361,7 +363,7 @@ class Location extends Component<Props> {
 
         if (this.state.mapReady && !isEmpty(this.map))
             Object.keys(hotpoints).map( (key) => (
-                (!isEmpty(this.hotpoint_markers[key]))? this.hotpoint_markers[key].animateMarkerToCoordinate(hotpoints[key].location) : undefined
+                (!isEmpty(this.hotpoint_markers) && !isEmpty(this.hotpoint_markers[key]))? this.hotpoint_markers[key].animateMarkerToCoordinate(hotpoints[key].location) : undefined
             ) );
 
         return this.setState({ hotpoints: hotpoints || this.state.hotpoints });
@@ -496,7 +498,7 @@ class Location extends Component<Props> {
                         return this.setState({ loading: false, done: true, errors: {} });
                 },
                 this.handleError
-            );
+            ).catch(this.handleError);
         }
     }
 
@@ -513,21 +515,20 @@ class Location extends Component<Props> {
 
             if (!this.state.loading) this.setState({ loading: true });
 
-            return this.props.fetchHotpoint(this.state.order).then(
-                (data) => {
+            return this.props.fetchHotpoint({ ...this.state.order, location: this.state.location })
+            .then( (data) => {
 
-                    if (!isEmpty(data) && !isEmpty(data.errors))
-                        return this.handleError(data.errors[0]);
-                    else {
+                if (!isEmpty(data) && !isEmpty(data.errors))
+                    return this.handleError(data.errors[0]);
+                else {
 
-                        this.setState({ loading: false, done: true, errors: {} });
+                    this.setState({ loading: false, done: true, errors: {} });
 
-                        if (isFunction(callback)) return callback(data);
-                        else return data;
-                    }
-                },
-                this.handleError
-            );
+                    if (isFunction(callback)) return callback(data);
+                    else return data;
+                }
+            }, this.handleError)
+            .catch(this.handleError);
         }
     }
 
@@ -557,7 +558,7 @@ class Location extends Component<Props> {
                         return this.setState({ loading: false, done: true, errors: {} });
                 },
                 this.handleError
-            );
+            ).catch(this.handleError);
         }
     }
 
@@ -568,6 +569,13 @@ class Location extends Component<Props> {
 
         // Validation
         let errors = {};
+        let errorHandler = (error) => {
+
+            if (handleError)
+                return handleError(error);
+            else
+                return this.handleError(error);
+        };
 
         // Hand;e Data Submission to server
         if (isEmpty(errors)) {
@@ -601,27 +609,16 @@ class Location extends Component<Props> {
                                     })
                                 )
                             );
-                    },
-                    (error) => {
-
-                        if (handleError)
-                            return handleError(error);
-                        else
-                            return this.handleError(error);
-                    }
-                );
+                    }, errorHandler
+                ).catch(this.handleError);
             } else
-                return GooglePlaces.getAutocompletePredictions(key)
-                  .then( (places) => {
-                      if (this.props.setPlaces(places)) return handleLocations(places);
-                  })
-                  .catch( (error) => {
-
-                      if (handleError)
-                          return handleError(error);
-                      else
-                          return this.handleError(error);
-                  });
+                return (
+                    GooglePlaces.getAutocompletePredictions(key)
+                    .then( (places) => {
+                        if (this.props.setPlaces(places)) return handleLocations(places);
+                    }, errorHandler)
+                    .catch(this.errorHandler)
+                );
         }
     }
 
@@ -664,7 +661,7 @@ class Location extends Component<Props> {
     */
     getCurrentPlace() {
         return GooglePlaces.getCurrentPlace()
-          .then(this.handleLocation)
+          .then(this.handleLocation, this.handleError)
           .catch(this.handleError);
     }
 
@@ -756,7 +753,7 @@ class Location extends Component<Props> {
                     if (handleError) return handleError(error);
                     else return this.handleError(error);
                 }
-            );
+            ).catch(this.handleError);
     }
 
     /**
@@ -925,6 +922,11 @@ class Location extends Component<Props> {
                 if (!isEmpty(data) && !isEmpty(data.errors)) this.handleError(data.errors[0]);
 
                 /**
+                * Set loading
+                */
+                if (!this.state.loading) this.setState({ loading: true });
+
+                /**
                 * Create a temporary location object
                 */
                 let location = { ...this.state.location, rate: this.state.rate };
@@ -987,9 +989,7 @@ class Location extends Component<Props> {
 
                         return orderSummary(location);
 
-                    }, (error) => {
-                        return orderSummary(location)
-                    });
+                    }, (error) => ( orderSummary(location, { errors: [error] }) ) );
                 else
                     return orderSummary(location);
             };
@@ -1000,22 +1000,29 @@ class Location extends Component<Props> {
             if (!this.state.loading) this.setState({ loading: true });
 
             /**
+            * Get Hotpoint from the Server
+            */
+            /**
             * Get Nearest Store and FetchDistance to the Store
             */
-            /**
-            * Sort Hotpoints first
-            */
-            this.sortHotpoints();
-
-            hotpoint = this.state.hotpoints[Object.keys(this.state.hotpoints)[0]];
-
-            /**
-            * Fetch Distance from Location to Hotpoint
-            */
             return (
-                this.props.fetchDistance({ origin: this.state.location, destination: hotpoint.location })
-                .then( (data) => ( orderLocation(data, hotpoint) ) )
-                .catch( (errors) => ( orderLocation({ errors: errors }, hotpoint) ) )
+                this.fetchHotpoint( (hotpoint) => {
+
+                    if (!isEmpty(hotpoint) && !isEmpty(hotpoint.errors))
+                        return this.handleError(hotpoint.errors[0]);
+                    else {
+
+                        let errorHandler = (error) => ( orderLocation({ errors: [error] }, hotpoint) )
+                        /**
+                        * Fetch Distance from Location to Hotpoint
+                        */
+                        return (
+                            this.props.fetchDistance({ origin: this.state.location, destination: hotpoint.location })
+                            .then( (data) => ( orderLocation(data, hotpoint) ), errorHandler)
+                            .catch(errorHandler)
+                        );
+                    }
+                } )
             );
         }
     }

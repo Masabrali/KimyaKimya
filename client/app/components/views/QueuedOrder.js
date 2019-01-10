@@ -3,8 +3,10 @@
  */
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Container, Header, Left, Right, Body, Title, Subtitle, Content, List, ListItem, Button, Icon, Text } from 'native-base';
-import Moment from 'moment'; // Version can be specified in package.json
+import { Container, Header, Left, Right, Body, Title, Subtitle, Content, Spinner, List, ListItem, Button, Icon, Text } from 'native-base';
+import Moment from 'moment';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -29,7 +31,7 @@ import Styles from '../styles';
 const QueuedOrder = function (props) {
     return (
         <Container>
-            <Header noShadow style={ [Styles.backgroundHeader, Styles.borderBottom] }>
+            <Header noShadow style={ [Styles.backgroundHeader] }>
                 <Left>
                     <Button iconLeft transparent onPress={ props.back }>
                         <Icon name="arrow-back" ios="ios-arrow-back" android="md-arrow-back" style={ [isAndroid() && Styles.textDark] } />
@@ -51,104 +53,148 @@ const QueuedOrder = function (props) {
 
             <StatusBar />
 
-            <Content contentContainerStyle={ [Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch] }>
-                { !props.cartCollapsed && <List
-                      contentContainerStyle={ [Styles.table] }
-                      dataArray={ props.order.products }
-                      renderRow={ (product) =>
-                          <ListItem key={ product.id }>
-                              <View style={ [Styles.row, Styles.paddingTop, Styles.paddingBottom] }>
-                                  <Left>
-                                      <Text numberOfLines={1} style={ [Styles.textAlignLeft] }>{ product.quantity + "  " + product.name }</Text>
-                                  </Left>
-                                  <Right style={ [Styles.flex] }>
-                                      <Text style={ [Styles.textAlignRight] }>{ currencyFormat(product.amount) }</Text>
-                                  </Right>
-                              </View>
-                          </ListItem>
-                      }
-                    />
-                }
-                <List contentContainerStyle={ [Styles.table] }>
-                    <ListItem noIndent>
-                        <View style={ [Styles.row, Styles.paddingTop, Styles.paddingBottom] }>
-                            <Left>
-                                <Text style={ [Styles.textAlignLeft, Styles.textBold] }>
-                                    { props.order.quantity + " Item" + ((props.order.quantity > 1)? "s":"") + ", Totalling" }
-                                </Text>
-                            </Left>
-                            <Right style={ [Styles.flex, Styles.paddingRight] }>
-                                <Text style={ [Styles.textAlignRight, Styles.textBold] }>
-                                    { currencyFormat(props.order.amount) }
-                                </Text>
-                            </Right>
-                        </View>
-                    </ListItem>
-                    <ListItem noIndent>
-                        <View style={ [Styles.row, Styles.paddingTop, Styles.paddingBottom] }>
-                            <Left>
-                                <Text style={ [Styles.textAlignLeft, Styles.textBold] }>Delivery</Text>
-                            </Left>
-                            <Right style={ [Styles.flex, Styles.paddingRight] }>
-                                <Text style={ [Styles.textAlignRight, Styles.textBold] }>
-                                    { currencyFormat(props.order.delivery) }
-                                </Text>
-                            </Right>
-                        </View>
-                    </ListItem>
-                    <ListItem noIndent>
-                        <View style={ [Styles.row, Styles.paddingTop, Styles.paddingBottom] }>
-                            <Left>
-                                <Text style={ [Styles.textAlignLeft, Styles.textBold] }>Grand Total</Text>
-                            </Left>
-                            <Right style={ [Styles.flex, Styles.paddingRight] }>
-                                <Text style={ [Styles.textAlignRight, Styles.textBold] }>
-                                    { currencyFormat(props.order.amount + props.order.delivery) }
-                                </Text>
-                            </Right>
-                        </View>
-                    </ListItem>
-                    <ListItem itemDivider></ListItem>
-                    <ListItem noIndent style={ [Styles.noBorderBottom] }>
-                        <View style={ [Styles.row, Styles.paddingTop, Styles.paddingBottom] }>
-                            <Left>
-                                <View>
-                                    <Text style={ [Styles.textBold] }>
+            <View style={ [Styles.flex] }>
+                <View style={ [Styles.positionAbsolute, Styles.verticalPositionTop, Styles.horizontalPositionLeft, Styles.horizontalPositionRight, styles.mapView] }>
+                    <MapView
+                      ref={ (map) => ( this.map = map ) }
+                      provider={ (isAndroid())? PROVIDER_GOOGLE : null }
+                      scrollEnabled={ (isIOS())? false : true }
+                      style={ [Styles.absoluteFillObject, Styles.flex] }
+                      initialRegion={ props.order.location }
+                      onMapReady={ (e) => (
+                          props.mapReady(this.map, this.marker, this.hotpoint_marker, this.map_directions)
+                      ) }
+                    >
+                        <MapView.Marker
+                          ref={ (marker) => ( this.marker = marker ) }
+                          coordinate={ props.order.location }
+                          pinColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color }
+                          image={ (props.gender == 'female')? require('../../assets/marker_female.png') : require('../../assets/marker_male.png') }
+                        />
+                        <MapView.Marker
+                          ref={ (marker) => ( this.hotpoint_marker = marker ) }
+                          coordinate={ props.hotpoint.location }
+                          pinColor={ Styles['textKimyaKimya' + ( (props.gender == 'female')? 'Male' : 'Female' )].color }
+                          image={ (props.gender == 'female')? require('../../assets/hotpoint_male.png') : require('../../assets/hotpoint_female.png') }
+                          flat={ true }
+                        />
+                        <MapViewDirections
+                          ref={ (directions) => ( this.map_directions = directions ) }
+                          origin={ props.hotpoint.location }
+                          destination={ props.order.location }
+                          apikey={ props.GOOGLE_API_KEY }
+                          strokeWidth={ 3 }
+                          strokeColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color }
+                          onStart={ props.mapDirectionsLoading }
+                          onReady={ props.mapDirectionsReady }
+                          onError={ props.handleError }
+                        />
+                    </MapView>
+                </View>
+                <Content contentContainerStyle={ [Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch] }>
+                    <View style={ [Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignCenter, Styles.backgroundWrapperTransparent, styles.mapViewOverlay] }>
+                        { props.mapLoading && <Spinner color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } /> }
+                    </View>
+                    <View style={ [Styles.flex, Styles.backgroundWrapper]}>
+                        { !props.cartCollapsed && <List
+                              contentContainerStyle={ [Styles.table] }
+                              dataArray={ props.order.products }
+                              renderRow={ (product) =>
+                                  <ListItem key={ product.id }>
+                                      <View style={ [Styles.row, Styles.paddingTop, Styles.paddingBottom] }>
+                                          <Left>
+                                              <Text numberOfLines={1} style={ [Styles.textAlignLeft] }>{ product.quantity + "  " + product.name }</Text>
+                                          </Left>
+                                          <Right style={ [Styles.flex] }>
+                                              <Text style={ [Styles.textAlignRight] }>{ currencyFormat(product.amount) }</Text>
+                                          </Right>
+                                      </View>
+                                  </ListItem>
+                              }
+                            />
+                        }
+                        <List contentContainerStyle={ [Styles.table] }>
+                            <ListItem noIndent>
+                                <View style={ [Styles.row, Styles.paddingTop, Styles.paddingBottom] }>
+                                    <Left>
+                                        <Text style={ [Styles.textAlignLeft, Styles.textBold] }>
+                                            { props.order.quantity + " Item" + ((props.order.quantity > 1)? "s":"") + ", Totalling" }
+                                        </Text>
+                                    </Left>
+                                    <Right style={ [Styles.flex, Styles.paddingRight] }>
+                                        <Text style={ [Styles.textAlignRight, Styles.textBold] }>
+                                            { currencyFormat(props.order.amount) }
+                                        </Text>
+                                    </Right>
+                                </View>
+                            </ListItem>
+                            <ListItem noIndent>
+                                <View style={ [Styles.row, Styles.paddingTop, Styles.paddingBottom] }>
+                                    <Left>
+                                        <Text style={ [Styles.textAlignLeft, Styles.textBold] }>Delivery</Text>
+                                    </Left>
+                                    <Right style={ [Styles.flex, Styles.paddingRight] }>
+                                        <Text style={ [Styles.textAlignRight, Styles.textBold] }>
+                                            { currencyFormat(props.order.delivery) }
+                                        </Text>
+                                    </Right>
+                                </View>
+                            </ListItem>
+                            <ListItem noIndent>
+                                <View style={ [Styles.row, Styles.paddingTop, Styles.paddingBottom] }>
+                                    <Left>
+                                        <Text style={ [Styles.textAlignLeft, Styles.textBold] }>Grand Total</Text>
+                                    </Left>
+                                    <Right style={ [Styles.flex, Styles.paddingRight] }>
+                                        <Text style={ [Styles.textAlignRight, Styles.textBold] }>
+                                            { currencyFormat(props.order.amount + props.order.delivery) }
+                                        </Text>
+                                    </Right>
+                                </View>
+                            </ListItem>
+                            <ListItem itemDivider></ListItem>
+                            <ListItem noIndent style={ [{ paddingTop: 20, paddingBottom: 20}] }>
+                                <Left style={ [Styles.height100, Styles.flexColumn, Styles.flexJustifyStart, Styles.flexAlignStart, { maxWidth: 100 }] }>
+                                    <Text style={ [Styles.textBold, Styles.textLeft, Styles.width100] }>
                                         { (!props.order.location.address)? "Delivery Time:" : "Address:" }
                                     </Text>
-                                </View>
-                                <View style={ [Styles.paddingLeft, Styles.flexColumn, Styles.flexJustifyStart, Styles.flexAlignStretch] }>
-                                    { (props.order.location.name || props.order.location.address) && <Text style={ [Styles.marginBottom] }>
-                                            { props.order.location.name + ', ' + props.order.location.address }
-                                        </Text>
-                                    }
-                                    { props.order.location.duration && <Text style={ [Styles.paddingRight, Styles.marginRight, Styles.marginBottom, Styles.width100] }>
-                                            { ((!props.order.location.address)? "Approx. " : "Delivery in approx. ") + props.duration + " " + props.durationUnits }
-                                        </Text>
-                                    }
-                                    <View style={ [Styles.marginTop, Styles.paddingRight, Styles.marginRight, Styles.width100, Styles.flexRow, Styles.flexJustifyEnd, Styles.flexAlignCenter, { marginLeft: -5 }] }>
-                                        <Text style={ [Styles.flex] }>Contact:</Text>
-                                        <Button transparent onPress={ props.messageHotpoint }>
-                                            <Icon name="chatbubbles" ios="ios-chatbubbles" android="md-chatbubbles" />
-                                        </Button>
-                                        <Button success transparent onPress={ props.callHotpoint } style={ [Styles.marginLeft] }>
-                                            <Icon name="call" ios="ios-call" android="md-call" />
-                                        </Button>
-                                    </View>
-                                </View>
-                            </Left>
-                            { !props.order.location.address && !props.order.location.duration && <Right style={ [Styles.paddingRight] }>
-                                    <Text>N/A</Text>
+                                </Left>
+                                { (props.order.location.address || props.order.location.duration) && <Right style={ [Styles.flex, Styles.paddingRight] }>
+                                        { (props.order.location.name || props.order.location.address) && <Text>
+                                                { props.order.location.name + ', ' + props.order.location.address }
+                                            </Text>
+                                        }
+                                        { props.order.location.duration && props.order.location.durationUnits && <Text>
+                                                { ((!props.order.location.address)? "Approx. " : "Delivery in approx. ") + props.duration + " " + props.durationUnits }
+                                            </Text>
+                                        }
+                                    </Right>
+                                }
+                                { !props.order.location.address && !props.order.location.duration && <Right style={ [Styles.flex, Styles.paddingRight] }>
+                                        <Text>N/A</Text>
+                                    </Right>
+                                }
+                            </ListItem>
+                            <ListItem noIndent style={ [Styles.noBorderBottom] }>
+                                <Left>
+                                    <Text style={ [Styles.textAlignLeft, Styles.textBold] }>Contact Hotpoint</Text>
+                                </Left>
+                                <Right style={ [Styles.flex, Styles.flexRow, Styles.flexJustifyEnd, Styles.flexAlignCenter, Styles.paddingRight] }>
+                                    <Button transparent onPress={ props.messageHotpoint }>
+                                        <Icon name="chatbubbles" ios="ios-chatbubbles" android="md-chatbubbles" />
+                                    </Button>
+                                    <Button success transparent onPress={ props.callHotpoint } style={ [Styles.marginLeft] }>
+                                        <Icon name="call" ios="ios-call" android="md-call" />
+                                    </Button>
                                 </Right>
-                            }
-                            { (props.order.location.address && props.order.location.duration) && <Right /> }
-                        </View>
-                    </ListItem>
-                </List>
-            </Content>
+                            </ListItem>
+                        </List>
+                    </View>
+                </Content>
+            </View>
 
             <View style={ [Styles.padding, Styles.borderTop] }>
-                <Button block onPress={ props.confirmOrderDelivery }>
+                <Button block onPress={ props.confirmOrder }>
                     <Text>Confirm Order Delivery</Text>
                 </Button>
             </View>
@@ -162,6 +208,8 @@ const QueuedOrder = function (props) {
  * Styles
 */
 const styles = StyleSheet.create({
+    mapView: { height: 200 },
+    mapViewOverlay: { minHeight: 200 },
     title: { fontSize: 18 },
     time: { fontSize: 24 }
 });

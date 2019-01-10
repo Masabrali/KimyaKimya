@@ -36,12 +36,13 @@ export default function(order) {
                         resolve(_order);
 
                         return dispatch( deleteOrder(_order) );
-                    } )
+                        
+                    }, errorHandler)
                     .catch(errorHandler);
 
                     return (
                         firebase.database().ref(path + order.key).remove()
-                        .then( (order) => ( order ) )
+                        .then( (order) => ( order ), errorHandler)
                         .catch(errorHandler)
                     );
 

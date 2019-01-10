@@ -18,14 +18,17 @@ export default function logout(user) {
 
                 try {
 
+                  let errorHandler = (error) => ( resolve({ errors: [error] }) );
+
                   return (
                       firebase.auth().signOut().then( () => {
 
                           resolve(user);
 
                           return dispatch( logoutUser(user) );
-                      } )
-                      .catch( (error) => ( resolve({ errors: [error] }) ) )
+
+                      }, errorHandler)
+                      .catch(errorHandler)
                   );
 
                 } catch (error) {

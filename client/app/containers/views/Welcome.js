@@ -182,7 +182,7 @@ class Welcome extends Component<Props> {
 
                     return login();
 
-                }, this.handleError )
+                }, this.handleError)
                 .catch(this.handleError);
         }
     }

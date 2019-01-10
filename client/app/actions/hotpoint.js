@@ -17,10 +17,12 @@ export default function(order) {
 
                 try {
 
+                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
+
                     return (
                         firebase.functions().httpsCallable('hotpoint')(order)
-                        .then(resolve)
-                        .catch(reject)
+                        .then( (hotpoint) => ( resolve(hotpoint.data) ), errorHandler)
+                        .catch(errorHandler)
                     );
 
                 } catch (error) {

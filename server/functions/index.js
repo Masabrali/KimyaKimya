@@ -24,10 +24,22 @@ exports.updateRateWithRate = functions.database.ref('rate').onWrite(updateRateMo
 * Invite Friends
 */
 const inviteModules = require('./invite');
-exports.invite = functions.https.onRequest(inviteModules.invite);
+exports.invite = functions.https.onCall(inviteModules.invite);
 
 /**
 * Get Hotpoint
 */
 const hotpointModules = require('./hotpoint');
-exports.hotpoint = functions.https.onRequest(hotpointModules.hotpoint);
+exports.hotpoint = functions.https.onCall(hotpointModules.hotpoint);
+
+/**
+* Submit Order
+*/
+const orderModules = require('./order');
+exports.order = functions.https.onCall(orderModules.order);
+
+/**
+* Confirm Order
+*/
+const confirmOrderModules = require('./confirmOrder');
+exports.confirmOrder = functions.https.onCall(confirmOrderModules.confirmOrder);

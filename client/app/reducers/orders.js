@@ -30,7 +30,7 @@ export default function (state = {}, action = {}) {
         case 'ORDERS_FETCHED':
 
             let orders = action.orders || {};
-
+            
             return {
                 previous: sort(( orders.previous || {} )[currentUser.uid] || state.previous || {}),
                 drafts: sort(( orders.drafts || {} )[currentUser.uid] || state.drafts || {}),
@@ -91,13 +91,6 @@ export default function (state = {}, action = {}) {
 
         default:
 
-            return (
-
-                state || {
-                            previous: {},
-                            drafts: {},
-                            queued: {}
-                        }
-            );
+            return ( (!isEmpty(state))? state : { previous: {}, drafts: {}, queued: {} } );
     }
 }

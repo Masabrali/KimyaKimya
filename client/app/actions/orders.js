@@ -3,7 +3,7 @@ import firebase from 'react-native-firebase';
 import setOrders from './dispatches/setOrders';
 import draftOrder from './dispatches/draftOrder';
 import submitOrder from './dispatches/submitOrder';
-import confirmOrderDelivery from './dispatches/confirmOrderDelivery';
+import confirmOrder from './dispatches/confirmOrder';
 import deleteOrder from './dispatches/deleteOrder';
 
 /**
@@ -21,7 +21,7 @@ export default function(orders) {
             new Promise( (resolve, reject) => {
 
                 try {
-
+                    
                     let errorHandler = (error) => ( resolve({ errors: [error] }) );
                     let currentUser = firebase.auth().currentUser;
                     let dbRef = firebase.database().ref('orders');
@@ -34,7 +34,7 @@ export default function(orders) {
                         else if (order.key == "queued")
                             return dispatch( submitOrder(order.val()[currentUser.uid]) );
                         else if (order.key == "previous")
-                            return dispatch( confirmOrderDelivery(order.val()[currentUser.uid]) );
+                            return dispatch( confirmOrder(order.val()[currentUser.uid]) );
 
                     }, errorHandler);
 
@@ -59,7 +59,7 @@ export default function(orders) {
 
                             return dispatch( setOrders(orders.val()) );
 
-                        } )
+                        }, errorHandler)
                         .catch(errorHandler);
 
                 } catch (error) {

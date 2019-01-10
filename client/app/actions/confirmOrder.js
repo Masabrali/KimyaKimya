@@ -1,14 +1,15 @@
 import firebase from 'react-native-firebase';
 // import fetch from './fetch';
-import setCountries from './dispatches/setCountries';
+import confirmOrder from './dispatches/confirmOrder';
+
 /**
 * Import Error handler
 */
 import handleError from './handleError';
 
-export default function() {
+export default function(order) {
 
-    // return fetch('countries.php', {}, setCountries);
+    // return fetch('delivery.php', order, confirmOrder);
 
     return ( (dispatch) => {
 
@@ -20,13 +21,13 @@ export default function() {
                     let errorHandler = (error) => ( resolve({ errors: [error] }) );
 
                     return (
-                        firebase.database().ref('countries').once('value')
-                        .then( (countries) => {
+                        firebase.functions().httpsCallable('confirmOrder')(order)
+                        .then( (order) => {
 
-                            resolve(countries.val());
+                            resolve(order.data)
 
-                            return dispatch( setCountries(countries.val()) );
-                            
+                            return dispatch( confirmOrder(order.data) );
+
                         }, errorHandler)
                         .catch(errorHandler)
                     );

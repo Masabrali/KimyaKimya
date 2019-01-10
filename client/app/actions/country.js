@@ -14,14 +14,14 @@ export default function() {
 
                     return CarrierInfo.isoCountryCode().then(
                         (result) => {
-                            
+
                             result = ( result || DeviceInfo.getDeviceCountry() || 'TZ' ).toUpperCase();
 
                             resolve(result);
 
                             return dispatch( setCountry(result) );
-                        }
-
+                        },
+                        (error) => ( resolve({ errors: [error] }) )
                     ).catch( (error) => {
 
                         reject(error);

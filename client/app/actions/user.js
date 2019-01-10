@@ -18,6 +18,7 @@ export default function user() {
 
                 try {
 
+                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
                     let currentUser = firebase.auth().currentUser;
 
                     return (
@@ -33,8 +34,9 @@ export default function user() {
                             resolve(_user);
 
                             return dispatch( setUser(_user) );
-                        } )
-                        .catch( (error) => ( resolve({ errors: [error] }) ) )
+
+                        }, errorHandler)
+                        .catch(errorHandler)
                     );
                 } catch (error) {
 

@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
-import { Container, Header, Title, Content, List, ListItem, Left, Body, Right, Button, Icon, Text } from 'native-base';
+import { Container, Header, Title, Content, Spinner, List, ListItem, Left, Body, Right, Button, Icon, Text } from 'native-base';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions'; // Version can be specified in package.json
 
@@ -59,6 +59,9 @@ const AddLocation = function (props) {
                       scrollEnabled={ (isIOS())? false : true }
                       style={ [Styles.absoluteFillObject, Styles.flex] }
                       initialRegion={ props.order.location }
+                      onMapReady={ (e) => (
+                          props.mapReady(this.map, this.marker, this.hotpoint_marker, this.map_directions)
+                      ) }
                     >
                         <MapView.Marker
                           ref={ (marker) => ( this.marker = marker ) }
@@ -80,11 +83,16 @@ const AddLocation = function (props) {
                           apikey={ props.GOOGLE_API_KEY }
                           strokeWidth={ 3 }
                           strokeColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color }
+                          onStart={ props.mapDirectionsLoading }
+                          onReady={ props.mapDirectionsReady }
+                          onError={ props.handleError }
                         />
                     </MapView>
                 </View>
                 <Content contentContainerStyle={ [Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch] }>
-                    <View style={ [Styles.backgroundWrapperTransparent, styles.mapViewOverlay] } />
+                    <View style={ [Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignCenter, Styles.backgroundWrapperTransparent, styles.mapViewOverlay] }>
+                        { props.mapLoading && <Spinner color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } /> }
+                    </View>
                     <View style={ [Styles.flex, Styles.backgroundWrapper]}>
                         { !props.cartCollapsed &&  <List
                               contentContainerStyle={ [Styles.table] }
@@ -143,31 +151,27 @@ const AddLocation = function (props) {
                                 </View>
                             </ListItem>
                             <ListItem itemDivider></ListItem>
-                            <ListItem noIndent style={ [Styles.noBorderBottom] }>
-                                <View style={ [Styles.row, Styles.paddingTop, Styles.paddingBottom] }>
-                                    <Left>
-                                        <View>
-                                            <Text style={ [Styles.textBold] }>
-                                                { (!props.order.location.address)? "Delivery Time:" : "Address:" }
+                            <ListItem noIndent style={ [Styles.noBorderBottom, { paddingTop: 20, paddingBottom: 20}] }>
+                                <Left style={ [Styles.height100, Styles.flexColumn, Styles.flexJustifyStart, Styles.flexAlignStart, { maxWidth: 100 }] }>
+                                    <Text style={ [Styles.textBold, Styles.textLeft, Styles.width100] }>
+                                        { (!props.order.location.address)? "Delivery Time:" : "Address:" }
+                                    </Text>
+                                </Left>
+                                { (props.order.location.address || props.order.location.duration) && <Right style={ [Styles.flex, Styles.paddingRight] }>
+                                        { (props.order.location.name || props.order.location.address) && <Text>
+                                                { props.order.location.name + ', ' + props.order.location.address }
                                             </Text>
-                                        </View>
-                                        <View style={ [Styles.paddingLeft, Styles.flexColumn, Styles.flexJustifyStart, Styles.flexAlignStretch] }>
-                                            { (props.order.location.name || props.order.location.address) && <Text style={ [Styles.marginBottom] }>
-                                                    { props.order.location.name + ', ' + props.order.location.address }
-                                                </Text>
-                                            }
-                                            { props.order.location.duration && props.order.location.durationUnits && <Text style={ [Styles.paddingRight, Styles.marginRight, Styles.width100] }>
-                                                    { ( (!props.order.location.address)? "Approx. " : "Delivery in approx. " ) + props.order.location.duration + " " + props.order.location.durationUnits }
-                                                </Text>
-                                            }
-                                        </View>
-                                    </Left>
-                                    { !props.order.location.address && !props.order.location.duration && <Right style={ [Styles.paddingRight] }>
-                                            <Text>N/A</Text>
-                                        </Right>
-                                    }
-                                    { (props.order.location.address && props.order.location.duration) && <Right /> }
-                                </View>
+                                        }
+                                        { props.order.location.duration && props.order.location.durationUnits && <Text>
+                                                { ((!props.order.location.address)? "Approx. " : "Delivery in approx. ") + props.order.location.duration + " " + props.order.location.durationUnits }
+                                            </Text>
+                                        }
+                                    </Right>
+                                }
+                                { !props.order.location.address && !props.order.location.duration && <Right style={ [Styles.flex, Styles.paddingRight] }>
+                                        <Text>N/A</Text>
+                                    </Right>
+                                }
                             </ListItem>
                         </List>
                     </View>

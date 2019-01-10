@@ -135,32 +135,27 @@ const ReOrder = function (props) {
                         </View>
                     </ListItem>
                     <ListItem itemDivider></ListItem>
-                    <ListItem noIndent style={ [Styles.noBorderBottom] }>
-                        <View style={ [Styles.row, Styles.paddingTop, Styles.paddingBottom] }>
-                            <Left>
-                                <View>
-                                    <Text style={ [Styles.textBold] }>
-                                        { (props.order.location && !props.order.location.address)? "Delivery Time:" : "Address:" }
+                    <ListItem noIndent style={ [Styles.noBorderBottom, { paddingTop: 20, paddingBottom: 20}] }>
+                        <Left style={ [Styles.height100, Styles.flexColumn, Styles.flexJustifyStart, Styles.flexAlignStart, { maxWidth: 100 }] }>
+                            <Text style={ [Styles.textBold, Styles.textLeft, Styles.width100] }>
+                                { (!props.order.location.address)? "Delivery Time:" : "Address:" }
+                            </Text>
+                        </Left>
+                        { (props.order.location.address || props.order.location.duration) && <Right style={ [Styles.flex, Styles.paddingRight] }>
+                                { (props.order.location.name || props.order.location.address) && <Text>
+                                        { props.order.location.name + ', ' + props.order.location.address }
                                     </Text>
-                                </View>
-                                { props.order.location && <View style={ [Styles.paddingLeft, Styles.flexColumn, Styles.flexJustifyStart, Styles.flexAlignStretch] }>
-                                        { (props.order.location.name || props.order.location.address) && <Text style={ [Styles.marginBottom] }>
-                                                { props.order.location.name + ', ' + props.order.location.address }
-                                            </Text>
-                                        }
-                                        { props.order.location.duration && <Text style={ [Styles.paddingRight, Styles.marginRight, Styles.width100] }>
-                                                { ((!props.order.location.address)? "Approx. " : "Delivered in approx. ") + props.order.location.duration + " " + props.order.location.durationUnits }
-                                            </Text>
-                                        }
-                                    </View>
                                 }
-                            </Left>
-                            { ( !props.order.location || (!props.order.location.address && !props.order.location.duration) ) && <Right style={ [Styles.paddingRight] }>
-                                    <Text>N/A</Text>
-                                </Right>
-                            }
-                            { ( props.order.location && (props.order.location.address || props.order.location.duration) ) && <Right /> }
-                        </View>
+                                { props.order.location.duration && props.order.location.durationUnits && <Text>
+                                        { ((!props.order.location.address)? "Approx. " : "Delivered in approx. ") + props.duration + " " + props.durationUnits }
+                                    </Text>
+                                }
+                            </Right>
+                        }
+                        { !props.order.location.address && !props.order.location.duration && <Right style={ [Styles.flex, Styles.paddingRight] }>
+                                <Text>N/A</Text>
+                            </Right>
+                        }
                     </ListItem>
                 </List>
             </Content>

@@ -7,8 +7,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { phonecall, textWithoutEncoding } from 'react-native-communications';
-import Moment from 'moment';
+import moment from 'moment';
 import { BackHandler } from 'react-native'; // Version can be specified in package.json
+
+/**
+* Import Configurations
+*/
+import { GOOGLE_API_KEY } from '../../config';
 
 /**
 * Import Utilities
@@ -20,7 +25,7 @@ import isEmpty from '../../utilities/isEmpty';
  * Import Actions
 */
 import fetchHotpoints from '../../actions/hotpoints';
-import confirmOrderDelivery from '../../actions/confirmOrderDelivery';
+import confirmOrder from '../../actions/confirmOrder';
 
 /**
  * Import Components
@@ -41,10 +46,13 @@ class OrderStatus extends Component<Props> {
         this.state = {
             loading: false,
             errors: {},
+            mapLoading: false,
             mapReady: false,
             hotpoint: props.hotpoints[props.order.hotpoint.key] || props.order.hotpoint,
             duration: props.order.location.duration,
+            _duration: props.order.location._duration,
             durationUnits: props.order.location.durationUnits,
+            timestamp: props.order.queuedDate
         };
 
         // Initialize other variables
@@ -52,21 +60,26 @@ class OrderStatus extends Component<Props> {
         this.map = undefined;
         this.marker = undefined;
         this.hotpoint_markers = undefined;
-        this.map_directions = undefined;
+        this.map_direction = undefined;
 
         // Bind functions to this
         this.handleError = this.handleError.bind(this);
         this.mapReady = this.mapReady.bind(this);
+        this.mapDirectionsLoading = this.mapDirectionsLoading.bind(this);
+        this.mapDirectionsReady = this.mapDirectionsReady.bind(this);
+        this.fetchHotpoints = this.fetchHotpoints.bind(this);
         this.calculateDuration = this.calculateDuration.bind(this);
         this.shop = this.shop.bind(this);
         this.orders = this.orders.bind(this);
         this.forward = this.forward.bind(this);
         this.messageHotpoint = this.messageHotpoint.bind(this);
         this.callHotpoint = this.callHotpoint.bind(this);
-        this.confirmOrderDelivery = this.confirmOrderDelivery.bind(this);
+        this.confirmOrder = this.confirmOrder.bind(this);
     }
 
     componentWillMount() {
+
+        this.fetchHotpoints(true);
 
         this.calculateDuration();
 
@@ -79,44 +92,102 @@ class OrderStatus extends Component<Props> {
         this.androidBackListener = BackHandler.addEventListener("hardwareBackPress", () => true);
     }
 
-    componentWillUnmount() {
-        return clearInterval(this.durationInterval);
+    componentWillReceiveProps(props) {
+
+        if (!isEmpty(props.hotpoints))
+            this.handleHotpoint(props.hotpoints[this.props.order.hotpoint.key]);
+
+        return this.setState({ orders: props.orders });
     }
 
-    componentWillReceiveProps(props) {
-        return this.setState({ orders: props.orders });
+    componentWillUnmount() {
+        return clearInterval(this.durationInterval);
     }
 
     mapReady(map, marker, hotpoint_marker, directions) {
 
         this.map = map;
+        this.map.animateToRegion(this.props.order.location);
+        this.map.fitToCoordinates([this.props.order.location, this.state.hotpoint.location]);
 
         this.marker = marker;
+        this.marker.animateMarkerToCoordinate(this.props.order.location);
 
-        this.hotpoint_marker = marker;
+        this.hotpoint_marker = hotpoint_marker;
+        this.hotpoint_marker.animateMarkerToCoordinate(this.state.hotpoint.location);
 
         this.map_directions = directions;
 
-        return this.setState({ mapReady: true });
+        return this.setState({ mapReady: true, mapLoading: false });
     }
 
     handleHotpoint(hotpoint) {
 
-        if (this.state.mapReady && !isEmpty(this.map) && !isEmpty(this.hotpoint_marker) && !isEmpty(this.map_directions)) {
+        if (this.state.mapReady && !isEmpty(this.map) && !isEmpty(this.marker) && !isEmpty(this.hotpoint_marker) && !isEmpty(this.map_directions)) {
 
-            this.hotpoint_marker.animateMarkerToCoordinate(hotpoints.location);
+            this.hotpoint_marker.animateMarkerToCoordinate(hotpoint.location);
 
-            this.map_directions.
+            this.map.fitToCoordinates([this.props.order.location, hotpoint.location]);
         }
 
         return this.setState({ hotpoint: hotpoint || this.state.hotpoint });
     }
 
-    calculateDuration() {
+    handleError(error) {
 
-        let duration = durationFormat(this.props.order.location._duration - Moment(new Date()).diff(Moment(this.props.order.date), 'hours', true));
+        let errors = this.state.errors;
 
-        return this.setState({ duration: duration.duration, durationUnits: duration.units });
+        errors.global = {
+            type: (error.response)? error.response.status : error.name,
+            message: (error.response)? error.response.statusText : (error.message)? error.message : error
+        };
+
+        Error(errors.global, 5000);
+
+        return this.setState({ errors, loading: false, mapLoading: false });
+    }
+
+    fetchHotpoints(silent) {
+
+        // Validation
+        let errors = {};
+
+        // Hand;e Data Submission to server
+        if (isEmpty(errors)) {
+
+            if (!silent && !this.state.loading) this.setState({ loading: true });
+
+            return this.props.fetchHotpoints({ silent: silent }).then(
+                (data) => {
+
+                    if (!isEmpty(data) && !isEmpty(data.errors))
+                        return this.handleError(data.errors[0]);
+                    else
+                        return this.setState({ loading: false, done: true, errors: {} });
+                },
+                this.handleError
+            ).catch(this.handleError);
+        }
+    }
+
+    calculateDuration(_duration) {
+
+        let duration = durationFormat(this.state._duration - Moment(new Date()).diff(Moment(this.state.timestamp), 'hours', true));
+
+        return this.setState({ duration: (duration.duration < 1)? 0 : duration.duration, durationUnits: duration.units });
+    }
+
+    mapDirectionsLoading(directions) {
+        return this.setState({ mapLoading: true });
+    }
+
+    mapDirectionsReady(directions) {
+
+        let duration = durationFormat(directions.duration / 60);
+
+        if (!isEmpty(this.map)) this.map.fitToCoordinates(directions.coordinates);
+
+        return this.setState({ duration: duration.duration, _duration: duration.duration, durationUnits: duration.units, timestamp: (new Date()).getTime() });
     }
 
     shop() {
@@ -140,21 +211,7 @@ class OrderStatus extends Component<Props> {
         return phonecall(this.props.order.hotpoint.phone, true);
     }
 
-    handleError(error) {
-
-        let errors = this.state.errors;
-
-        errors.global = {
-            type: (error.response)? error.response.status:error.name,
-            message: (error.response)? error.response.statusText:error.message
-        };
-
-        Error(errors.global, 5000);
-
-        return this.setState({ errors, loading: false });
-    };
-
-    confirmOrderDelivery() {
+    confirmOrder() {
 
         // Validation
         let errors = {};
@@ -165,7 +222,7 @@ class OrderStatus extends Component<Props> {
 
             this.setState({ loading: true });
 
-            return this.props.confirmOrderDelivery(this.props.order).then(
+            return this.props.confirmOrder(this.props.order).then(
                 (data) => {
 
                     if (!isEmpty(data.errors)) {
@@ -190,16 +247,23 @@ class OrderStatus extends Component<Props> {
     render() {
         return (
             <OrderStatusComponent
-              user={ this.props.user.gender }
+              gender={ this.props.user.gender }
+              GOOGLE_API_KEY={ GOOGLE_API_KEY }
               loading={ this.state.loading }
+              mapLoading={ this.state.mapLoading }
               errors={ this.state.errors }
               order={ this.props.order }
+              hotpoint={ this.state.hotpoint }
               duration={ this.state.duration }
               durationUnits={ this.state.durationUnits }
+              handleError={ this.handleError }
+              mapReady={ this.mapReady }
+              mapDirectionsLoading={ this.mapDirectionsLoading }
+              mapDirectionsReady={ this.mapDirectionsReady }
               forward={ this.forward }
               messageHotpoint={ this.messageHotpoint }
               callHotpoint={ this.callHotpoint }
-              confirmOrderDelivery={ this.confirmOrderDelivery }
+              confirmOrder={ this.confirmOrder }
             />
         )
     }
@@ -213,7 +277,8 @@ OrderStatus.propTypes = {
     user: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
     orders: PropTypes.object.isRequired,
-    confirmOrderDelivery: PropTypes.func.isRequired
+    confirmOrder: PropTypes.func.isRequired,
+    fetchHotpoints: PropTypes.func.isRequired
 };
 
 /**
@@ -223,7 +288,8 @@ function mapStateToProps(state) {
     return {
         languages: state.languages,
         user: state.user,
-        orders: state.orders
+        orders: state.orders,
+        hotpoints: state.hotpoints
     };
 }
 
@@ -232,7 +298,8 @@ function mapStateToProps(state) {
 */
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        confirmOrderDelivery: confirmOrderDelivery
+        confirmOrder: confirmOrder,
+        fetchHotpoints: fetchHotpoints
     }, dispatch);
 }
 

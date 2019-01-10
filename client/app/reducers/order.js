@@ -131,6 +131,8 @@ export default function (state = {}, action = {}) {
 
         case 'ORDER_DRAFTED':
 
+            // if (action.order)
+
             return {
                 products: [],
                 quantity: 0,
@@ -141,6 +143,8 @@ export default function (state = {}, action = {}) {
             }
 
         case 'ORDER_SUBMITTED':
+
+            // if ()
 
             return {
                 products: [],

@@ -17,10 +17,12 @@ export default function(friends) {
 
                 try {
 
+                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
+
                     return (
-                        firebase.functions().httpsCallable('invite')({ friends: friends })
-                        .then( (invitations) => ( resolve(invitations.val()) ) )
-                        .catch( (error) => ( resolve({ errors: [error] }) ) )
+                        firebase.functions().httpsCallable('invite')(friends)
+                        .then( (invitations) => ( resolve(invitations.val()) ), errorHandler)
+                        .catch(errorHandler)
                     );
 
                 } catch (error) {

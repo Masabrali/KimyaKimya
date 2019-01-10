@@ -46,12 +46,12 @@ export default function(order, products) {
                             resolve(order);
 
                             return dispatch( setOrder(order) );
-                        } )
+                        }, errorHandler)
                         .catch(errorHandler);
 
                         return (
                             firebase.database().ref('orders/drafts/' + currentUser.uid + '/' + order.key).remove()
-                            .then( (order) => ( order ) )
+                            .then( (order) => ( order ), errorHandler)
                             .catch(errorHandler)
                         );
 
