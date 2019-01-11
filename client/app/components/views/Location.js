@@ -112,7 +112,7 @@ const Order = function (props) {
 
             <StatusBar />
 
-            <Content keyboardShouldPersistTaps="handle" contentContainerStyle={ [Styles.flex] }>
+            <View style={ [Styles.flex] }>
                 <View style={ [Styles.positionAbsolute, Styles.verticalPositionTop, Styles.verticalPositionBottom, Styles.horizontalPositionLeft, Styles.horizontalPositionRight, Styles.flexJustifyCenter, Styles.flexAlignCenter] }>
                     <MapView
                       ref={ (map) => ( this.map = map ) }
@@ -158,29 +158,30 @@ const Order = function (props) {
                     </View>
                 }
 
-                { props.locationFocused && (props.locationsLoading || !isEmpty(props.locations)) && <View style={ [Styles.positionAbsolute, Styles.verticalPositionTop, Styles.verticalPositionBottom, Styles.horizontalPositionLeft, Styles.horizontalPositionRight, Styles.backgroundTransparent] } /> }
-
-                { props.locationFocused && (props.locationsLoading || !isEmpty(props.locations)) && <View style={ [Styles.flexColumn, Styles.flexJustifyStart, Styles.flexAlignStretch, Styles.backgroundWrapper] }>
-                        { props.locationsLoading && <View style={ [Styles.flexRow, Styles.flexJustifyCenter] }>
-                                <Spinner color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } />
+                { props.locationFocused && <Content keyboardShouldPersistTaps="handle" contentContainerStyle={ [Styles.flex] }>
+                        { props.locationFocused && (props.locationsLoading || !isEmpty(props.locations)) && <View style={ [Styles.flexColumn, Styles.flexJustifyStart, Styles.flexAlignStretch, Styles.backgroundWrapper] }>
+                                { props.locationsLoading && <View style={ [Styles.flexRow, Styles.flexJustifyCenter, Styles.flexAlignCenter] }>
+                                        <Spinner color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } />
+                                    </View>
+                                }
+                                { !isEmpty(props.locations) && <List
+                                      dataArray={ props.locations }
+                                      dataSource={ props.dataSource.cloneWithRows(props.locations) }
+                                      renderRow={ (location) =>
+                                          <ListItem onPress={ () => (props.selectLocation(location, this.locationInput)) } key={ location.id } style={ [Styles.noPadding, Styles.noMargin] }>
+                                              <Body style={ [Styles.flex, Styles.noPadding, Styles.noMargin, Styles.paddingLeft] }>
+                                                  <Text numberOflines={1}>{ location.name }</Text>
+                                                  <Text style={ [styles.locationDescription] }>{ location.address || location.formatted_address }</Text>
+                                              </Body>
+                                          </ListItem>
+                                      }
+                                    />
+                                }
                             </View>
                         }
-                        { !isEmpty(props.locations) && <List
-                              dataArray={ props.locations }
-                              dataSource={ props.dataSource.cloneWithRows(props.locations) }
-                              renderRow={ (location) =>
-                                  <ListItem onPress={ () => (props.selectLocation(location, this.locationInput)) } key={ location.id } style={ [Styles.noPadding, Styles.noMargin] }>
-                                      <Body style={ [Styles.flex, Styles.noPadding, Styles.noMargin, Styles.paddingLeft] }>
-                                          <Text numberOflines={1}>{ location.name }</Text>
-                                          <Text style={ [styles.locationDescription] }>{ location.address || location.formatted_address }</Text>
-                                      </Body>
-                                  </ListItem>
-                              }
-                            />
-                        }
-                    </View>
+                    </Content>
                 }
-            </Content>
+            </View>
 
             <Loader visible={ props.loading && isEmpty(props.errors) } text="Setting Location..." spinnerColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color }  />
         </Container>

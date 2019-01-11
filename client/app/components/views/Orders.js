@@ -152,7 +152,7 @@ const Orders = function (props) {
                 />
               }
               keyboardShouldPersistTaps="handle"
-              contentContainerStyle={ (isEmpty(props.orders[props.segment]) && !props.loading && !props.refreshing && [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch]) }
+              contentContainerStyle={ (isEmpty(props.orders[props.segment]) && !props.loading && !props.refreshing && [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch]) || ([Styles.halfPaddingLeft]) }
             >
                 { (props.loading || (props.refreshing && isEmpty(props.orders[props.segment]))) && <View style={ [Styles.flexRow, Styles.flexJustifyCenter] }>
                         <Spinner color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } />

@@ -10,6 +10,7 @@ import { Container, ActionSheet, Header, Left, Right, Body, Title, Content, List
 */
 import currencyFormat from '../../utilities/currencyFormat';
 import titleCase from '../../utilities/titleCase';
+import isEmpty from '../../utilities/isEmpty';
 import isIOS from '../../utilities/isIOS';
 import isAndroid from '../../utilities/isAndroid';
 

@@ -12,7 +12,7 @@ import isEmpty from './../utilities/isEmpty';
 * Define the reducer
 */
 export default function (state = {}, action = {}) {
-    
+
     let _key;
     let currentUser = firebase.auth().currentUser;
     let sort = (_orders) => {
@@ -84,9 +84,12 @@ export default function (state = {}, action = {}) {
 
         case 'ORDER_DELETED':
 
-            Object.keys(action.order).map( (key) => (
-                delete state[(action.order[key].draft)? 'drafts' : (action.order[key].queued)? 'queued' : 'previous'][key]
-            ) );
+            Object.keys(action.order).map( (key) => {
+
+                _key = (action.order[key].draft)? 'drafts' : (action.order[key].queued)? 'queued' : 'previous';
+
+                return ((isArray(state[_key]))? state[_key].splice(key, 1) : delete state[_key][key]);
+            } );
 
             return { ...state };
 

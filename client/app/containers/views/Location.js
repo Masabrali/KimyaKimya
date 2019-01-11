@@ -179,7 +179,7 @@ class Location extends Component<Props> {
 
         Error(errors.global, 5000);
 
-        return this.setState({ errors, loading: false, done: false });
+        return this.setState({ errors, loading: false, locationsLoading: false, done: false });
     }
 
     /**
@@ -525,7 +525,7 @@ class Location extends Component<Props> {
                     if (data.error_message)
                         return this.handleError({name: data.status, message: data.error_message})
                     else
-                        return this.setState({ loading: false, done: true, errors: {} });
+                        return this.setState({ loading: false, locationsLoading: false, done: true, errors: {} });
                 },
                 this.handleError
             ).catch(this.handleError);
@@ -567,7 +567,10 @@ class Location extends Component<Props> {
                                 return handleError({name: data.status, message: data.error_message});
                             else
                                 return this.handleError({name: data.status, message: data.error_message});
-                        } else
+                        } else {
+
+                            this.setState({ loading: false, locationsLoading: false, done: true, errors: {} });
+
                             return handleLocations(
                                 (data.candidates || data.results).map(
                                     (place) => ({
@@ -579,6 +582,7 @@ class Location extends Component<Props> {
                                     })
                                 )
                             );
+                        }
                     }, errorHandler
                 ).catch(this.handleError);
             } else
@@ -780,7 +784,7 @@ class Location extends Component<Props> {
     /**
     * Search for Location using Key
     */
-    searchLocation(key) {
+    searchLocation(key) { console.log('search')
 
         if (!key || key === '')
             return this.setState({ locations: this.props.locations, locationKey: undefined });

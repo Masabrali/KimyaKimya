@@ -9,6 +9,8 @@ import isArray from './../utilities/isArray';
 */
 export default function (state = {}, action = {}) {
 
+    let category;
+
     switch(action.type) {
 
         case 'PRODUCTS_FETCHED':
@@ -39,12 +41,9 @@ export default function (state = {}, action = {}) {
 
             Object.keys(action.product).map( (key) => {
 
-                if (isArray(state[action.product[key].category]))
-                    state[action.product[key].category].splice(key, 1);
-                else
-                    delete state[action.product[key].category][key];
+                category = action.product[key].category;
 
-                return action.product[key];
+                return ( (isArray(state[category]))? state[category].splice(key, 1) : delete state[category][key] );
             } );
 
             return { ...state };

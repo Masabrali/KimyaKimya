@@ -21,7 +21,7 @@ import handleError from './handleError';
 */
 import setContacts from './dispatches/setContacts';
 
-export function handlePermission(callback, error) {
+export function handlePermission() {
 
     return (
 
@@ -84,34 +84,36 @@ export function handlePermission(callback, error) {
     );
 }
 
-export default function(key, user) {
+export default function contacts(key, user) {
 
     return ( (dispatch) => {
         return (
             new Promise( (resolve, reject) => {
                 try {
 
-                    let _resolve = (contacts, actionType) => {
+                    let _resolve = (contacts) => {
 
                         contacts = contacts.map( (contact) => {
 
-                            contact.phoneNumbers = contact.phoneNumbers.map( (phoneNumber) => {
+                                contact.phoneNumbers = contact.phoneNumbers.map( (phoneNumber) => {
 
-                                if (phoneNumber.number.charAt(0) == '0')
-                                    phoneNumber.number = (user.countryCode + phoneNumber.number.substr(1))
+                                    if (phoneNumber.number.charAt(0) == '0')
+                                        phoneNumber.number = (user.countryCode + phoneNumber.number.substr(1))
 
-                                phoneNumber.number = phoneNumber.number.replace(/\s/g,'');
+                                    phoneNumber.number = phoneNumber.number.replace(/\s/g,'');
 
-                                return phoneNumber;
-                            } );
+                                    return phoneNumber;
+                                } );
 
-                            return contact;
-                        } );
+                                return contact;
+                            }
+                        ).sort( (contactA, contactB) => (
+                            (contactA.givenName + contactA.middleName + contactA.familyName) - (contactB.givenName + contactB.middleName + contactB.familyName)
+                        ) );
+
+                        if (!isEmpty(contacts.errors)) return handleError(contacts.errors[0].message);
 
                         resolve(contacts);
-
-                        if (!isEmpty(contacts.errors)) handleError(contacts.errors[0].message);
-                        else dispatch( setContacts(contacts, actionType) );
 
                         return contacts;
                     };
@@ -127,20 +129,11 @@ export default function(key, user) {
 
                         if (!isEmpty(permission.errors)) return resolve(permission);
                         else if (permission == 'authorized' || permission == 'granted') {
-
-                            if (!key)
-                                return Contacts.getAll( (err, contacts) => {
-
-                                    if (err) return reject(err);
-                                    else return _resolve(contacts, 'CONTACTS_FETCHED');
-                                } );
-                            else
-                                return Contacts.getContactsMatchingString(key, (err, contacts) => {
-
-                                    if (err) return reject(err);
-                                    else return _resolve(contacts, 'CONTACTS_SEARCHED');
-                                });
+                            return Contacts.getContactsMatchingString(key, (err, contacts) => (
+                                (err)? _reject(err) : _resolve(contacts)
+                            ) );
                         } else return _resolve(permission);
+
                     }, _reject)
                     .catch(_reject);
 

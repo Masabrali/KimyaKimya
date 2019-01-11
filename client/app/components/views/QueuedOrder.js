@@ -97,60 +97,51 @@ const QueuedOrder = function (props) {
                     </View>
                     <View style={ [Styles.flex, Styles.backgroundWrapper]}>
                         { !props.cartCollapsed && <List
-                              contentContainerStyle={ [Styles.table] }
                               dataArray={ props.order.products }
                               renderRow={ (product) =>
-                                  <ListItem key={ product.id }>
-                                      <View style={ [Styles.row, Styles.paddingTop, Styles.paddingBottom] }>
-                                          <Left>
-                                              <Text numberOfLines={1} style={ [Styles.textAlignLeft] }>{ product.quantity + "  " + product.name }</Text>
-                                          </Left>
-                                          <Right style={ [Styles.flex] }>
-                                              <Text style={ [Styles.textAlignRight] }>{ currencyFormat(product.amount) }</Text>
-                                          </Right>
-                                      </View>
+                                  <ListItem key={ product.id } style={ [Styles.doublePaddingTop, Styles.doublePaddingBottom] }>
+                                      <Left>
+                                          <Text numberOfLines={1} style={ [Styles.textAlignLeft] }>{ product.quantity + "  " + product.name }</Text>
+                                      </Left>
+                                      <Right style={ [Styles.flex, Styles.halfPaddingRight] }>
+                                          <Text style={ [Styles.textAlignRight] }>{ currencyFormat(product.amount) }</Text>
+                                      </Right>
                                   </ListItem>
                               }
                             />
                         }
-                        <List contentContainerStyle={ [Styles.table] }>
-                            <ListItem noIndent>
-                                <View style={ [Styles.row, Styles.paddingTop, Styles.paddingBottom] }>
-                                    <Left>
-                                        <Text style={ [Styles.textAlignLeft, Styles.textBold] }>
-                                            { props.order.quantity + " Item" + ((props.order.quantity > 1)? "s":"") + ", Totalling" }
-                                        </Text>
-                                    </Left>
-                                    <Right style={ [Styles.flex, Styles.paddingRight] }>
-                                        <Text style={ [Styles.textAlignRight, Styles.textBold] }>
-                                            { currencyFormat(props.order.amount) }
-                                        </Text>
-                                    </Right>
-                                </View>
+                        <List>
+                            <ListItem noIndent style={ [Styles.doublePaddingTop, Styles.doublePaddingBottom] }>
+                                <Left>
+                                    <Text style={ [Styles.textAlignLeft, Styles.textBold] }>
+                                        { props.order.quantity + " Item" + ((props.order.quantity > 1)? "s":"") + ", Totalling" }
+                                    </Text>
+                                </Left>
+                                <Right style={ [Styles.flex, Styles.paddingRight] }>
+                                    <Text style={ [Styles.textAlignRight, Styles.textBold] }>
+                                        { currencyFormat(props.order.amount) }
+                                    </Text>
+                                </Right>
                             </ListItem>
-                            <ListItem noIndent>
-                                <View style={ [Styles.row, Styles.paddingTop, Styles.paddingBottom] }>
-                                    <Left>
-                                        <Text style={ [Styles.textAlignLeft, Styles.textBold] }>Delivery</Text>
-                                    </Left>
-                                    <Right style={ [Styles.flex, Styles.paddingRight] }>
-                                        <Text style={ [Styles.textAlignRight, Styles.textBold] }>
-                                            { currencyFormat(props.order.delivery) }
-                                        </Text>
-                                    </Right>
-                                </View>
+                            <ListItem noIndent style={ [Styles.doublePaddingTop, Styles.doublePaddingBottom] }>
+                                <Left>
+                                    <Text style={ [Styles.textAlignLeft, Styles.textBold] }>Delivery</Text>
+                                </Left>
+                                <Right style={ [Styles.flex, Styles.paddingRight] }>
+                                    <Text style={ [Styles.textAlignRight, Styles.textBold] }>
+                                        { currencyFormat(props.order.delivery) }
+                                    </Text>
+                                </Right>
                             </ListItem>
-                            <ListItem noIndent>
-                                <View style={ [Styles.row, Styles.paddingTop, Styles.paddingBottom] }>
-                                    <Left>
-                                        <Text style={ [Styles.textAlignLeft, Styles.textBold] }>Grand Total</Text>
-                                    </Left>
-                                    <Right style={ [Styles.flex, Styles.paddingRight] }>
-                                        <Text style={ [Styles.textAlignRight, Styles.textBold] }>
-                                            { currencyFormat(props.order.amount + props.order.delivery) }
-                                        </Text>
-                                    </Right>
-                                </View>
+                            <ListItem noIndent style={ [Styles.doublePaddingTop, Styles.doublePaddingBottom] }>
+                                <Left>
+                                    <Text style={ [Styles.textAlignLeft, Styles.textBold] }>Grand Total</Text>
+                                </Left>
+                                <Right style={ [Styles.flex, Styles.paddingRight] }>
+                                    <Text style={ [Styles.textAlignRight, Styles.textBold] }>
+                                        { currencyFormat(props.order.amount + props.order.delivery) }
+                                    </Text>
+                                </Right>
                             </ListItem>
                             <ListItem itemDivider></ListItem>
                             <ListItem noIndent style={ [Styles.doublePaddingTop, Styles.doublePaddingBottom] }>

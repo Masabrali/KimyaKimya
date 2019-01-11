@@ -4,6 +4,7 @@ import android.app.Application;
 
 import android.content.IntentFilter;
 import com.facebook.react.ReactApplication;
+import com.tkporter.sendsms.SendSMSPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.centaurwarchief.smslistener.SmsListenerPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -44,6 +45,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+              SendSMSPackage.getInstance(),
               new SplashScreenReactPackage(),
               new SmsListenerPackage(),
               new ImagePickerPackage(),
