@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { ListView, BackHandler, Vibration } from 'react-native';
+import { ListView, BackHandler, Vibration, Keyboard } from 'react-native';
 import Moment from 'moment'; // Version can be specified in package.json
 
 /**
@@ -54,6 +54,7 @@ class Orders extends Component<Props> {
             refreshing: false,
             done: false,
             errors: {},
+            keyboardHeight: 0,
             cartSize: props.order.quantity,
             orders: props.orders,
             selected: {},
@@ -90,6 +91,17 @@ class Orders extends Component<Props> {
         this.checkout = this.checkout.bind(this);
     }
 
+    componentWillMount() {
+
+        Keyboard.addListener('keyboardDidShow', (e) => (
+            this.setState({ keyboardHeight: (e.endCoordinates)? e.endCoordinates.height : 0 })
+        ) );
+
+        Keyboard.addListener('keyboardDidHide', () => ( this.setState({ keyboardHeight: 0 }) ) );
+
+        return ( (isAndroid())? AndroidKeyboardAdjust.setAdjustPan() : 1 );
+    }
+
     componentDidMount() {
 
         if (isEmpty(this.props.orders.previous) && isEmpty(this.props.orders.drafts) && isEmpty(this.props.orders.queued)) this.refresh();
@@ -113,6 +125,9 @@ class Orders extends Component<Props> {
     }
 
     componentWillUnmount() {
+
+        Keyboard.removeAllListeners();
+
         if (isAndroid()) return AndroidKeyboardAdjust.setAdjustResize();
     }
 
@@ -165,8 +180,6 @@ class Orders extends Component<Props> {
 
                 return false;
             });
-
-            AndroidKeyboardAdjust.setAdjustPan();
         }
 
         return this.setState({ searchFocused: true });
@@ -209,20 +222,26 @@ class Orders extends Component<Props> {
         else {
 
             let orders = {};
+            let order;
             let _order = [];
             let _key = key.toString().toLowerCase();
-            let date;
 
             Object.keys(this.props.orders).map( (index) => {
-                orders[index] = this.props.orders[index].filter( (order) => {
+
+                orders[index] = orders[index] || {};
+
+                Object.keys(this.props.orders[index]).map( (_index) => {
+
+                    order = this.props.orders[index][_index];
 
                     _order = order.products.filter( (product) => {
                         return ((product.name.toLowerCase().search(_key) !== -1) || (product.description.toLowerCase().search(_key) !== -1) || (product.quantity == Number(key)) || (product.price == Number(_key)) || (product.amount == Number(_key)));
                     });
 
-                    if (!isEmpty(_order) || (order.location && ((order.location.name.toLowerCase().search(_key) != -1) || (order.location.address.toLowerCase().search(_key) != -1) || (order.location.country.toLowerCase().search(_key) != -1))) || Moment(order.date).format('DD MM YYYY MMMM').toLowerCase().search(_key) != -1 || ( isNumber(_key) && ((order.quantity == Number(_key)) || (order.amount == Number(_key)))))
-                        return order;
+                    if (!isEmpty(_order) || (order.location && ((order.location.name && order.location.name.toLowerCase().search(_key) != -1) || (order.location.address && order.location.address.toLowerCase().search(_key) != -1) || (order.location.country && order.location.country.toLowerCase().search(_key) != -1))) || Moment(order.date).format('DD MM YYYY MMMM').toLowerCase().search(_key) != -1 || ( isNumber(_key) && ((order.quantity == Number(_key)) || (order.amount == Number(_key)))))
+                        orders[index][_index] = order;
 
+                    return order;
                 } );
             } );
 
@@ -475,6 +494,7 @@ class Orders extends Component<Props> {
               loading={ this.state.loading }
               refreshing={ this.state.refreshing }
               errors={ this.state.errors }
+              keyboardHeight={ this.state.keyboardHeight }
               months={ this.props.months }
               gender={ this.props.user.gender }
               cartSize={ this.state.cartSize }
@@ -483,6 +503,7 @@ class Orders extends Component<Props> {
               selected={ this.state.selected }
               durations={ this.state.durations }
               searchFocused={ this.state.searchFocused }
+              searchKey={ this.state.searchKey }
               focusSearch={ this.focusSearch }
               clearSearch={ this.clearSearch }
               blurSearch={ this.blurSearch }

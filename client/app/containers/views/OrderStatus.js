@@ -221,8 +221,7 @@ class OrderStatus extends Component<Props> {
         let errors = {};
 
         // Hand;e Data Submission to server
-        if (!isEmpty(errors)) Error(errors[Object.keys(errors)[0]]);
-        else {
+        if (isEmpty(errors)) {
 
             this.setState({ loading: true });
 

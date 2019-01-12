@@ -51,7 +51,9 @@ export default function(order, products) {
 
                         return (
                             firebase.database().ref('orders/drafts/' + currentUser.uid + '/' + order.key).remove()
-                            .then( (order) => ( order ), errorHandler)
+                            .then( (order) => (
+                                (!isEmpty(order))? resolve({ errors: [order] }) : order
+                            ), errorHandler)
                             .catch(errorHandler)
                         );
 

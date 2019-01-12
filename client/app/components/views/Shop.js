@@ -100,7 +100,11 @@ const Shop = function (props) {
                 }
 
                 { isEmpty(props.products[props.segment]) && !props.loading && !props.refreshing  && <View style={ [Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignCenter] }>
-                        <Text style={ [Styles.label, Styles.textAlignCenter, Styles.padding, Styles.margin] }>{titleCase(props.segment)} not available in Stock Now</Text>
+                        <Text style={ [Styles.label, Styles.textAlignCenter, Styles.padding, Styles.margin] }>
+                            {
+                                (props.searchKey)? ('Products matching the key ' + props.searchKey + ' were not found in ' + titleCase(props.segment) + '.') : (titleCase(props.segment) + ' not available in Stock Now!')
+                            }
+                        </Text>
 
                         <View style={ [Styles.padding] }>
                             <Button bordered block onPress={ props.refresh }>
@@ -134,7 +138,7 @@ const Shop = function (props) {
                       }
                     />
                 }
-
+                { props.searchFocused && !isEmpty(props.products[props.segment]) && <View style={ [{height: props.keyboardHeight}] } /> }
             </Content>
         </Container>
     );

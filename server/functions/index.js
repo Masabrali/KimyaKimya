@@ -21,12 +21,6 @@ exports.updateRateWithMaintenance = functions.database.ref('delivery/maintenance
 exports.updateRateWithRate = functions.database.ref('rate').onWrite(updateRateModules.updateRateWithRate);
 
 /**
-* Invite Friends
-*/
-const inviteModules = require('./invite');
-exports.invite = functions.https.onCall(inviteModules.invite);
-
-/**
 * Get Hotpoint
 */
 const hotpointModules = require('./hotpoint');

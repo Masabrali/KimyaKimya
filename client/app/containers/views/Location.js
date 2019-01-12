@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import GooglePlaces from 'react-native-google-places';
 import Settings from 'react-native-settings';
-import { Alert, BackHandler, ListView, Dimensions } from 'react-native'; // Version can be specified in package.json
+import { Alert, BackHandler, ListView, Dimensions, StatusBar } from 'react-native'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -40,6 +40,11 @@ import setOrderHotpoint from '../../actions/orderHotpoint';
 import LocationComponent from '../../components/views/Location';
 import Error from '../../components/others/Error';
 
+/**
+* Import Styles
+*/
+import Styles from '../../components/styles';
+
 type Props = {};
 
 class Location extends Component<Props> {
@@ -54,8 +59,8 @@ class Location extends Component<Props> {
         const LATITUDE_DELTA = 0.0722; // const LATITUDE_DELTA = 0.0922;
 
         this.initialRegion = {
-            latitude: -6.8390920866185185,
-            longitude: 39.212374817579985,
+            latitude: -6.7724834,
+            longitude: 39.2664724,
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LATITUDE_DELTA * (screen.width / screen.height)
         };
@@ -228,7 +233,7 @@ class Location extends Component<Props> {
         else {
             if (isEmpty(this.state.order.location)) this.getCurrentLocation();
             else {
-                if (isEmpty(this.state.hotpoints)) this.fetchHotpoints(this.state.order.location);
+                if (isEmpty(this.state.hotpoints)) this.fetchHotpoints(this.state.location);
             }
         }
 
@@ -318,7 +323,7 @@ class Location extends Component<Props> {
                 if (animateRegion) this.map.animateToRegion(location);
                 else this.map.props.region = location;
             }
-
+            
             return this.setState({ location: location, selectedLocation: {}, loading: false, errors: {} });
 
         } else return 1;
@@ -331,9 +336,9 @@ class Location extends Component<Props> {
 
         location = { ...location };
 
-        location.latitudeDelta = location.latitudeDelta || (isEmpty(this.state.location))? this.initialRegion.latitudeDelta : this.state.location.latitudeDelta;
+        location.latitudeDelta = location.latitudeDelta || ((isEmpty(this.state.location))? this.initialRegion.latitudeDelta : this.state.location.latitudeDelta);
 
-        location.longitudeDelta = location.longitudeDelta || (isEmpty(this.state.location))? this.initialRegion.longitudeDelta : this.state.location.longitudeDelta;
+        location.longitudeDelta = location.longitudeDelta || ((isEmpty(this.state.location))? this.initialRegion.longitudeDelta : this.state.location.longitudeDelta);
 
         if (location != this.state.currentLocation) {
 
@@ -374,8 +379,14 @@ class Location extends Component<Props> {
         return this.geolocationWatchId = navigator.geolocation.watchPosition( (location) => this.handleCurrentLocation(location.coords),
             (error) => {
 
-                if (error.code != 1) return this.handleError(error);
-                else {
+                if (error.code != 1) {
+
+                    if (error.code == 2) this.setState({ turnOnLocationError: true });
+                    else this.setState({ turnOnLocationError: false });
+
+                    return this.handleError(error);
+
+                } else {
 
                     if (navigator.geolocation.requestAuthorization())
                         this.geolocationWatchId =  navigator.geolocation.watchPosition(
@@ -678,8 +689,15 @@ class Location extends Component<Props> {
                             return this.getCurrentPlace(this.handleLocation, () => (this.handleError(error)) );
                         else return 1;
                     });
-                } else if (error.code != 1 && error.code != 2) return this.handleError(error);
-                else {
+                } else if (error.code != 1 && error.code != 2) {
+
+                    this.setState({ turnOnLocationError: false });
+
+                    return this.handleError(error);
+
+                } else {
+
+                    this.setState({ turnOnLocationError: false });
 
                     if (navigator.geolocation.requestAuthorization())
                         return navigator.geolocation.getCurrentPosition(handleCurrentLocation,
@@ -762,6 +780,9 @@ class Location extends Component<Props> {
 
             this.locationInput = this.locationInput || location;
         }
+
+        StatusBar.setBarStyle('dark-content');
+        StatusBar.setBackgroundColor(Styles.backgroundHeader.backgroundColor);
 
         return this.setState({ locationFocused: false });
     }
@@ -853,8 +874,8 @@ class Location extends Component<Props> {
         let _location = {
             latitude: location.latitude || location.coordinate.latitude || location.geomentry.location.lat,
             longitude: location.longitude || location.coordinate.longitude || location.geomentry.location.lng,
-            latitudeDelta: location.latitudeDelta || location.coordinate.latitudeDelta,
-            longitudeDelta: location.longitudeDelta || location.coordinate.longitudeDelta,
+            latitudeDelta: location.latitudeDelta || location.coordinate.latitudeDelta || ((isEmpty(this.state.location))? this.initialRegion.latitudeDelta : this.state.location.latitudeDelta),
+            longitudeDelta: location.longitudeDelta || location.coordinate.longitudeDelta || ((isEmpty(this.state.location))? this.initialRegion.longitudeDelta : this.state.location.longitudeDelta),
             name: location.name,
             address: location.address || location.formatted_address
         };

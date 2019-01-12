@@ -3,6 +3,11 @@ import firebase from 'react-native-firebase';
 import deleteOrder from './dispatches/deleteOrder';
 
 /**
+* Import Utilities
+*/
+import isEmpty from '../utilities/isEmpty';
+
+/**
 * Import Error handler
 */
 import handleError from './handleError';
@@ -42,7 +47,9 @@ export default function(order) {
 
                     return (
                         firebase.database().ref(path + order.key).remove()
-                        .then( (order) => ( order ), errorHandler)
+                        .then( (order) => (
+                            (!isEmpty(order))? resolve({ errors: [order] }) : order
+                        ), errorHandler)
                         .catch(errorHandler)
                     );
 

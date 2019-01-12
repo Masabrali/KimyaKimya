@@ -7,6 +7,7 @@ import firebase from 'react-native-firebase';
 * Import Utilities
 */
 import isEmpty from './../utilities/isEmpty';
+import isArray from './../utilities/isArray';
 
 /**
 * Define the reducer
@@ -29,13 +30,14 @@ export default function (state = {}, action = {}) {
     switch(action.type) {
 
         case 'ORDERS_FETCHED':
-
+            console.log('fetched')
+            console.log(action.orders)
             let orders = action.orders || {};
 
             return {
-                previous: sort(( orders.previous || {} )[currentUser.uid] || state.previous || {}),
-                drafts: sort(( orders.drafts || {} )[currentUser.uid] || state.drafts || {}),
-                queued: sort(( orders.queued || {} )[currentUser.uid] || state.queued || {})
+                previous: sort(( orders.previous || {} )[currentUser.uid] || {}),
+                drafts: sort(( orders.drafts || {} )[currentUser.uid] || {}),
+                queued: sort(( orders.queued || {} )[currentUser.uid] || {})
             };
 
         case 'ORDER_ADDED':

@@ -3,6 +3,11 @@ import firebase from 'react-native-firebase';
 import draftOrder from './dispatches/draftOrder';
 
 /**
+* Import Utilities
+*/
+import isEmpty from '../utilities/isEmpty';
+
+/**
 * Import Error handler
 */
 import handleError from './handleError';
@@ -46,7 +51,9 @@ export default function(order) {
 
                     return (
                         dbRef.set(order)
-                        .then( (order) => ( order ), errorHandler)
+                        .then( (order) => (
+                            (!isEmpty(order))? resolve({ errors: [order] }) : order
+                        ), errorHandler)
                         .catch(errorHandler)
                     );
 

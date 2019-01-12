@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { BackHandler } from 'react-native';
+import { ListView, BackHandler, Keyboard } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import firebase from 'react-native-firebase'; // Version can be specified in package.json
 
@@ -47,6 +47,7 @@ class Shop extends Component<Props> {
             refreshing: false,
             done: false,
             errors: {},
+            keyboardHeight: 0,
             cartSize: props.order.quantity,
             products: props.products,
             segment: 'condoms',
@@ -60,6 +61,7 @@ class Shop extends Component<Props> {
         };
 
         // Initialize Class Members
+        this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         this.searchInput = undefined;
 
         // Bind functions to this
@@ -74,8 +76,18 @@ class Shop extends Component<Props> {
     }
 
     componentWillMount() {
+
         if (isEmpty(firebase.auth().currentUser)) return Actions.reset('root');
-        else return;
+        else {
+
+            Keyboard.addListener('keyboardDidShow', (e) => (
+                this.setState({ keyboardHeight: (e.endCoordinates)? e.endCoordinates.height : 0 })
+            ) );
+
+            Keyboard.addListener('keyboardDidHide', () => ( this.setState({ keyboardHeight: 0 }) ) );
+
+            return ( (isAndroid())? AndroidKeyboardAdjust.setAdjustPan() : 1 );
+        }
     }
 
     componentDidMount() {
@@ -97,6 +109,9 @@ class Shop extends Component<Props> {
     }
 
     componentWillUnmount() {
+
+        Keyboard.removeAllListeners();
+
         if (isAndroid()) return AndroidKeyboardAdjust.setAdjustResize();
     }
 
@@ -118,8 +133,6 @@ class Shop extends Component<Props> {
 
                 return false;
             });
-
-            AndroidKeyboardAdjust.setAdjustPan();
         }
 
         return this.setState({ searchFocused: true });
@@ -152,8 +165,6 @@ class Shop extends Component<Props> {
             if (!this.searchInput) this.searchInput = search;
         }
 
-        if (isAndroid()) AndroidKeyboardAdjust.setAdjustResize();
-
         return this.setState({ searchFocused: false, searchKey: undefined });
     }
 
@@ -164,13 +175,23 @@ class Shop extends Component<Props> {
         else {
 
             let products = {};
+            let product;
             let _key = key.toString().toLowerCase();
 
             Object.keys(this.props.products).map( (index) => {
-                products[index] = this.props.products[index].filter( (product) => {
-                    return ((product.name.toLowerCase().search(_key) !== -1) || (product.description.toLowerCase().search(_key) !== -1) || (product.price == Number(_key)));
-                });
-            });
+
+                products[index] = products[index] || {};
+
+                Object.keys(this.props.products[index]).map( (_index) => {
+
+                    product = this.props.products[index][_index];
+
+                    if ((product.name.toLowerCase().search(_key) !== -1) || (product.description.toLowerCase().search(_key) !== -1) || (product.price == Number(_key)))
+                        products[index][_index] = product;
+
+                    return product;
+                } );
+            } );
 
             return this.setState({ products: products, searchKey: key });
         }
@@ -246,12 +267,14 @@ class Shop extends Component<Props> {
               loading={ this.state.loading }
               refreshing={ this.state.refreshing }
               errors={ this.state.errors }
+              keyboardHeight={ this.state.keyboardHeight }
               gender={ this.props.user.gender }
               cartSize={ this.state.cartSize }
               segment={ this.state.segment }
               products={ this.state.products }
               thumbnail={ this.state.thumbnail[this.state.segment] }
               searchFocused={ this.state.searchFocused }
+              searchKey={ this.state.searchKey }
               focusSearch={ this.focusSearch }
               clearSearch={ this.clearSearch }
               blurSearch={ this.blurSearch }

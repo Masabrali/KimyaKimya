@@ -300,7 +300,6 @@ com/kimyakimya/MainApplication$1.class
 com/kimyakimya/MainApplication.class
 com/learnium/RNDeviceInfo/RNDeviceInfo.class
 com/rt2zz/reactnativecontacts/ReactNativeContacts.class
-com/tkporter/sendsms/SendSMSPackage.class
 io/grpc/CallOptions.class
 io/grpc/ClientInterceptor.class
 io/grpc/EquivalentAddressGroup$Attr.class

@@ -23,7 +23,7 @@ export default function(order) {
                     return (
                         firebase.functions().httpsCallable('confirmOrder')(order)
                         .then( (order) => {
-
+                            
                             resolve(order.data)
 
                             return dispatch( confirmOrder(order.data) );

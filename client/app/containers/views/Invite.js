@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { textWithoutEncoding } from 'react-native-communications';
-import { BackHandler } from 'react-native'; // Version can be specified in package.json
+import { BackHandler, Keyboard } from 'react-native'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -28,6 +28,16 @@ import searchContacts from '../../actions/contacts';
 import InviteComponent from '../../components/views/Invite';
 import Error from '../../components/others/Error';
 
+/**
+* Import Conditional Libraries
+*/
+const AndroidKeyboardAdjust = (isAndroid())? require('react-native-android-keyboard-adjust') : undefined; // Version can be specified in package.json
+
+/**
+* Import Styles
+*/
+import Styles from '../../components/styles';
+
 type Props = {};
 
 class Invite extends Component<Props> {
@@ -44,6 +54,7 @@ class Invite extends Component<Props> {
             errors: {},
             searchFocused: false,
             searchKey: undefined,
+            _contacts: [],
             contacts: [],
             selected:[]
         };
@@ -66,7 +77,23 @@ class Invite extends Component<Props> {
     }
 
     componentWillMount() {
+
+        Keyboard.addListener('keyboardDidShow', (e) => (
+            this.setState({ keyboardHeight: (e.endCoordinates)? e.endCoordinates.height : 0 })
+        ) );
+
+        Keyboard.addListener('keyboardDidHide', () => ( this.setState({ keyboardHeight: 0 }) ) );
+
+        if (isAndroid()) AndroidKeyboardAdjust.setAdjustPan();
+
         return this.handlePermission();
+    }
+
+    componentWillUnmount() {
+
+        // Keyboard.removeAllListeners();
+
+        if (isAndroid()) return AndroidKeyboardAdjust.setAdjustResize();
     }
 
     back() {
@@ -141,7 +168,7 @@ class Invite extends Component<Props> {
             });
         }
 
-        return this.setState({ searchFocused: true });
+        return this.setState({ searchFocused: true, contacts: this.state._contacts });
     }
 
     clearSearch(search) {
@@ -154,7 +181,11 @@ class Invite extends Component<Props> {
 
             this.search();
 
-            return this.setState({ searchKey: undefined });
+            return (
+                this.setState({
+                    searchKey: (!isEmpty(this.state._contacts))? this.state.searchKey : undefined
+                })
+            );
         }
     }
 
@@ -171,7 +202,13 @@ class Invite extends Component<Props> {
             if (!this.searchInput) this.searchInput = search;
         }
 
-        return this.setState({ searchFocused: false, searchKey: undefined });
+        return (
+            this.setState({
+                searchFocused: false,
+                searchKey: (!isEmpty(this.state._contacts))? this.state.searchKey : undefined,
+                contacts: []
+            })
+        );
     }
 
     search(key) {
@@ -180,34 +217,40 @@ class Invite extends Component<Props> {
             return this.setState({ searchKey: undefined });
         else {
 
-            /**
-            * Convert the search key into lower case
-            */
-            let _key = key.toString().toLowerCase();
+            if (key != this.state.searchKey) {
 
-            /**
-            * Set loading and Search for contact
-            */
-            if (!this.state.loading) this.setState({ loading: true });
+                this.setState({ searchKey: key });
 
-            return this.props.searchContacts(key, this.props.user).then( (contacts) => {
+                /**
+                * Convert the search key into lower case
+                */
+                let _key = key.toString().toLowerCase();
 
-                    if (contacts.errors) {
+                /**
+                * Set loading and Search for contact
+                */
+                if (!this.state.loading) this.setState({ loading: true });
 
-                        this.handleError(contacts.errors[0]);
+                return this.props.searchContacts(key, this.props.user).then( (contacts) => {
 
-                        return this.setState({ loading: false, done: false, errors: {} });
+                        if (contacts.errors) {
 
-                    } else
-                        return this.setState({
-                            contacts: contacts,
-                            searchKey: key,
-                            loading: false,
-                            done: true
-                        });
+                            this.handleError(contacts.errors[0]);
 
-                }, this.handleError
-            ).catch(this.handleError);
+                            return this.setState({ loading: false, done: false, errors: {} });
+
+                        } else
+                            return this.setState({
+                                _contacts: contacts,
+                                contacts: contacts,
+                                searchKey: key,
+                                loading: false,
+                                done: true
+                            });
+
+                    }, this.handleError
+                ).catch(this.handleError);
+            }
         }
     }
 
@@ -257,11 +300,9 @@ class Invite extends Component<Props> {
             return contact;
         } );
 
-        console.log(contacts)
+        textWithoutEncoding(contacts.join(';'), 'Try the Healthy and Enjoyable KimyaKimya experience for yourself. Click the link to download: https://kimyakimya-222006.firebaseapp.com/.');
 
-        return (
-            textWithoutEncoding(['+255757543371', '+255652273194'], 'Great things are ment to be enjoyed by all. Try the KimyaKimya experience for yourself. Click the link to download: https://kimyakimya-222006.firebaseapp.com/.')
-        );
+        return setTimeout( () => ( Actions.pop() ), 3000);
     }
 
     render() {
@@ -271,10 +312,12 @@ class Invite extends Component<Props> {
               back={ this.back }
               loading={ this.state.loading }
               errors={ this.state.errors }
+              keyboardHeight={ this.state.keyboardHeight }
               contacts={ this.state.contacts }
               selected={ this.state.selected }
-              startSearching={ this.startSearching }
               searchFocused={ this.state.searchFocused }
+              searchKey={ this.state.searchKey }
+              startSearching={ this.startSearching }
               focusSearch={ this.focusSearch }
               clearSearch={ this.clearSearch }
               blurSearch={ this.blurSearch }

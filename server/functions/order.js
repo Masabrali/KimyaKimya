@@ -45,7 +45,9 @@ exports.order = (order, context) => {
 
                     return (
                         dbRef.set(order)
-                        .then(resolve, reject)
+                        .then( (order) => (
+                            (order)? resolve({ errors: [order] }) : order
+                        ), reject)
                         .catch(reject)
                     );
                 }

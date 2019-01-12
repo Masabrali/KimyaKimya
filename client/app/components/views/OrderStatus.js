@@ -95,7 +95,7 @@ const OrderStatus = function (props) {
                             <Text style={ [Styles.textAlignCenter, styles.time] }>
                                 { props.duration + " " + props.durationUnits }
                             </Text>
-                            { props.duration != 0 && <Text style={ [Styles.halfMarginTop] }>Order has arrived</Text> }
+                            { props.duration == 0 && <Text style={ [Styles.halfMarginTop] }>Order has arrived</Text> }
                         </View>
 
                         <View style={ [Styles.flexAlignCenter, Styles.marginTop] }>

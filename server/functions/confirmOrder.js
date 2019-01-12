@@ -18,43 +18,42 @@ exports.confirmOrder = (order, context) => {
                     return resolve({ errors: [{ message: 'Invalid Order' }] });
                 else {
 
-                    console.log('confirmOrder')
                     let errorHandler = (error) => ( resolve({ errors: [error] }) );
-                    let dbRef;
+                    let queuedDbRef = admin.database().ref('orders/queued/' + context.auth.uid);
+                    let previousDbRef = admin.database().ref('orders/previous/' + context.auth.uid);
 
-                    admin.database().ref('orders/queued/' + context.auth.uid)
-                    .once('child_removed')
-                    .then( (order) => {
-                        console.log('child removed')
-                        dbRef = firebase.database.ref('orders/previous/' + context.auth.uid).push();
+                    previousDbRef.once('child_added').then( (order) => {
 
-                        order.date = firebase.database.ServerValue.TIMESTAMP;
+                        let _order = {};
+                        _order[order.key] = order.val();
 
-                        dbRef.set(order)
-                        .then( (order) => ( order ), errorHandler)
-                        .catch(errorHandler);
-
-                        return (
-                            dbRef.once('value')
-                            .then( (order) => {
-                                console.log('child added')
-                                let _order = {};
-                                _order[order.key] = order.val();
-
-                                return resolve(_order);
-
-                            }, reject)
-                            .catch(reject)
-                        );
-
+                        return resolve(_order);
                     }, reject)
                     .catch(reject);
-                    console.log('removing child')
-                    // return (
-                        admin.database().ref('orders/queued/' + context.auth.uid + '/' + order.key).remove()
-                        .then( (order) => ( order ), reject)
+
+                    return (
+                        queuedDbRef.child(order.key).remove()
+                        .then( (_order) => {
+                            
+                            if (_order) return resolve({ errors: [order] });
+                            else {
+
+                                let newPreviousDbRef = previousDbRef.push();
+
+                                order.key = newPreviousDbRef.key;
+                                order.id = newPreviousDbRef.key;
+                                order.queued = false;
+                                order.date = admin.database.ServerValue.TIMESTAMP;
+
+                                return (
+                                    newPreviousDbRef.set(order)
+                                    .then( (_order) => ( (_order)? resolve({ errors: [order] }) : _order ), reject)
+                                    .catch(reject)
+                                );
+                            }
+                        }, reject)
                         .catch(reject)
-                    // );
+                    );
                 }
 
             } catch (error) {

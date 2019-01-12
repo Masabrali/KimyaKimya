@@ -29,51 +29,44 @@ import Styles from '../styles';
 const Order = function (props) {
     return (
         <Container>
-            { !props.locationFocused && props.turnOnLocationError && <Header noShadow style={ [Styles.backgroundDanger] }>
-                    <Left style={ [Styles.flex, Styles.flexRow, Styles.flexJustifyStart, Styles.flexAlignCenter] }>
-                        { !isEmpty(props._location) && <Button iconLeft transparent style={ [Styles.marginRight] } onPress={ props.dismissTurnOnLocationError }>
-                                <Icon name="close" ios="ios-close" android="md-close" style={ [Styles.textWhite] } />
-                            </Button>
-                        }
-                        <Text style={ [Styles.textWhite] }>Location Service Off</Text>
-                    </Left>
-                    <Right>
-                        <Button transparent onPress={ props.turnOnLocation }>
-                            <Text style={ [Styles.textWhite] }>Turn On</Text>
+            <Header noShadow style={ [Styles.backgroundDanger, (props.locationFocused || (!props.turnOnLocationError && !isEmpty(props.hotpoints))) && Styles.positionAbsolute] }>
+                <Left style={ [Styles.flex, Styles.flexRow, Styles.flexJustifyStart, Styles.flexAlignCenter] }>
+                    { (props.turnOnLocationError && !isEmpty(props._location)) && <Button iconLeft transparent style={ [Styles.marginRight] } onPress={ props.dismissTurnOnLocationError }>
+                            <Icon name="close" ios="ios-close" android="md-close" style={ [Styles.textWhite] } />
                         </Button>
-                    </Right>
-                </Header>
-            }
-            { !props.locationFocused && !props.turnOnLocationError && isEmpty(props.hotpoints) && <Header noShadow style={ [Styles.backgroundDanger] }>
-                    <Left style={ [Styles.flex, Styles.flexRow, Styles.flexJustifyStart, Styles.flexAlignCenter] }>
-                        <Text style={ [Styles.textWhite] }>Hotpoints Unavailable now</Text>
-                    </Left>
-                    <Right>
-                        <Button transparent onPress={ props.fetchHotpoints }>
-                            <Text style={ [Styles.textWhite] }>Reload</Text>
-                        </Button>
-                    </Right>
-                </Header>
-            }
-            { !props.locationFocused &&  <Header noShadow style={ [Styles.noBorder, Styles.backgroundHeader] }>
-                    <Left>
-                        <Button iconLeft transparent onPress={ props.back }>
-                            <Icon name="arrow-back" ios="ios-arrow-back" android="md-arrow-back" style={ [isAndroid() && Styles.textDark] } />
-                            { isIOS() && <Text>Order</Text> }
-                        </Button>
-                    </Left>
-                    <Body style={ [isAndroid() && Styles.marginLeft, isAndroid() && Styles.paddingLeft] }>
-                        <Title style={ [Styles.textDark, Styles.textBold] }>Location</Title>
-                    </Body>
-                    <Right>
-                        <Button iconRight transparent onPress={ props.refreshLocation }>
-                            { isIOS() && <Text>Reset</Text> }
-                            <Icon name="refresh" ios="ios-refresh" android="md-refresh" style={ [isAndroid() && Styles.textDark] } />
-                        </Button>
-                    </Right>
-                </Header>
-            }
-            <Header noShadow searchBar style={ [Styles.backgroundHeader, !props.locationFocused && Styles.borderBottom, !props.locationFocused && isAndroid() && Styles.paddingBottom] } onLayout={ (e) => { this.searchHeaderHeight = e.nativeEvent.layout.height; } }>
+                    }
+                    <Text style={ [Styles.textWhite] }>
+                        { (!props.turnOnLocationError && isEmpty(props.hotpoints))? 'No Hotpoints found' : 'Location Service Off' }
+                    </Text>
+                </Left>
+                <Right>
+                    <Button transparent onPress={ (!props.turnOnLocationError && isEmpty(props.hotpoints))? props.fetchHotpoints : props.turnOnLocation }>
+                        <Text style={ [Styles.textWhite] }>
+                            { (!props.turnOnLocationError && isEmpty(props.hotpoints))? 'Reload' : 'Turn On' }
+                        </Text>
+                    </Button>
+                </Right>
+            </Header>
+
+            <Header noShadow style={ [Styles.noBorder, Styles.backgroundHeader, props.locationFocused && Styles.positionAbsolute] }>
+                <Left>
+                    <Button iconLeft transparent onPress={ props.back }>
+                        <Icon name="arrow-back" ios="ios-arrow-back" android="md-arrow-back" style={ [isAndroid() && Styles.textDark] } />
+                        { isIOS() && <Text>Order</Text> }
+                    </Button>
+                </Left>
+                <Body style={ [isAndroid() && Styles.marginLeft, isAndroid() && Styles.paddingLeft] }>
+                    <Title style={ [Styles.textDark, Styles.textBold] }>Location</Title>
+                </Body>
+                <Right>
+                    <Button iconRight transparent onPress={ props.refreshLocation }>
+                        { isIOS() && <Text>Reset</Text> }
+                        <Icon name="refresh" ios="ios-refresh" android="md-refresh" style={ [isAndroid() && Styles.textDark] } />
+                    </Button>
+                </Right>
+            </Header>
+
+            <Header noShadow searchBar style={ [Styles.backgroundHeader, (!props.locationFocused || (isEmpty(props.locations) && !props.locationsLoading)) && Styles.borderBottom, !props.locationFocused && isAndroid() && Styles.paddingBottom] } onLayout={ (e) => { this.searchHeaderHeight = e.nativeEvent.layout.height; } }>
                 <Body style={ [Styles.flex, !props.locationFocused && Styles.paddingLeft, !props.locationFocused && Styles.paddingRight] }>
                     <Item style={ [Styles.paddingRight, isAndroid() && !props.locationFocused && Styles.borderBottom, isAndroid() && props.locationFocused && Styles.noBorder, isIOS() && Styles.borderRadius, styles.searchItem] } disabled={ (props.loading || props.refreshing)? true:false }>
                         { props.locationFocused && isAndroid() && <Button iconRight transparent style={ [Styles.height100] } onPress={ () => ( props.blurLocation(this.locationInput) ) }>
@@ -159,7 +152,7 @@ const Order = function (props) {
                 }
 
                 { props.locationFocused && <Content keyboardShouldPersistTaps="handle" contentContainerStyle={ [Styles.flex] }>
-                        { props.locationFocused && (props.locationsLoading || !isEmpty(props.locations)) && <View style={ [Styles.flexColumn, Styles.flexJustifyStart, Styles.flexAlignStretch, Styles.backgroundWrapper] }>
+                        { props.locationFocused && (props.locationsLoading || !isEmpty(props.locations)) && <View style={ [Styles.flexColumn, Styles.flexJustifyStart, Styles.flexAlignStretch, Styles.backgroundWrapper, Styles.borderBottom] }>
                                 { props.locationsLoading && <View style={ [Styles.flexRow, Styles.flexJustifyCenter, Styles.flexAlignCenter] }>
                                         <Spinner color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } />
                                     </View>

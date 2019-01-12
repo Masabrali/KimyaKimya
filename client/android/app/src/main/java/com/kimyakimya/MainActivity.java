@@ -27,7 +27,7 @@ public class MainActivity extends ReactActivity {
     // public void invokeDefaultOnBackPressed() {
     //
     //     // super.onBackPressed();
-    // 
+    //
     //     this.moveTaskToBack(true);
     // }
 

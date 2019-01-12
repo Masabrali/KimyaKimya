@@ -143,7 +143,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-sms')
     implementation project(':react-native-firebase')
     implementation project(':react-native-splash-screen')
     implementation project(':react-native-android-sms-listener')

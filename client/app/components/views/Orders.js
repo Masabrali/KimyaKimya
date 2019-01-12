@@ -160,7 +160,11 @@ const Orders = function (props) {
                 }
 
                 { isEmpty(props.orders[props.segment]) && !props.loading && !props.refreshing  && <View style={ [Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignCenter] }>
-                        <Text style={ [Styles.label, Styles.textAlignCenter, Styles.padding, Styles.margin] }>You have not Ordered Anything Recently!</Text>
+                        <Text style={ [Styles.label, Styles.textAlignCenter, Styles.padding, Styles.margin] }>
+                            {
+                                (props.searchKey)? ('Orders matching the key ' + props.searchKey + ' were not found in ' + titleCase(props.segment) + '.') : 'You have not Ordered Anything Recently!'
+                            }
+                        </Text>
 
                         <View style={ [Styles.padding] }>
                             <Button bordered block onPress={ props.shop }>
@@ -266,6 +270,7 @@ const Orders = function (props) {
                       }
                     ></List>
                 }
+                { props.searchFocused && !isEmpty(props.orders[props.segment]) && <View style={ [{height: props.keyboardHeight}] } /> }
             </Content>
         </Container>
     );

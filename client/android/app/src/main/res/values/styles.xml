@@ -7,6 +7,17 @@
     </style>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"></style>
+    <!-- <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"></style> -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimaryDark">@color/status_bar_color</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <!-- Base application theme - Material Theme. -->
+    <!-- <style name="ReactTheme" parent="android:Theme.Material"></style> -->
+    <style name="ReactTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimaryDark">@color/status_bar_color</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 
 </resources>
