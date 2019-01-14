@@ -23,6 +23,7 @@ import isAndroid from '../../utilities/isAndroid';
  * Import Actions
 */
 import submitOrder from '../../actions/order';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -86,7 +87,6 @@ class OrderSummary extends Component<Props> {
     mapReady(map, marker, hotpoint_marker, directions) {
 
         this.map = map;
-        this.map.animateToRegion(this.state.order.location);
         this.map.fitToCoordinates([this.state.order.location, this.state.order.hotpoint.location]);
 
         this.marker = marker;
@@ -212,7 +212,8 @@ OrderSummary.propTypes = {
     languages: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
-    submitOrder: PropTypes.func.isRequired
+    submitOrder: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -231,7 +232,8 @@ function mapStateToProps(state) {
 */
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        submitOrder: submitOrder
+        submitOrder: submitOrder,
+        logScreen: logScreen
     }, dispatch);
 }
 

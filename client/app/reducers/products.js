@@ -16,7 +16,7 @@ export default function (state = {}, action = {}) {
         case 'PRODUCTS_FETCHED':
 
             return {
-                condoms: action.products.condoms | {},
+                condoms: action.products.condoms || {},
                 pills: action.products.pills || {},
                 emergency: action.products.emergency || {}
             };

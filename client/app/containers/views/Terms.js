@@ -10,6 +10,7 @@ import { Actions } from 'react-native-router-flux'; // Version can be specified 
 /**
  * Import Actions
 */
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -69,7 +70,8 @@ class Terms extends Component<Props> {
 Terms.propTypes = {
     languages: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
-    links: PropTypes.object.isRequired
+    links: PropTypes.object.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -87,7 +89,9 @@ function mapStateToProps(state) {
  * Matching Dispatch to PropTypes
 */
 function matchDispatchToProps(dispatch) {
-    return bindActionCreators({}, dispatch);
+    return bindActionCreators({
+        logScreen: logScreen
+    }, dispatch);
 }
 
 /**

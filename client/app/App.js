@@ -37,9 +37,7 @@ export default class App extends Component<Props> {
         // return (
         //     <Root>
         //         <Provider store={ store }>
-        //
-        //                 <Routes />
-        //
+        //             <Routes />
         //         </Provider>
         //     </Root>
         // );

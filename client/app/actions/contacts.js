@@ -16,11 +16,6 @@ import isAndroid from '../utilities/isAndroid';
 */
 import handleError from './handleError';
 
-/**
-* Import dispatcher
-*/
-import setContacts from './dispatches/setContacts';
-
 export function handlePermission() {
 
     return (

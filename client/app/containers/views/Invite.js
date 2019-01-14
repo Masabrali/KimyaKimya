@@ -21,6 +21,7 @@ import isAndroid from '../../utilities/isAndroid';
 */
 import { handlePermission } from '../../actions/contacts';
 import searchContacts from '../../actions/contacts';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -336,7 +337,8 @@ class Invite extends Component<Props> {
 Invite.propTypes = {
     languages: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
-    searchContacts: PropTypes.func.isRequired
+    searchContacts: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -354,7 +356,8 @@ function mapStateToProps(state) {
 */
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        searchContacts: searchContacts
+        searchContacts: searchContacts,
+        logScreen: logScreen
     }, dispatch);
 }
 

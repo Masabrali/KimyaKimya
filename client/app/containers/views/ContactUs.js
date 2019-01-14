@@ -14,11 +14,13 @@ import ImagePicker from 'react-native-image-picker'; // Version can be specified
 import isEmpty from '../../utilities/isEmpty';
 import isString from '../../utilities/isString';
 import isIOS from '../../utilities/isIOS';
+import isAndroid from '../../utilities/isAndroid';
 
 /**
  * Import Actions
 */
 import contactUs from '../../actions/contactUs';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -30,6 +32,7 @@ import Error from '../../components/others/Error';
 * Import Conditional Libraries
 */
 const KeyboardEvents = (isIOS())? require('react-native-keyboardevents') : undefined; // Version can be specified in package.json
+const AndroidKeyboardAdjust = (isAndroid())? require('react-native-android-keyboard-adjust') : undefined; // Version can be specified in package.json
 
 type Props = {};
 
@@ -45,6 +48,7 @@ class ContactUs extends Component<Props> {
             loading: false,
             done: undefined,
             errors: {},
+            imageLoading: false,
             message: undefined,
             screenshot: undefined,
             keyboardHidden: true
@@ -60,8 +64,14 @@ class ContactUs extends Component<Props> {
         this.messageFocused = this.messageFocused.bind(this);
         this.messageChanged = this.messageChanged.bind(this);
         this.pickImage = this.pickImage.bind(this);
+        this.imageLoadStarted = this.imageLoadStarted.bind(this);
+        this.imageLoadEnded = this.imageLoadEnded.bind(this);
         this.removeImage = this.removeImage.bind(this);
         this.contactUs = this.contactUs.bind(this);
+    }
+
+    componentWillMount() {
+        return ( (isAndroid())? AndroidKeyboardAdjust.setAdjustResize() : 1 );
     }
 
     componentDidMount() {
@@ -82,6 +92,8 @@ class ContactUs extends Component<Props> {
 
             KeyboardEvents.Emitter.off(KeyboardEvents.KeyboardWillHideEvent, () => this.setState({ keyboardHidden: true }));
         }
+
+        return ( (isAndroid())? AndroidKeyboardAdjust.setAdjustPan() : 1 );
     }
 
     back() {
@@ -136,15 +148,24 @@ class ContactUs extends Component<Props> {
                                 width: response.width,
                                 height: response.height,
                                 data: response.data
-                            }
+                            },
+                            imageLoading: true
                         });
                 }
             })
         );
     }
 
+    imageLoadStarted() {
+        return this.setState({ imageLoading: true });
+    }
+
+    imageLoadEnded() {
+        return this.setState({ imageLoading: false });
+    }
+
     removeImage() {
-        return this.setState({ screenshot: undefined });
+        return this.setState({ screenshot: undefined, imageLoading: false });
     }
 
     contactUs(messageInput) {
@@ -159,7 +180,7 @@ class ContactUs extends Component<Props> {
         if (!isEmpty(errors)) {
 
             Error(errors[Object.keys(errors)[0]]);
-            
+
             if (!isEmpty(this.content) && !isEmpty(this.content._root))
                 this.content._root.scrollToPosition(0, 0);
 
@@ -184,11 +205,11 @@ class ContactUs extends Component<Props> {
                         if (!isEmpty(this.content) && !isEmpty(this.content._root))
                             this.content._root.scrollToPosition(0, 0);
 
-                        return this.setState({ errors, loading: false, done: false });
+                        return this.setState({ errors, loading: false, imageLoading: false, done: false });
 
                     } else {
 
-                        this.setState({ loading: false, errors: {}, done: true });
+                        this.setState({ loading: false, imageLoading: false, errors: {}, done: true });
 
                         return Actions.pop();
                     }
@@ -206,10 +227,13 @@ class ContactUs extends Component<Props> {
                 messageFocused={ this.messageFocused }
                 messageChanged={ this.messageChanged }
                 pickImage={ this.pickImage }
+                imageLoadStarted={ this.imageLoadStarted }
+                imageLoadEnded={ this.imageLoadEnded }
                 removeImage={ this.removeImage }
                 contactUs={ this.contactUs }
                 loading={ this.state.loading }
                 errors={ this.state.errors }
+                imageLoading={ this.state.imageLoading }
                 keyboardHidden={ this.state.keyboardHidden }
             />
         );
@@ -222,7 +246,8 @@ class ContactUs extends Component<Props> {
 ContactUs.propTypes = {
     languages: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
-    contactUs: PropTypes.func.isRequired
+    contactUs: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -240,7 +265,8 @@ function mapStateToProps(state) {
 */
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        contactUs: contactUs
+        contactUs: contactUs,
+        logScreen: logScreen
     }, dispatch);
 }
 

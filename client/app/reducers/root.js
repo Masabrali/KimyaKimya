@@ -11,10 +11,10 @@ import products from './products';
 import orders from './orders';
 import order from './order';
 import rate from './rate';
+import speed from './speed';
 import locations from './locations';
 import places from './places';
 import hotpoints from './hotpoints';
-import contacts from './contacts';
 import links from './links';
 
 // Combiner all reducers
@@ -28,10 +28,10 @@ const reducers = combineReducers({
     orders: orders,
     order: order,
     rate: rate,
+    speed: speed,
     locations: locations,
     places: places,
     hotpoints: hotpoints,
-    contacts: contacts,
     links: links
 });
 

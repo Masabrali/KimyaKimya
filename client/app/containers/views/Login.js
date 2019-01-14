@@ -30,6 +30,7 @@ import fetchCountries from '../../actions/countries';
 import fetchCountry from '../../actions/country';
 import login from '../../actions/login';
 import phone from '../../actions/phone';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Other variables and constants
@@ -447,7 +448,8 @@ Login.propTypes = {
     fetchCountries: PropTypes.func.isRequired,
     fetchCountry: PropTypes.func.isRequired,
     login: PropTypes.func.isRequired,
-    phone: PropTypes.func.isRequired
+    phone: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -470,7 +472,8 @@ function matchDispatchToProps(dispatch) {
         fetchCountries: fetchCountries,
         fetchCountry: fetchCountry,
         login: login,
-        phone: phone
+        phone: phone,
+        logScreen: logScreen
     }, dispatch);
 }
 

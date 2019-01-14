@@ -20,6 +20,7 @@ import isAndroid from '../../utilities/isAndroid';
  * Import Actions
 */
 import fetchProducts from '../../actions/products';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -296,7 +297,8 @@ Shop.propTypes = {
     user: PropTypes.object.isRequired,
     products: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
-    fetchProducts: PropTypes.func.isRequired
+    fetchProducts: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -317,7 +319,8 @@ function mapStateToProps(state) {
 */
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        fetchProducts: fetchProducts
+        fetchProducts: fetchProducts,
+        logScreen: logScreen
     }, dispatch);
 }
 

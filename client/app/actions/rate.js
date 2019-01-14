@@ -19,7 +19,7 @@ export default function(rate) {
                 try {
 
                     return (
-                        firebase.database().ref('rate')
+                        firebase.database().ref('delivery/rate')
                         .on('value', (rate) => {
 
                             resolve(rate.val());

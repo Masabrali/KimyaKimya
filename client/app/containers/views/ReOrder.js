@@ -18,6 +18,7 @@ import isEmpty from '../../utilities/isEmpty';
 */
 import reOrder from '../../actions/reOrder';
 import deleteOrder from '../../actions/deleteOrder';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -175,7 +176,8 @@ ReOrder.propTypes = {
     order: PropTypes.object.isRequired,
     _order: PropTypes.object.isRequired,
     reOrder: PropTypes.func.isRequired,
-    deleteOrder: PropTypes.func.isRequired
+    deleteOrder: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -197,7 +199,8 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         reOrder: reOrder,
-        deleteOrder: deleteOrder
+        deleteOrder: deleteOrder,
+        logScreen: logScreen
     }, dispatch);
 }
 

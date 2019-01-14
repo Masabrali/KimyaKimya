@@ -15,6 +15,7 @@ import isEmpty from '../../utilities/isEmpty';
 /**
  * Import Actions
 */
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -64,7 +65,8 @@ class ProductInformation extends Component<Props> {
 */
 ProductInformation.propTypes = {
     languages: PropTypes.array.isRequired,
-    products: PropTypes.object.isRequired
+    products: PropTypes.object.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -80,7 +82,9 @@ function mapStateToProps(state) {
  * Matching Dispatch to PropTypes
 */
 function matchDispatchToProps(dispatch) {
-    return bindActionCreators({}, dispatch);
+    return bindActionCreators({
+        logScreen: logScreen
+    }, dispatch);
 }
 
 /**

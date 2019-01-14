@@ -18,6 +18,7 @@ import isEmpty from '../../utilities/isEmpty';
 */
 import draftOrder from '../../actions/draftOrder';
 import removeProductFromOrder from '../../actions/removeProductFromOrder';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -185,7 +186,8 @@ Order.propTypes = {
     user: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
     draftOrder: PropTypes.func.isRequired,
-    removeProductFromOrder: PropTypes.func.isRequired
+    removeProductFromOrder: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -205,7 +207,8 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         draftOrder: draftOrder,
-        removeProductFromOrder: removeProductFromOrder
+        removeProductFromOrder: removeProductFromOrder,
+        logScreen: logScreen
     }, dispatch);
 }
 

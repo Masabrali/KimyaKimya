@@ -5,6 +5,7 @@ import firebase from 'react-native-firebase';
 * Import Utilities
 */
 import isEmpty from '../utilities/isEmpty';
+import guid from '../utilities/guid';
 
 /**
 * Import Error handler
@@ -35,33 +36,33 @@ export default function(message) {
                     };
 
                     let _contactUs = (screenshot) => {
-                        console.log(screenshot)
 
-                        // dbRef.once('child_added')
-                        // .then( (data) => {
-                        //     console.log(data)
-                        //     let _data = {};
-                        //     _data[data.key] = data.val();
-                        //
-                        //     return resolve(_data);
-                        //
-                        // }, errorHandler)
-                        // .catch(errorHandler);
-                        //
-                        // if (!isEmpty(screenshot)) _message.screenshot = screenshot.id;
-                        //
-                        // return (
-                        //     dbRef.push(_message)
-                        //     .then( (data) => ( data ), errorHandler)
-                        //     .catch(errorHandler)
-                        // );
+                        dbRef.once('child_added')
+                        .then( (data) => {
+
+                            let _data = {};
+                            _data[data.key] = data.val();
+
+                            return resolve(_data);
+
+                        }, errorHandler)
+                        .catch(errorHandler);
+
+                        if (!isEmpty(screenshot)) _message.screenshot = screenshot.ref;
+
+                        return (
+                            dbRef.push(_message)
+                            .then( (data) => ( data ), errorHandler)
+                            .catch(errorHandler)
+                        );
                     };
-                    console.log(message.screenshot)
+
                     if (isEmpty(message.screenshot)) return _contactUs();
                     else
                         return (
-                            firebase.firestore().collection('screenshots').add(message.screenshot)
-                            .then(_contactUs, errorHandler)
+                            firebase.storage().ref('screenshots/' + guid())
+                            .putFile(message.screenshot.uri)
+                            .then( _contactUs, errorHandler)
                             .catch(errorHandler)
                         );
 

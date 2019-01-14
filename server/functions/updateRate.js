@@ -17,13 +17,13 @@ exports.updateRateWithFuel = (fuel, context) => {
             return (
                 admin.database().ref('delivery/maintenance').once('value')
                 .then( (maintenance) => (
-                    admin.database().ref('rate').set( (((fuel.after.val() / 30) * 2) + ((maintenance.val() / 200) * 2)) * 2 )
+                    admin.database().ref('delivery/rate').set( (((fuel.after.val() / 30) * 2) + ((maintenance.val() / 200) * 2)) * 2 )
                 ) )
                 .catch(errorHandler)
             );
         else
             return (
-                admin.database().ref('rate').once('value')
+                admin.database().ref('delivery/rate').once('value')
                 .then( (rate) => ( rate.val() ) )
                 .catch(errorHandler)
             );
@@ -46,13 +46,13 @@ exports.updateRateWithMaintenance = (maintenance, context) => {
             return (
                 admin.database().ref('delivery/fuel').once('value')
                 .then( (fuel) => (
-                    admin.database().ref('rate').set( (((fuel.val() / 30) * 2) + ((maintenance.after.val() / 200) * 2)) * 2 )
+                    admin.database().ref('delivery/rate').set( (((fuel.val() / 30) * 2) + ((maintenance.after.val() / 200) * 2)) * 2 )
                 ) )
                 .catch( (error) => ( console.log(error) ) )
             );
         else
             return (
-                admin.database().ref('rate').once('value')
+                admin.database().ref('delivery/rate').once('value')
                 .then( (rate) => ( rate.val() ) )
                 .catch(errorHandler)
             );
@@ -77,14 +77,14 @@ exports.updateRateWithRate = (rate, context) => {
                 .then( (fuel) => (
                     admin.database().ref('delivery/maintenance').once('value')
                     .then( (maintenance) => (
-                        admin.database().ref('rate').set( (((fuel.val() / 30) * 2) + ((maintenance.val() / 200) * 2)) * 2 )
+                        admin.database().ref('delivery/rate').set( (((fuel.val() / 30) * 2) + ((maintenance.val() / 200) * 2)) * 2 )
                     ) )
                 ) )
                 .catch( (error) => ( console.log(error) ) )
             );
         else
             return (
-                admin.database().ref('rate').once('value')
+                admin.database().ref('delivery/rate').once('value')
                 .then( (rate) => ( rate.val() ) )
                 .catch(errorHandler)
             );

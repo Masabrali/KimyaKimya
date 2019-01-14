@@ -17,6 +17,7 @@ import isEmpty from '../../utilities/isEmpty';
 */
 import fetchUser from '../../actions/user';
 import logout from '../../actions/logout';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -176,7 +177,8 @@ Account.propTypes = {
     languages: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     fetchUser: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired
+    logout: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -195,7 +197,8 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         fetchUser: fetchUser,
-        logout: logout
+        logout: logout,
+        logScreen: logScreen
     }, dispatch);
 }
 

@@ -22,6 +22,9 @@ import isFunction from '../../utilities/isFunction';
 import fetchCountries from '../../actions/countries';
 import fetchCountry from '../../actions/country';
 import fetchUser from '../../actions/user';
+import fetchRate from '../../actions/rate';
+import fetchSpeed from '../../actions/speed';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -49,17 +52,13 @@ class Welcome extends Component<Props> {
         // Bind functions to this
         this.handleError = this.handleError.bind(this);
         this.fetchCountries = this.fetchCountries.bind(this);
+        this.fetchRate = this.fetchRate.bind(this);
+        this.fetchSpeed = this.fetchSpeed.bind(this);
         this.login = this.login.bind(this);
     }
 
     componentWillMount() {
-
-        if (!isEmpty(this.state.currentUser)) {
-
-            if (isEmpty(this.props.user) || !this.props.user.gender || !this.props.user.birth)
-                return this.fetchUser(this.login);
-            else return this.login();
-        }
+        if (!isEmpty(this.state.currentUser)) return this.login();
     }
 
     componentDidMount() {
@@ -106,8 +105,7 @@ class Welcome extends Component<Props> {
 
                         this.setState({ errors: {}, loading: false, done: true });
 
-                        if (isFunction(callback)) return callback(data);
-                        else return data;
+                        return ( (isFunction(callback))? callback(data) : data );
                     }
                 }, this.handleError)
                 .catch(this.handleError);
@@ -140,19 +138,92 @@ class Welcome extends Component<Props> {
 
                         this.setState({ errors: {}, loading: false, done: true });
 
-                        if (isFunction(callback)) return callback(data);
-                        else return data;
+                        return ( (isFunction(callback))? callback(data) : data );
                     }
                 }, this.handleError)
                 .catch(this.handleError);
         }
     }
 
-    login() {
+    fetchRate(callback) {
 
-        let login = () => {
+        // Validation
+        let errors = {};
 
-            let _login = () => {
+        // Hand;e Data Submission to server
+        if (isEmpty(errors)) {
+
+            if (!this.state.loading) this.setState({ loading: true });
+
+            return this.props.fetchRate().then(
+                (data) => {
+
+                    if (data.errors !== undefined) return this.handleError(data.errors)
+                    else {
+
+                        this.setState({ loading: false, done: true, errors: {} });
+
+                        return ( (isFunction(callback))? callback(data) : data );
+                    }
+                },
+                this.handleError
+            ).catch(this.handleError);
+        }
+    }
+
+    fetchSpeed(silent) {
+
+        // Validation
+        let errors = {};
+
+        // Hand;e Data Submission to server
+        if (isEmpty(errors)) {
+
+            if (!this.state.loading) this.setState({ loading: true });
+
+            return this.props.fetchSpeed().then(
+                (data) => {
+
+                    if (data.errors !== undefined) return this.handleError(data.errors)
+                    else {
+
+                        this.setState({ loading: false, done: true, errors: {} });
+
+                        return ( (isFunction(callback))? callback(data) : data );
+                    }
+                },
+                this.handleError
+            ).catch(this.handleError);
+        }
+    }
+
+    async login() {
+
+        // Validation
+        let errors = {};
+        let key;
+
+        // Hand;e Data Submission to server
+        if (isEmpty(errors)) {
+
+            if (!this.state.loading) this.setState({ loading: true });
+
+            try {
+
+                if (isEmpty(this.props.user) || !this.props.user.gender || !this.props.user.birth)
+                    errors.user = await this.fetchUser();
+
+                if (!this.props.country) errors.country = await this.props.fetchCountry();
+
+                if (isEmpty(this.props.countries)) errors.countries = await this.fetchCountries();
+
+                if (!this.props.rate) errors.rate = await this.props.fetchRate();
+
+                if (!this.props.speed) errors.speed = await this.props.fetchSpeed();
+
+                for (key in errors)
+                    if (!isEmpty(errors[key].errors) || !isEmpty(errors[key].error))
+                        return this.handleError(errors[key].errors);
 
                 return setTimeout( () => {
 
@@ -164,26 +235,10 @@ class Welcome extends Component<Props> {
                         else return Actions.reset('app');
                     } else return Actions.login();
                 } );
-            };
 
-            if (!isEmpty(this.props.countries)) return _login();
-            else return this.fetchCountries(_login);
-        };
-
-        if (this.props.country) return login();
-        else {
-
-            this.setState({ loading: true });
-
-            return this.props.fetchCountry().then(
-                (country) => {
-
-                    this.setState({ errors: {}, loading: false, done: true });
-
-                    return login();
-
-                }, this.handleError)
-                .catch(this.handleError);
+            } catch (error) {
+                return this.handleError(error);
+            }
         }
     }
 
@@ -205,11 +260,15 @@ class Welcome extends Component<Props> {
 Welcome.propTypes = {
     languages: PropTypes.array.isRequired,
     countries: PropTypes.object.isRequired,
-    // country: PropTypes.string.isRequired,
+    country: PropTypes.string,
     user: PropTypes.object.isRequired,
+    rate: PropTypes.number.isRequired,
+    speed: PropTypes.number.isRequired,
     fetchCountries: PropTypes.func.isRequired,
     fetchCountry: PropTypes.func.isRequired,
-    fetchUser: PropTypes.func.isRequired
+    fetchUser: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -220,7 +279,9 @@ function mapStateToProps(state) {
         languages: state.languages,
         countries: state.countries,
         country: state.country,
-        user: state.user
+        user: state.user,
+        rate: state.rate,
+        speed: state.speed
     };
 }
 
@@ -231,7 +292,10 @@ function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         fetchCountries: fetchCountries,
         fetchCountry: fetchCountry,
-        fetchUser: fetchUser
+        fetchUser: fetchUser,
+        fetchRate: fetchRate,
+        fetchSpeed: fetchSpeed,
+        logScreen: logScreen
     }, dispatch);
 }
 

@@ -32,7 +32,7 @@ export default function(order, products) {
 
                 try {
 
-                    if (order.draft) {
+                    if (!!order.draft) {
 
                         let errorHandler = (error) => ( resolve({ errors: [error] }) );
                         let currentUser = firebase.auth().currentUser;
@@ -57,8 +57,12 @@ export default function(order, products) {
                             .catch(errorHandler)
                         );
 
-                    } else
+                    } else {
+
+                        resolve(order);
+
                         return dispatch( setOrder(order) );
+                    }
 
                 } catch (error) {
 

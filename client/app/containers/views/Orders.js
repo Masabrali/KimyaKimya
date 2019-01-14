@@ -27,6 +27,8 @@ import deleteOrder from '../../actions/deleteOrder';
 import deleteOrders from '../../actions/deleteOrders';
 import readQueuedOrder from '../../actions/readQueuedOrder';
 import fetchHotpoints from '../../actions/hotpoints';
+import fetchSpeed from '../../actions/speed';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -60,6 +62,7 @@ class Orders extends Component<Props> {
             selected: {},
             segment: (props.orders.newOrderQueued && !isEmpty(props.orders.queued))? 'queued' : 'previous',
             hotpoints: props.hotpoints,
+            speed: props.speed,
             durations: {},
             searchFocused: false,
             searchKey: undefined
@@ -86,6 +89,7 @@ class Orders extends Component<Props> {
         this.delete = this.delete.bind(this);
         this.deleteOrders = this.deleteOrders.bind(this);
         this.fetchHotpoints = this.fetchHotpoints.bind(this);
+        this.fetchSpeed = this.fetchSpeed.bind(this);
         this.refresh = this.refresh.bind(this);
         this.shop = this.shop.bind(this);
         this.checkout = this.checkout.bind(this);
@@ -109,6 +113,8 @@ class Orders extends Component<Props> {
 
         (isEmpty(this.props.hotpoints))? this.fetchHotpoints() : this.fetchHotpoints(true);
 
+        (isEmpty(this.props.speed))? this.fetchSpeed() : this.fetchSpeed(true);
+
         if (this.props.orders.newOrderQueued) this.props.readQueuedOrder();
 
         return this.calculateDurations();
@@ -116,7 +122,12 @@ class Orders extends Component<Props> {
 
     componentWillReceiveProps(props) {
 
-        this.setState({ cartSize: props.order.quantity, orders: props.orders, hotpoints: props.hotpoints });
+        this.setState({
+            cartSize: props.order.quantity,
+            orders: props.orders,
+            hotpoints: props.hotpoints,
+            speed: props.speed
+        });
 
         if (this.state.searchKey) this.search(this.state.searchKey);
 
@@ -149,7 +160,7 @@ class Orders extends Component<Props> {
 
                     if (!isEmpty(hotpoint)) {
 
-                        durations[key] = durationFormat(getDistance(hotpoint.location, order.location) / ((hotpoint.speed !== undefined)? hotpoint.speed : 50));
+                        durations[key] = durationFormat(getDistance(hotpoint.location, order.location) / ((hotpoint.speed !== undefined)? hotpoint.speed : this.state.speed));
 
                         return durations[key];
 
@@ -368,6 +379,28 @@ class Orders extends Component<Props> {
         }
     }
 
+    fetchSpeed(silent) {
+
+        // Validation
+        let errors = {};
+
+        // Hand;e Data Submission to server
+        if (isEmpty(errors)) {
+
+            if (!silent && !this.state.loading) this.setState({ loading: true });
+
+            return this.props.fetchSpeed().then(
+                (data) => {
+
+                    if (data.errors !== undefined) return this.handleError(data.errors)
+                    else
+                        return this.setState({ loading: false, done: true, errors: {} });
+                },
+                this.handleError
+            ).catch(this.handleError);
+        }
+    }
+
     refresh(silent) {
 
         // Validation
@@ -537,11 +570,14 @@ Orders.propTypes = {
     orders: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
     hotpoints: PropTypes.object.isRequired,
+    speed: PropTypes.number.isRequired,
     fetchOrders: PropTypes.func.isRequired,
     reOrder: PropTypes.func.isRequired,
     deleteOrder: PropTypes.func.isRequired,
     readQueuedOrder: PropTypes.func.isRequired,
     fetchHotpoints: PropTypes.func.isRequired,
+    fetchSpeed: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -555,7 +591,8 @@ function mapStateToProps(state) {
         products: state.products,
         orders: state.orders,
         order: state.order,
-        hotpoints: state.hotpoints
+        hotpoints: state.hotpoints,
+        speed: state.speed
     };
 }
 
@@ -569,7 +606,9 @@ function matchDispatchToProps(dispatch) {
         deleteOrder: deleteOrder,
         deleteOrders: deleteOrders,
         readQueuedOrder: readQueuedOrder,
-        fetchHotpoints: fetchHotpoints
+        fetchHotpoints: fetchHotpoints,
+        fetchSpeed: fetchSpeed,
+        logScreen: logScreen
     }, dispatch);
 }
 

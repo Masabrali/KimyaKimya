@@ -30,8 +30,7 @@ export default function (state = {}, action = {}) {
     switch(action.type) {
 
         case 'ORDERS_FETCHED':
-            console.log('fetched')
-            console.log(action.orders)
+
             let orders = action.orders || {};
 
             return {
@@ -44,7 +43,7 @@ export default function (state = {}, action = {}) {
 
             Object.keys(action.order).map( (key) => {
 
-                _key = (action.order[key].draft)? 'drafts' : (action.order[key].queued)? 'queued' : 'previous';
+                _key = (!!action.order[key].draft)? 'drafts' : (!!action.order[key].queued)? 'queued' : 'previous';
 
                 state[_key][key] = action.order[key];
 
@@ -59,7 +58,7 @@ export default function (state = {}, action = {}) {
 
             Object.keys(action.order).map( (key) => {
 
-                _key = (action.order[key].draft)? 'drafts' : (action.order[key].queued)? 'queued' : 'previous';
+                _key = (!!action.order[key].draft)? 'drafts' : (!!action.order[key].queued)? 'queued' : 'previous';
 
                 state[_key][key] = action.order[key];
 
@@ -88,7 +87,7 @@ export default function (state = {}, action = {}) {
 
             Object.keys(action.order).map( (key) => {
 
-                _key = (action.order[key].draft)? 'drafts' : (action.order[key].queued)? 'queued' : 'previous';
+                _key = (!!action.order[key].draft)? 'drafts' : (!!action.order[key].queued)? 'queued' : 'previous';
 
                 return ((isArray(state[_key]))? state[_key].splice(key, 1) : delete state[_key][key]);
             } );

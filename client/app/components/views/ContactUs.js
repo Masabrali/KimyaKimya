@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
-import { Container, ActionSheet, Header, Left, Body, Right, Title, Content, Form, Text, Button, Item, Label, Input, Textarea, Icon } from 'native-base'; // Version can be specified in package.json
+import { Container, ActionSheet, Header, Left, Body, Right, Title, Content, Form, Text, Button, Item, Label, Input, Textarea, Icon, Spinner } from 'native-base'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -87,9 +87,14 @@ const ContactUs = function (props) {
                                 });
                         } }>
                             <View style={ [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, !props.screenshot && Styles.flexAlignCenter, props.screenshot && Styles.flexAlignStretch, Styles.margin, !props.screenshot && styles.screenshotPlaceholder, props.screenshot && styles.screeshotContainer] }>
-                                { !props.screenshot && <Icon name="add-circle" ios="ios-add-circle" android="md-add-circle" style={ [Styles.textPlaceholder, styles.screeshotPlaceholderIcon] } /> }
+                                { !props.screenshot && !props.imageLoading && <Icon name="add-circle" ios="ios-add-circle" android="md-add-circle" style={ [Styles.textPlaceholder, styles.screeshotPlaceholderIcon] } /> }
 
-                                { props.screenshot && <Image source={ props.screenshot } resizeMode="contain" style={ [Styles.flex, Styles.imageResizeModeContain, styles.screenshot] } /> }
+                                { props.screenshot && <Image source={ props.screenshot } resizeMode="contain" style={ [Styles.flex, Styles.imageResizeModeContain, styles.screenshot] } onLoadStart={ props.imageLoadStarted } onLoadEnd={ props.imageLoadEnded } /> }
+
+                                { props.imageLoading && <View style={ [Styles.flex, Styles.flexJustifyCenter, Styles.flexAlignCenter, Styles.positionAbsolute, Styles.horizontalPositionLeft, Styles.horizontalPositionRight, Styles.verticalPositionTop, Styles.verticalPositionBottom] }>
+                                        <Spinner color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } />
+                                    </View>
+                                }
                             </View>
                         </TouchableOpacity>
 

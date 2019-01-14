@@ -18,6 +18,7 @@ import isAndroid from '../../utilities/isAndroid';
  * Import Actions
 */
 import birth from '../../actions/birth';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -168,7 +169,8 @@ Birth.propTypes = {
     action: PropTypes.string.isRequired,
     user: PropTypes.object.isRequired,
     months: PropTypes.array.isRequired,
-    birth: PropTypes.func.isRequired
+    birth: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -187,7 +189,8 @@ function mapStateToProps(state) {
 */
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        birth: birth
+        birth: birth,
+        logScreen: logScreen
     }, dispatch);
 }
 

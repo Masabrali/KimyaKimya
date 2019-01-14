@@ -24,6 +24,7 @@ import isAndroid from '../../utilities/isAndroid';
  * Import Actions
 */
 import fetchRate from '../../actions/rate';
+import fetchSpeed from '../../actions/speed';
 import fetchNearby from '../../actions/nearby';
 import fetchPlaces from '../../actions/places';
 import fetchHotpoints from '../../actions/hotpoints';
@@ -33,6 +34,7 @@ import setPlaces from '../../actions/setPlaces';
 import location from '../../actions/location';
 import setOrderLocation from '../../actions/orderLocation';
 import setOrderHotpoint from '../../actions/orderHotpoint';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -75,6 +77,7 @@ class Location extends Component<Props> {
             places: props.places,
             hotpoints: props.hotpoints,
             rate: props.rate,
+            speed: props.speed,
             locations: props.locations,
             mapReady: false,
             location: props.order.location,
@@ -113,6 +116,7 @@ class Location extends Component<Props> {
         this.fetchHotpoints = this.fetchHotpoints.bind(this);
         this.fetchHotpoint = this.fetchHotpoint.bind(this);
         this.fetchRate = this.fetchRate.bind(this);
+        this.fetchSpeed = this.fetchSpeed.bind(this);
         this.getCurrentPlace = this.getCurrentPlace.bind(this);
         this.getCurrentLocation = this.getCurrentLocation.bind(this);
         this.watchCurrentLocation = this.watchCurrentLocation.bind(this);
@@ -130,7 +134,9 @@ class Location extends Component<Props> {
 
         (isEmpty(this.props.hotpoints))? this.fetchHotpoints() : this.fetchHotpoints(true);
 
-        return ( (isEmpty(this.props.rate))? this.fetchRate() : this.fetchRate(true) );
+        ( (isEmpty(this.props.rate))? this.fetchRate() : this.fetchRate(true) );
+
+        ( (isEmpty(this.props.speed))? this.fetchSpeed() : this.fetchSpeed(true) );
     }
 
     componentDidMount() {
@@ -159,7 +165,8 @@ class Location extends Component<Props> {
             order: props.order,
             places: props.places || this.state.places,
             locations: props.locations || this.state.locations,
-            rate: props.rate || this.state.rate
+            rate: props.rate || this.state.rate,
+            speed: props.speed || this.state.speed
         });
     }
 
@@ -201,6 +208,31 @@ class Location extends Component<Props> {
             if (!silent && !this.state.loading) this.setState({ loading: true });
 
             return this.props.fetchRate().then(
+                (data) => {
+
+                    if (data.errors !== undefined) return this.handleError(data.errors)
+                    else
+                        return this.setState({ loading: false, done: true, errors: {} });
+                },
+                this.handleError
+            ).catch(this.handleError);
+        }
+    }
+
+    /**
+    * Fetch Delivery Speed
+    */
+    fetchSpeed(silent) {
+
+        // Validation
+        let errors = {};
+
+        // Hand;e Data Submission to server
+        if (isEmpty(errors)) {
+
+            if (!silent && !this.state.loading) this.setState({ loading: true });
+
+            return this.props.fetchSpeed().then(
                 (data) => {
 
                     if (data.errors !== undefined) return this.handleError(data.errors)
@@ -323,7 +355,7 @@ class Location extends Component<Props> {
                 if (animateRegion) this.map.animateToRegion(location);
                 else this.map.props.region = location;
             }
-            
+
             return this.setState({ location: location, selectedLocation: {}, loading: false, errors: {} });
 
         } else return 1;
@@ -919,7 +951,7 @@ class Location extends Component<Props> {
                 /**
                 * Set loading
                 */
-                if (!this.state.loading) this.setState({ loading: true });
+                this.setState({ loading: true });
 
                 /**
                 * Create a temporary location object
@@ -940,7 +972,7 @@ class Location extends Component<Props> {
                 /**
                 * Get the Duration Value
                 */
-                location._duration = (!isEmpty(data.rows))? data.rows[0].elements.duration.value / 3600 : location.distance / ((hotpoint.speed !== undefined)? hotpoint.speed : 50);
+                location._duration = (!isEmpty(data.rows))? data.rows[0].elements.duration.value / 3600 : location.distance / ((hotpoint.speed !== undefined)? hotpoint.speed : this.state.speed);
 
                 /**
                 * Format the Duration
@@ -981,7 +1013,7 @@ class Location extends Component<Props> {
                     /**
                     * Set loading
                     */
-                    if (!this.state.loading) this.setState({ loading: true });
+                    this.setState({ loading: true });
 
                     /**
                     * Get Place from Google Places
@@ -1001,7 +1033,7 @@ class Location extends Component<Props> {
             /**
             * Set loading
             */
-            if (!this.state.loading) this.setState({ loading: true });
+            this.setState({ loading: true });
 
             /**
             * Get Hotpoint from the Server
@@ -1081,6 +1113,7 @@ Location.propTypes = {
     places: PropTypes.array.isRequired,
     hotpoints: PropTypes.object.isRequired,
     rate: PropTypes.number.isRequired,
+    speed: PropTypes.number.isRequired,
     fetchRate: PropTypes.func.isRequired,
     fetchNearby: PropTypes.func.isRequired,
     fetchPlaces: PropTypes.func.isRequired,
@@ -1089,7 +1122,8 @@ Location.propTypes = {
     fetchDistance: PropTypes.func.isRequired,
     setPlaces: PropTypes.func.isRequired,
     location: PropTypes.func.isRequired,
-    setOrderLocation: PropTypes.func.isRequired
+    setOrderLocation: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -1103,7 +1137,8 @@ function mapStateToProps(state) {
         locations: state.locations,
         places: state.places,
         hotpoints: state.hotpoints,
-        rate: state.rate
+        rate: state.rate,
+        speed: state.speed
     };
 }
 
@@ -1113,6 +1148,7 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         fetchRate: fetchRate,
+        fetchSpeed: fetchSpeed,
         fetchNearby: fetchNearby,
         fetchPlaces: fetchPlaces,
         fetchHotpoints: fetchHotpoints,
@@ -1121,7 +1157,8 @@ function matchDispatchToProps(dispatch) {
         setPlaces: setPlaces,
         location: location,
         setOrderLocation: setOrderLocation,
-        setOrderHotpoint: setOrderHotpoint
+        setOrderHotpoint: setOrderHotpoint,
+        logScreen: logScreen
     }, dispatch);
 }
 

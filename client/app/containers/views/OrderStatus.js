@@ -27,7 +27,9 @@ import isAndroid from '../../utilities/isAndroid';
  * Import Actions
 */
 import fetchHotpoints from '../../actions/hotpoints';
+import fetchSpeed from '../../actions/speed';
 import confirmOrder from '../../actions/confirmOrder';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -52,6 +54,7 @@ class OrderStatus extends Component<Props> {
             mapLoading: false,
             mapReady: false,
             hotpoint: props.hotpoints[props.order.hotpoint.key] || props.order.hotpoint,
+            speed: props.speed,
             duration: props.order.location.duration,
             _duration: props.order.location._duration,
             durationUnits: props.order.location.durationUnits
@@ -71,6 +74,7 @@ class OrderStatus extends Component<Props> {
         this.mapDirectionsLoading = this.mapDirectionsLoading.bind(this);
         this.mapDirectionsReady = this.mapDirectionsReady.bind(this);
         this.fetchHotpoints = this.fetchHotpoints.bind(this);
+        this.fetchSpeed = this.fetchSpeed.bind(this);
         this.calculateDuration = this.calculateDuration.bind(this);
         this.shop = this.shop.bind(this);
         this.orders = this.orders.bind(this);
@@ -84,6 +88,8 @@ class OrderStatus extends Component<Props> {
 
         this.fetchHotpoints(true);
 
+        this.fetchSpeed(true);
+
         return this.calculateDuration();
     }
 
@@ -96,12 +102,12 @@ class OrderStatus extends Component<Props> {
         if (!isEmpty(props.hotpoints))
             this.handleHotpoint(props.hotpoints[this.props.order.hotpoint.key]);
 
-        return this.setState({ orders: props.orders });
+        return this.setState({ orders: props.orders, speed: props.speed });
     }
 
     calculateDuration() {
 
-        let duration = durationFormat(getDistance(this.state.hotpoint.location, this.props.order.location) / ((this.state.hotpoint.speed !== undefined)? this.state.hotpoint.speed : 50));
+        let duration = durationFormat(getDistance(this.state.hotpoint.location, this.props.order.location) / ((this.state.hotpoint.speed !== undefined)? this.state.hotpoint.speed : this.state.speed));
 
         return this.setState({ duration: duration.duration, durationUnits: duration.units });
     }
@@ -109,7 +115,6 @@ class OrderStatus extends Component<Props> {
     mapReady(map, marker, hotpoint_marker, directions) {
 
         this.map = map;
-        this.map.animateToRegion(this.props.order.location);
         this.map.fitToCoordinates([this.props.order.location, this.state.hotpoint.location]);
 
         this.marker = marker;
@@ -173,6 +178,28 @@ class OrderStatus extends Component<Props> {
 
                     if (!isEmpty(data) && !isEmpty(data.errors))
                         return this.handleError(data.errors[0]);
+                    else
+                        return this.setState({ loading: false, done: true, errors: {} });
+                },
+                this.handleError
+            ).catch(this.handleError);
+        }
+    }
+
+    fetchSpeed(silent) {
+
+        // Validation
+        let errors = {};
+
+        // Hand;e Data Submission to server
+        if (isEmpty(errors)) {
+
+            if (!silent && !this.state.loading) this.setState({ loading: true });
+
+            return this.props.fetchSpeed().then(
+                (data) => {
+
+                    if (data.errors !== undefined) return this.handleError(data.errors)
                     else
                         return this.setState({ loading: false, done: true, errors: {} });
                 },
@@ -280,8 +307,12 @@ OrderStatus.propTypes = {
     user: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
     orders: PropTypes.object.isRequired,
+    hotpoints: PropTypes.object.isRequired,
+    speed: PropTypes.number.isRequired,
     confirmOrder: PropTypes.func.isRequired,
-    fetchHotpoints: PropTypes.func.isRequired
+    fetchHotpoints: PropTypes.func.isRequired,
+    fetchSpeed: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -292,7 +323,8 @@ function mapStateToProps(state) {
         languages: state.languages,
         user: state.user,
         orders: state.orders,
-        hotpoints: state.hotpoints
+        hotpoints: state.hotpoints,
+        speed: state.speed
     };
 }
 
@@ -302,7 +334,9 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         confirmOrder: confirmOrder,
-        fetchHotpoints: fetchHotpoints
+        fetchHotpoints: fetchHotpoints,
+        fetchSpeed: fetchSpeed,
+        logScreen: logScreen
     }, dispatch);
 }
 

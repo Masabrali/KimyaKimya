@@ -18,7 +18,7 @@ admin.initializeApp();
 const updateRateModules = require('./updateRate');
 exports.updateRateWithFuel = functions.database.ref('delivery/fuel').onWrite(updateRateModules.updateRateWithFuel);
 exports.updateRateWithMaintenance = functions.database.ref('delivery/maintenance').onWrite(updateRateModules.updateRateWithMaintenance);
-exports.updateRateWithRate = functions.database.ref('rate').onWrite(updateRateModules.updateRateWithRate);
+exports.updateRateWithRate = functions.database.ref('delivery/rate').onWrite(updateRateModules.updateRateWithRate);
 
 /**
 * Get Hotpoint

@@ -18,6 +18,7 @@ import isAndroid from '../../utilities/isAndroid';
  * Import Actions
 */
 import gender from '../../actions/gender';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -142,7 +143,8 @@ Gender.propTypes = {
     languages: PropTypes.array.isRequired,
     action: PropTypes.string.isRequired,
     user: PropTypes.object.isRequired,
-    gender: PropTypes.func.isRequired
+    gender: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -160,7 +162,8 @@ function mapStateToProps(state) {
 */
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        gender: gender
+        gender: gender,
+        logScreen: logScreen
     }, dispatch);
 }
 

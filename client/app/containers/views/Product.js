@@ -17,6 +17,7 @@ import isEmpty from '../../utilities/isEmpty';
 */
 import addProductToOrder from '../../actions/addProductToOrder';
 import editProductInOrder from '../../actions/editProductInOrder';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -163,7 +164,8 @@ Product.propTypes = {
     product: PropTypes.object.isRequired,
     action: PropTypes.string.isRequired,
     addProductToOrder: PropTypes.func.isRequired,
-    editProductInOrder: PropTypes.func.isRequired
+    editProductInOrder: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -181,7 +183,8 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         addProductToOrder: addProductToOrder,
-        editProductInOrder: editProductInOrder
+        editProductInOrder: editProductInOrder,
+        logScreen: logScreen
     }, dispatch);
 }
 

@@ -164,7 +164,7 @@ dependencies {
     implementation "com.google.firebase:firebase-auth:${rootProject.ext.googleFirebaseAuthenicationVersion}"
     implementation "com.google.firebase:firebase-database:${rootProject.ext.googleFirebaseDatabaseVersion}"
     implementation "com.google.firebase:firebase-functions:${rootProject.ext.googleFirebaseFunctionsVersion}"
-     implementation "com.google.firebase:firebase-firestore:${rootProject.ext.googleFirebaseFirestoreVersion}"
+     implementation "com.google.firebase:firebase-storage:${rootProject.ext.googleFirebaseStorageVersion}"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"

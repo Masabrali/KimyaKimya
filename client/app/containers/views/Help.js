@@ -16,6 +16,7 @@ import isEmpty from '../../utilities/isEmpty';
  * Import Actions
 */
 import fetchLinks from '../../actions/links';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -138,7 +139,8 @@ Help.propTypes = {
     languages: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     links: PropTypes.object.isRequired,
-    fetchLinks: PropTypes.func.isRequired
+    fetchLinks: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -157,7 +159,8 @@ function mapStateToProps(state) {
 */
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        fetchLinks: fetchLinks
+        fetchLinks: fetchLinks,
+        logScreen: logScreen
     }, dispatch);
 }
 

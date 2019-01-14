@@ -31,6 +31,7 @@ const SmsListener = (isAndroid())? require('react-native-android-sms-listener').
 import verify from '../../actions/verify';
 import resend from '../../actions/resend';
 import fetchUser from '../../actions/user';
+import logScreen from '../../actions/logScreen';
 
 /**
  * Import Components
@@ -509,7 +510,7 @@ class Verify extends Component<Props> {
                         }
 
                         let next = (user) => {
-                            
+
                             this.setState({ loading: false, verifying: false, done: true });
 
                             return ( (this.props.action == 'edit' || this.props.action == 'phone')? Actions.popTo('account') : Actions.gender() );
@@ -561,7 +562,8 @@ Verify.propTypes = {
     user: PropTypes.object.isRequired,
     verify: PropTypes.func.isRequired,
     resend: PropTypes.func.isRequired,
-    fetchUser: PropTypes.func.isRequired
+    fetchUser: PropTypes.func.isRequired,
+    logScreen: PropTypes.func.isRequired
 };
 
 /**
@@ -581,7 +583,8 @@ function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         verify: verify,
         resend: resend,
-        fetchUser: fetchUser
+        fetchUser: fetchUser,
+        logScreen: logScreen
     }, dispatch);
 }
 
