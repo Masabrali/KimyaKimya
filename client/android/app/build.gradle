@@ -142,6 +142,10 @@ android {
     }
 }
 
+repositories {
+  maven { url 'https://maven.fabric.io/public' }
+}
+
 dependencies {
     implementation project(':react-native-firebase')
     implementation project(':react-native-splash-screen')
@@ -164,7 +168,11 @@ dependencies {
     implementation "com.google.firebase:firebase-auth:${rootProject.ext.googleFirebaseAuthenicationVersion}"
     implementation "com.google.firebase:firebase-database:${rootProject.ext.googleFirebaseDatabaseVersion}"
     implementation "com.google.firebase:firebase-functions:${rootProject.ext.googleFirebaseFunctionsVersion}"
-     implementation "com.google.firebase:firebase-storage:${rootProject.ext.googleFirebaseStorageVersion}"
+    implementation "com.google.firebase:firebase-storage:${rootProject.ext.googleFirebaseStorageVersion}"
+    implementation("com.crashlytics.sdk.android:crashlytics:${rootProject.ext.googleFirebaseCrashlyticsVersion}@aar") {
+        transitive = true
+    }
+    implementation "com.google.firebase:firebase-perf:${rootProject.ext.googleFirebasePerfVersion}"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
@@ -179,4 +187,7 @@ task copyDownloadableDepsToLibs(type: Copy) {
     into 'libs'
 }
 
-apply plugin: 'com.google.gms.google-services'
+apply plugin: "com.google.gms.google-services"
+apply plugin: "com.android.application"
+apply plugin: 'com.google.firebase.firebase-perf'
+apply plugin: "io.fabric"

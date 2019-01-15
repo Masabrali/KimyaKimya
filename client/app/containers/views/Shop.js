@@ -8,7 +8,8 @@ import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { ListView, BackHandler, Keyboard } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import firebase from 'react-native-firebase'; // Version can be specified in package.json
+import firebase from 'react-native-firebase';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -96,6 +97,8 @@ class Shop extends Component<Props> {
         if (isEmpty(this.props.products) || (isEmpty(this.props.products.condoms) && isEmpty(this.props.products.pills) && isEmpty(this.props.products.emergency)))
             this.refresh();
         else this.refresh(true);
+
+        this.props.logScreen('Shop', 'Shop', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
 
 	      return SplashScreen.hide();
     }

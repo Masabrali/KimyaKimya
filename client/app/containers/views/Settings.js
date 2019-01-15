@@ -5,7 +5,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Actions } from 'react-native-router-flux'; // Version can be specified in package.json
+import { Actions } from 'react-native-router-flux';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Actions
@@ -34,6 +35,10 @@ class Settings extends Component<Props> {
         this.notifications = this.notifications.bind(this);
         this.help = this.help.bind(this);
         this.invite = this.invite.bind(this);
+    }
+
+    componentDidMount() {
+        return this.props.logScreen('Settings', 'Settings', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
 
     account() {
@@ -67,6 +72,7 @@ class Settings extends Component<Props> {
 */
 Settings.propTypes = {
     languages: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
     logScreen: PropTypes.func.isRequired
 };
 
@@ -75,7 +81,8 @@ Settings.propTypes = {
 */
 function mapStateToProps(state) {
     return {
-        languages: state.languages
+        languages: state.languages,
+        user: state.user
     };
 }
 

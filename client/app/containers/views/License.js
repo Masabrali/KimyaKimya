@@ -5,7 +5,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Actions } from 'react-native-router-flux'; // Version can be specified in package.json
+import { Actions } from 'react-native-router-flux';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Actions
@@ -34,6 +35,10 @@ class License extends Component<Props> {
         this.stopLoading = this.stopLoading.bind(this);
         this.handleError = this.handleError.bind(this);
         this.reload = this.reload.bind(this);
+    }
+
+    componentDidMount() {
+        return this.props.logScreen('License', 'License', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
 
     stopLoading() {

@@ -6,7 +6,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { ListView } from 'react-native'; // Version can be specified in package.json
+import { ListView } from 'react-native';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -52,6 +53,10 @@ class ReOrder extends Component<Props> {
         this.reOrder = this.reOrder.bind(this);
         this.back = this.back.bind(this);
         this.delete = this.delete.bind(this);
+    }
+
+    componentDidMount() {
+        return this.props.logScreen((!!this.props.order.draft == 'phone')? 'Draft Order' : 'Previous Order', (!!this.props.order.draft == 'phone')? 'DraftOrder' : 'PreviousOrder', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
 
     back() {

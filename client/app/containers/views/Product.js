@@ -5,7 +5,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Actions } from 'react-native-router-flux'; // Version can be specified in package.json
+import { Actions } from 'react-native-router-flux';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -55,6 +56,10 @@ class Product extends Component<Props> {
         this.decreaseQuantity = this.decreaseQuantity.bind(this);
         this.edit = this.edit.bind(this);
         this.order = this.order.bind(this);
+    }
+
+    componentDidMount() {
+        return this.props.logScreen('Product', 'Product', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
 
     back() {
@@ -161,6 +166,7 @@ class Product extends Component<Props> {
 */
 Product.propTypes = {
     languages: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
     product: PropTypes.object.isRequired,
     action: PropTypes.string.isRequired,
     addProductToOrder: PropTypes.func.isRequired,
@@ -173,7 +179,8 @@ Product.propTypes = {
 */
 function mapStateToProps(state) {
     return {
-        languages: state.languages
+        languages: state.languages,
+        user: state.user
     };
 }
 

@@ -8,7 +8,8 @@ import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import GooglePlaces from 'react-native-google-places';
 import Settings from 'react-native-settings';
-import { Alert, BackHandler, ListView, Dimensions, StatusBar } from 'react-native'; // Version can be specified in package.json
+import { Alert, BackHandler, ListView, Dimensions, StatusBar } from 'react-native';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -154,7 +155,9 @@ class Location extends Component<Props> {
                 return false;
             });
 
-        return this.initializeLocation();
+        this.initializeLocation();
+
+        return this.props.logScreen('Location', 'Location', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
 
     componentWillReceiveProps(props) {

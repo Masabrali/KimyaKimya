@@ -36,6 +36,12 @@ const Product = function (props) {
                       { isIOS() && <Text styles={ [Styles.textDark] }>{ (this.props.action == 'edit')? 'Order' : 'Shop' }</Text> }
                   </Button>
               }
+              renderRight={ () =>
+                  <Button light iconRight transparent onPress={ props.productInformation }>
+                      <Icon name="information-circle" ios="ios-information-circle" android="md-information-circle" style={ [Styles.textDark, styles.headerIcon] } />
+                      { isIOS() && <Text styles={ [Styles.textDark] }>Details</Text> }
+                  </Button>
+              }
               headerMaxHeight={300}
               imageSource={ (props.product.cover && props.product.cover != '')? { uri: props.product.cover } : props.cover }
               toolBarColor={ (isIOS())? 'transparent' : Styles.backgroundStatusBar.backgroundColor }

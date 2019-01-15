@@ -6,6 +6,9 @@ import com.facebook.react.ReactActivity;
 
 import org.devio.rn.splashscreen.SplashScreen;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
+
 
 public class MainActivity extends ReactActivity {
 
@@ -20,6 +23,8 @@ public class MainActivity extends ReactActivity {
         SplashScreen.show(this, R.style.SplashScreenTheme);
 
         super.onCreate(savedInstanceState);
+
+        Fabric.with(this, new Crashlytics());
     }
 
     @Override

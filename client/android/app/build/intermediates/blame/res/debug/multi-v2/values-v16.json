@@ -4,7 +4,7 @@
             "outputFile": "/Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v16/values-v16.xml",
             "map": [
                 {
-                    "source": "/Users/mac/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/7e614536317270f9025fa2d00c68d24c/res/values-v16/values-v16.xml",
+                    "source": "/Users/mac/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/c8504dd88ed67a41025b04a5f2435dbd/res/values-v16/values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/Users/mac/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/f91a31f384afb6f92afe1dd0365ea1bd/res/values-v16/values-v16.xml",
+                    "source": "/Users/mac/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ab9cef66ba02a90bfb9d94c4b9703bef/res/values-v16/values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

@@ -19,9 +19,25 @@ export default function(friends) {
 
                     let errorHandler = (error) => ( resolve({ errors: [error] }) );
 
+                    // return (
+                    //     firebase.functions().httpsCallable('invite')(friends)
+                    //     .then( (invitations) => ( resolve(invitations.val()) ), errorHandler)
+                    //     .catch(errorHandler)
+                    // );
+
+                    // create invitation
+                    const invitation = new firebase.invites.Invitation('KimyaKimya Invitation', 'Download and Try KimyaKimya for Great, Healthy and Enjoyable experiences tailored for your.');
+                    // invitation.setDeepLink('https://je786.page.link/testing');
+                    // invitation.setCustomImage(customImage);
+                    invitation.setCallToActionText('Experience It Firsthand');
+                    // invitation.setAndroidMinimumVersionCode(androidMinimumVersionCode);
+                    // invitation.setAndroidClientId(androidClientId);
+                    // invitation.setIOSClientId(iosClientId);
+
+                    // send the invitation
                     return (
-                        firebase.functions().httpsCallable('invite')(friends)
-                        .then( (invitations) => ( resolve(invitations.val()) ), errorHandler)
+                        firebase.invites().sendInvitation(invitation)
+                        .then( (invitation) => ( resolve(invitation) ), errorHandler)
                         .catch(errorHandler)
                     );
 

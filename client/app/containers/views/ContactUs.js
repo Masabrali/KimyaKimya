@@ -6,7 +6,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import ImagePicker from 'react-native-image-picker'; // Version can be specified in package.json
+import ImagePicker from 'react-native-image-picker';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -82,6 +83,8 @@ class ContactUs extends Component<Props> {
 
             KeyboardEvents.Emitter.on(KeyboardEvents.KeyboardWillHideEvent, () => this.setState({ keyboardHidden: true }));
         }
+
+        return this.props.logScreen('Contact Us', 'ContactUs', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
 
     componentWillUnmount() {

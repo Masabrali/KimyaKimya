@@ -1,7 +1,10 @@
-#Mon Jan 14 04:22:19 EAT 2019
+#Mon Jan 14 22:26:38 EAT 2019
+base.2=/Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/build/intermediates/transforms/dexMerger/debug/0
+path.2=classes3.dex
 base.1=/Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/build/intermediates/transforms/dexMerger/debug/0
 path.1=classes2.dex
 base.0=/Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/build/intermediates/transforms/dexMerger/debug/0
+renamed.2=classes3.dex
 renamed.1=classes2.dex
 renamed.0=classes.dex
 path.0=classes.dex

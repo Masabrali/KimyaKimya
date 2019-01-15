@@ -5,10 +5,12 @@ import firebase from 'react-native-firebase';
 */
 import handleError from './handleError';
 
-export default function logScreen(screenName, className) {
+export default function logScreen(screenName, className, params) {
 
     return dispatch => {
-        return firebase.analytics().setCurrentScreen(screenName, className);
-        // return firebase.analytics().logEvent(`Page_${action.routeName}`, {});
+        return {
+            currentScreen: firebase.analytics().setCurrentScreen(screenName, className),
+            loggedEvent: firebase.analytics().logEvent('Screen_' + className, params)
+        };
     };
 }

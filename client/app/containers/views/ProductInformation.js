@@ -5,7 +5,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Actions } from 'react-native-router-flux'; // Version can be specified in package.json
+import { Actions } from 'react-native-router-flux';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -34,15 +35,30 @@ class ProductInformation extends Component<Props> {
 
         // Initialize state
         this.state = {
-            cover: {
-                condoms: require('../../assets/condoms_cover.png'),
-                pills: require('../../assets/pills_cover.png'),
-                emergency: require('../../assets/emergency_cover.png')
+            loading: true,
+            thumbnail: {
+                condoms: require('../../assets/condoms_thumbnail.png'),
+                pills: require('../../assets/pills_thumbnail.png'),
+                emergency: require('../../assets/emergency_thumbnail.png')
             }
         };
 
         // Bind functions to this
+        this.stopLoading = this.stopLoading.bind(this);
+        this.handleError = this.handleError.bind(this);
         this.back = this.back.bind(this);
+    }
+
+    componentDidMount() {
+        return this.props.logScreen('Product Information', 'ProductInformation', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
+    }
+
+    stopLoading() {
+        return this.setState({ loading: false });
+    }
+
+    handleError(error) {
+        return Error(error.description, 5000);
     }
 
     back() {
@@ -52,8 +68,12 @@ class ProductInformation extends Component<Props> {
     render() {
         return (
             <ProductInformationComponent
+              gender={ this.props.user.gender }
               product={ this.props.product }
-              cover={ this.state.cover[this.props.product.category] }
+              thumbnail={ this.state.thumbnail[this.props.product.category] }
+              loading={ this.state.loading }
+              stopLoading={ this.stopLoading }
+              handleError={ this.handleError }
               back={ this.back }
             />
         )
@@ -65,6 +85,7 @@ class ProductInformation extends Component<Props> {
 */
 ProductInformation.propTypes = {
     languages: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
     products: PropTypes.object.isRequired,
     logScreen: PropTypes.func.isRequired
 };
@@ -74,7 +95,8 @@ ProductInformation.propTypes = {
 */
 function mapStateToProps(state) {
     return {
-        languages: state.languages
+        languages: state.languages,
+        user: state.user
     };
 }
 

@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { textWithoutEncoding } from 'react-native-communications';
-import { BackHandler, Keyboard } from 'react-native'; // Version can be specified in package.json
+import { BackHandler, Keyboard } from 'react-native';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -88,6 +89,10 @@ class Invite extends Component<Props> {
         if (isAndroid()) AndroidKeyboardAdjust.setAdjustPan();
 
         return this.handlePermission();
+    }
+
+    componentDidMount() {
+       return this.props.logScreen('Tell a Friend', 'Invite', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
 
     componentWillUnmount() {

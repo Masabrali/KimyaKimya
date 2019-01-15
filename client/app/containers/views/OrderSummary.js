@@ -5,7 +5,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Actions } from 'react-native-router-flux'; // Version can be specified in package.json
+import { Actions } from 'react-native-router-flux';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
 * Import Configurations
@@ -68,6 +69,10 @@ class OrderSummary extends Component<Props> {
         this.toggleCart = this.toggleCart.bind(this);
         this.checkout = this.checkout.bind(this);
         this.back = this.back.bind(this);
+    }
+
+    componentDidMount() {
+        return this.props.logScreen('Order Summary', 'OrderSummary', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
 
     handleError(error) {

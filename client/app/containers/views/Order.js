@@ -6,7 +6,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { ListView } from 'react-native'; // Version can be specified in package.json
+import { ListView } from 'react-native';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -53,6 +54,10 @@ class Order extends Component<Props> {
         this.remove = this.remove.bind(this);
         this.checkout = this.checkout.bind(this);
         this.back = this.back.bind(this);
+    }
+
+    componentDidMount() {
+        return this.props.logScreen('Order', 'Order', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
 
     componentWillReceiveProps(props) {

@@ -5,7 +5,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Actions } from 'react-native-router-flux'; // Version can be specified in package.json
+import { Actions } from 'react-native-router-flux';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -55,6 +56,10 @@ class Account extends Component<Props> {
     componentWillMount() {
         if (isEmpty(this.props.user)) return this.fetchUser();
         else return;
+    }
+
+    componentDidMount() {
+        return this.props.logScreen('Account', 'Account', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
 
     componentWillReceiveProps(props) {

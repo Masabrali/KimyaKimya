@@ -92,7 +92,7 @@ const Routes = function () {
                     </Tabs>
 
                     <Scene key="product" component={ Product } action="order" title="Product" backTitle="Shop" hideNavBar={ true } />
-                    <Scene key="productInformation" component={ ProductInformation } title="Product Details" backTitle="Back" hideNavBar={ true } />
+                    <Scene key="productInformation" component={ ProductInformation } title="" backTitle="Back" hideNavBar={ false } navigationBarStyle={ navigationBarStyle.concat([Styles.noBorderBottom]) } />
 
                     <Scene key="reOrder" component={ ReOrder } title="Your Previous Order" backTitle="Orders" hideNavBar={ true } />
 

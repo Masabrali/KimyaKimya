@@ -1,2 +1,2 @@
-# Referenced at /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:37
+# Referenced at /Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:40
 -keep class com.kimyakimya.MainApplication { <init>(...); }

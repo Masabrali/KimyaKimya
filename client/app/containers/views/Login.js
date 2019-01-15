@@ -6,7 +6,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { Alert, BackHandler, PermissionsAndroid } from 'react-native'; // Version can be specified in package.json
+import { Alert, BackHandler, PermissionsAndroid } from 'react-native';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -120,6 +121,8 @@ class Login extends Component<Props> {
 
             KeyboardEvents.Emitter.on(KeyboardEvents.KeyboardWillHideEvent, () => this.setState({ keyboardHidden: true }));
         }
+
+        return this.props.logScreen((this.props.action == 'phone')? 'Old Phone Number' : ((this.props.action == 'edit')? 'New Phone Number' : 'Login'), (this.props.action == 'phone')? 'ChangePhone' : ((this.props.action == 'edit')? 'EditPhone' : 'Login'), { gender: this.props.user.gender, age: (this.props.user.birth)? parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) : undefined });
     }
 
     componentWillReceiveProps(props) {

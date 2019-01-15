@@ -2,8 +2,8 @@
  * Import React and React Native
  */
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Container, Left, Right, Content, Button, Icon, Text } from 'native-base';
+import { StyleSheet, View, WebView } from 'react-native';
+import { Container, Content, Thumbnail, Text, Spinner } from 'native-base';
 import AnimatedHeader from 'react-native-animated-header'; // Version can be specified in package.json
 
 /**
@@ -15,6 +15,7 @@ import isIOS from '../../utilities/isIOS';
 /**
  * Import other components
 */
+import StatusBar from '../../components/others/StatusBar';
 
 /**
  * Other variables and constants
@@ -23,25 +24,34 @@ import Styles from '../styles';
 
 const ProductInformation = function (props) {
     return (
-        <Container style={ [Styles.screenHeight] }>
-            <AnimatedHeader
-              style={ [Styles.flex] }
-              title={ props.product.name + " details" }
-              titleStyle={{ fontSize: 22, left: 20, bottom: 20, color: Styles.textDark.color }}
-              renderLeft={ () =>
-                  <Button light iconLeft transparent onPress={ props.back }>
-                      <Icon name="arrow-back" ios="ios-arrow-back" android="md-arrow-back" style={ [Styles.textDark, styles.headerIcon] } />
-                      { isIOS() && <Text style={ [Styles.textDark] }>{ props.product.name }</Text> }
-                  </Button>
-              }
-              headerMaxHeight={300}
-              imageSource={ (props.product.cover && props.product.cover != '')? { uri: props.product.cover } : props.cover }
-              toolBarColor={ (isIOS())? 'transparent' : Styles.backgroundStatusBar.backgroundColor }
-            >
-                <Content padder contentContainerStyle={ [Styles.flex, Styles.flexColumn, Styles.flexjustifyCenter, Styles.flexAlignCenter] }>
-                    <Text style={ [Styles.padding, styles.bodyText] }>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
-                </Content>
-            </AnimatedHeader>
+        <Container>
+            <StatusBar />
+            <View style={ [Styles.flexRow, Styles.flexJustityStart, Styles.flexAlignCenter, Styles.borderBottom, Styles.paddingBottom] }>
+                <View style={ [Styles.flexJustifyCenter, Styles.flexAlignCenter, Styles.paddingLeft, Styles.paddingRight] }>
+                    <Thumbnail square defaultSource={ props.thumbnail } source={ (props.product.thumbnail && props.product.thumbnail != '')? { uri: props.product.thumbnail } : props.thumbnail } />
+                </View>
+                <View styles={ [Styles.flex, Styles.flexJustifyStart, Styles.flexAlignCenter, Styles.paddingLeft, Styles.paddingRight] }>
+                    <Text style={ [styles.title] }>{ props.product.name }</Text>
+                    <Text style={ [Styles.textLabel, styles.description] }>{ props.product.description }</Text>
+                </View>
+            </View>
+
+            <Content contentContainerStyle={ [Styles.flex] }>
+                { !props.product.details && <View style={ [Styles.flex, Styles.flexJustifyCenter, Styles.flexAlignCenter] }>
+                        <Text style={ [Styles.textAlignCenter, Styles.textPlaceholder, styles.bodyText, { width: 220 }] }>{ props.product.name } information unavailable.</Text>
+                    </View>
+                }
+                { props.product.details && <WebView
+                      ref={ (webview) => ( this.webview = webview ) }
+                      source={{ html: props.product.details || "" }}
+                      startInLoading={ true }
+                      renderLoading={ () => (<Spinner color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } />) }
+                      onLoad={ props.stopLoading }
+                      onError={ props.handleError }
+                      style={ [Styles.flex, styles.bodyText] }
+                    />
+                }
+            </Content>
         </Container>
     );
 }
@@ -50,7 +60,8 @@ const ProductInformation = function (props) {
  * Styles
 */
 const styles = StyleSheet.create({
-    headerIcon: { fontSize: 24 },
+    title: { fontSize: 24 },
+    description: { fontSize: 16 },
     bodyText: { fontSize: 18 }
 });
 

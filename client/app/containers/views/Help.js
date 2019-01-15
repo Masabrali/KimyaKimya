@@ -5,7 +5,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Actions } from 'react-native-router-flux'; // Version can be specified in package.json
+import { Actions } from 'react-native-router-flux';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -54,9 +55,10 @@ class Help extends Component<Props> {
     componentDidMount() {
 
         if (isEmpty(this.props.links) && isEmpty(this.props.links.faq) && isEmpty(this.props.links.terms)  && isEmpty(this.props.links.license) && isEmpty(this.props.links.website))
-            return this.fetchLinks();
-        else
-            return fetchLinks(true);
+            this.fetchLinks();
+        else fetchLinks(true);
+
+        return this.props.logScreen('Help', 'Help', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
 
     back() {

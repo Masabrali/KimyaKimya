@@ -62,6 +62,9 @@ class Welcome extends Component<Props> {
     }
 
     componentDidMount() {
+
+        this.props.logScreen('Welcome', 'Welcome');
+
         return SplashScreen.hide();
     }
 
@@ -246,6 +249,7 @@ class Welcome extends Component<Props> {
         return (
             <WelcomeComponent
               currentUser={ this.state.currentUser }
+              gender={ this.props.user.gender }
               login={ this.login }
               loading={ this.state.loading }
               errors={ this.state.errors }

@@ -6,7 +6,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { BackHandler } from 'react-native'; // Version can be specified in package.json
+import { BackHandler } from 'react-native';
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -64,6 +65,8 @@ class Birth extends Component<Props> {
                 return true;
             });
         else if (!isEmpty(this.androidBackListener)) this.androidBackListener.remove();
+
+        return this.props.logScreen((this.props.action == 'edit')? 'Change Birthday' : 'Set Birthday', (this.props.action == 'edit')? 'ChangeBirth' : 'Birth', { gender: this.props.user.gender, age: (this.props.user.birth)? parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) : undefined });
     }
 
     componentWillUnmount() {

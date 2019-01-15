@@ -223,6 +223,11 @@ class Verify extends Component<Props> {
 
             } else return this.setState({ smsWaitTime: smsWaitTime });
         });
+
+        /**
+        * Log Current Screen to Firebase Analytics
+        */
+        return this.props.logScreen((this.props.action == 'phone' || this.props.action == 'edit')? 'Verify Phone Number' : 'Verify Login', (this.props.action == 'phone' || this.props.action == 'edit')? 'VerifyPhone' : 'Verify', { gender: this.props.user.gender, age: (this.props.user.birth)? parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) : undefined });
     }
 
     componentWillUnmount() {

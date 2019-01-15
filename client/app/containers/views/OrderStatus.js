@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { phonecall, textWithoutEncoding } from 'react-native-communications';
-import Moment from 'moment';
+import moment from 'moment';
 import { BackHandler } from 'react-native'; // Version can be specified in package.json
 
 /**
@@ -94,7 +94,10 @@ class OrderStatus extends Component<Props> {
     }
 
     componentDidMount() {
+
         this.androidBackListener = BackHandler.addEventListener("hardwareBackPress", () => true);
+
+        return this.props.logScreen('Order Status', 'OrderStatus', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
 
     componentWillReceiveProps(props) {

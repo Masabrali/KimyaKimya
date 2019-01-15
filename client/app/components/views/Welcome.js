@@ -8,6 +8,7 @@ import { Container, Content, Button, Text } from 'native-base'; // Version can b
 /**
  * Import Utilities
 */
+import titleCase from '../../utilities/titleCase';
 import isEmpty from '../../utilities/isEmpty';
 import isAndroid from '../../utilities/isAndroid';
 
@@ -41,7 +42,7 @@ const Welcome = function (props) {
                 }
             </Content>
 
-            <Loader visible={ (props.loading && isEmpty(props.errors)) } />
+            <Loader visible={ (props.loading && isEmpty(props.errors)) } spinnerColor={ (props.gender)? Styles['textKimyaKimya' + titleCase(props.gender)].color : undefined } />
         </Container>
     );
 }

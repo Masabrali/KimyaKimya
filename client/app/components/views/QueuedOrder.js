@@ -189,7 +189,7 @@ const QueuedOrder = function (props) {
             </View>
 
             <View style={ [Styles.padding, Styles.borderTop] }>
-                <Button block onPress={ props.confirmOrder }>
+                <Button block onPress={ props.confirmOrder } disabled={ props.duration > 0 }>
                     <Text>Confirm Order Delivery</Text>
                 </Button>
             </View>

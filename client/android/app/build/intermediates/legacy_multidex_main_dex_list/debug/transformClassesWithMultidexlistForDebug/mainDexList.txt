@@ -219,6 +219,20 @@ com/google/android/gms/common/util/VisibleForTesting.class
 com/google/android/gms/common/zzc.class
 com/google/android/gms/common/zzm.class
 com/google/android/gms/flags/FlagSource.class
+com/google/android/gms/internal/firebase-perf/zzab.class
+com/google/android/gms/internal/firebase-perf/zzad.class
+com/google/android/gms/internal/firebase-perf/zzc.class
+com/google/android/gms/internal/firebase-perf/zzd.class
+com/google/android/gms/internal/firebase-perf/zze.class
+com/google/android/gms/internal/firebase-perf/zzf.class
+com/google/android/gms/internal/firebase-perf/zzg.class
+com/google/android/gms/internal/firebase-perf/zzi.class
+com/google/android/gms/internal/firebase-perf/zzj.class
+com/google/android/gms/internal/firebase-perf/zzn.class
+com/google/android/gms/internal/firebase-perf/zzq.class
+com/google/android/gms/internal/firebase-perf/zzu.class
+com/google/android/gms/internal/firebase-perf/zzw.class
+com/google/android/gms/internal/firebase-perf/zzy.class
 com/google/android/gms/internal/firebase_auth/zzt.class
 com/google/android/gms/internal/firebase_auth/zzu.class
 com/google/android/gms/internal/firebase_auth/zzv.class
@@ -244,6 +258,8 @@ com/google/firebase/database/Transaction$Handler.class
 com/google/firebase/database/ValueEventListener.class
 com/google/firebase/database/annotations/NotNull.class
 com/google/firebase/database/annotations/Nullable.class
+com/google/firebase/perf/FirebasePerformance$HttpMethod.class
+com/google/firebase/perf/metrics/AddTrace.class
 com/google/firebase/storage/StorageException$ErrorCode.class
 com/ianlin/RNCarrierInfo/RNCarrierInfoPackage.class
 com/imagepicker/ImagePickerPackage.class
@@ -252,6 +268,7 @@ com/kimyakimya/MainApplication$1.class
 com/kimyakimya/MainApplication.class
 com/learnium/RNDeviceInfo/RNDeviceInfo.class
 com/rt2zz/reactnativecontacts/ReactNativeContacts.class
+io/fabric/sdk/android/services/concurrency/DependsOn.class
 io/invertase/firebase/RNFirebasePackage.class
 io/invertase/firebase/analytics/RNFirebaseAnalyticsPackage.class
 io/invertase/firebase/auth/RNFirebaseAuth$1.class
@@ -291,6 +308,7 @@ io/invertase/firebase/database/RNFirebaseDatabaseReference$2.class
 io/invertase/firebase/database/RNFirebaseDatabaseReference$3.class
 io/invertase/firebase/database/RNFirebaseDatabaseReference$4.class
 io/invertase/firebase/database/RNFirebaseDatabaseReference$5.class
+io/invertase/firebase/fabric/crashlytics/RNFirebaseCrashlyticsPackage.class
 io/invertase/firebase/firestore/RNFirebaseFirestore$1.class
 io/invertase/firebase/firestore/RNFirebaseFirestore$2.class
 io/invertase/firebase/firestore/RNFirebaseFirestore$3.class
@@ -308,6 +326,7 @@ io/invertase/firebase/links/RNFirebaseLinks$1.class
 io/invertase/firebase/links/RNFirebaseLinks$2.class
 io/invertase/firebase/messaging/RNFirebaseMessaging$1.class
 io/invertase/firebase/messaging/RNFirebaseMessaging$2.class
+io/invertase/firebase/perf/RNFirebasePerformancePackage.class
 io/invertase/firebase/storage/RNFirebaseStorage$1.class
 io/invertase/firebase/storage/RNFirebaseStorage$17.class
 io/invertase/firebase/storage/RNFirebaseStorage$19.class

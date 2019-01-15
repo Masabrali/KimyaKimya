@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { ListView, BackHandler, Vibration, Keyboard } from 'react-native';
-import Moment from 'moment'; // Version can be specified in package.json
+import moment from 'moment'; // Version can be specified in package.json
 
 /**
  * Import Utilities
@@ -117,7 +117,9 @@ class Orders extends Component<Props> {
 
         if (this.props.orders.newOrderQueued) this.props.readQueuedOrder();
 
-        return this.calculateDurations();
+        this.calculateDurations();
+
+        return this.props.logScreen('Orders', 'Orders', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
 
     componentWillReceiveProps(props) {
@@ -249,7 +251,7 @@ class Orders extends Component<Props> {
                         return ((product.name.toLowerCase().search(_key) !== -1) || (product.description.toLowerCase().search(_key) !== -1) || (product.quantity == Number(key)) || (product.price == Number(_key)) || (product.amount == Number(_key)));
                     });
 
-                    if (!isEmpty(_order) || (order.location && ((order.location.name && order.location.name.toLowerCase().search(_key) != -1) || (order.location.address && order.location.address.toLowerCase().search(_key) != -1) || (order.location.country && order.location.country.toLowerCase().search(_key) != -1))) || Moment(order.date).format('DD MM YYYY MMMM').toLowerCase().search(_key) != -1 || ( isNumber(_key) && ((order.quantity == Number(_key)) || (order.amount == Number(_key)))))
+                    if (!isEmpty(_order) || (order.location && ((order.location.name && order.location.name.toLowerCase().search(_key) != -1) || (order.location.address && order.location.address.toLowerCase().search(_key) != -1) || (order.location.country && order.location.country.toLowerCase().search(_key) != -1))) || moment(order.date).format('DD MM YYYY MMMM').toLowerCase().search(_key) != -1 || ( isNumber(_key) && ((order.quantity == Number(_key)) || (order.amount == Number(_key)))))
                         orders[index][_index] = order;
 
                     return order;
