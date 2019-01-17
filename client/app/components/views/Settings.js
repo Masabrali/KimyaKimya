@@ -3,7 +3,13 @@
  */
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Content, List, ListItem, Left, Body, Right, Icon, Text, Switch } from 'native-base'; // Version can be specified in package.json
+import { Container, Content, List, ListItem, Left, Body, Right, Icon, Text, Spinner } from 'native-base'; // Version can be specified in package.json
+
+/**
+ * Import Utilities
+*/
+import titleCase from '../../utilities/titleCase';
+import isEmpty from '../../utilities/isEmpty';
 
 /**
  * Import other components
@@ -46,15 +52,16 @@ const Settings = function (props) {
                             <Icon name="arrow-forward" ios="ios-arrow-forward" android="md-arrow-forward" />
                         </Right>
                     </ListItem>
-                    <ListItem thumbnail onPress={ props.invite }>
+                    <ListItem thumbnail disabled={ props.loading } onPress={ props.invite }>
                         <Left>
                             <IconBox name="heart" ios="ios-heart" android="md-heart" backgroundColor="#ec407a" />
                         </Left>
-                        <Body>
+                        <Body style={ [Styles.borderBottom] }>
                             <Text>Tell a Friend</Text>
                         </Body>
                         <Right>
-                            <Icon name="arrow-forward" ios="ios-arrow-forward" android="md-arrow-forward" />
+                            { !props.loading && <Icon name="arrow-forward" ios="ios-arrow-forward" android="md-arrow-forward" /> }
+                            { props.loading && <Spinner size="small" color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } style={ [Styles.heightAuto] } /> }
                         </Right>
                     </ListItem>
                 </List>

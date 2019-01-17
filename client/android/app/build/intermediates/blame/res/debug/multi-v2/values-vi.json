@@ -21,6 +21,23 @@
                     }
                 },
                 {
+                    "source": "/Users/mac/.gradle/caches/transforms-1/files-1.1/firebase-messaging-17.3.4.aar/c89b626014d0e2108d0d9d1f2dea0aeb/res/values-vi/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "205",
+                        "endColumns": "98",
+                        "endOffsets": "303"
+                    },
+                    "to": {
+                        "startLines": "37",
+                        "startColumns": "4",
+                        "startOffsets": "4621",
+                        "endColumns": "102",
+                        "endOffsets": "4719"
+                    }
+                },
+                {
                     "source": "/Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-places-16.0.0.aar/c94ea7bb9a4754cc8649907e788cf7fd/res/values-vi/values.xml",
                     "from": {
                         "startLines": "4,5",
@@ -30,11 +47,11 @@
                         "endOffsets": "291,385"
                     },
                     "to": {
-                        "startLines": "38,39",
+                        "startLines": "39,40",
                         "startColumns": "4,4",
-                        "startOffsets": "4721,4824",
+                        "startOffsets": "4824,4927",
                         "endColumns": "102,97",
-                        "endOffsets": "4819,4917"
+                        "endOffsets": "4922,5020"
                     }
                 },
                 {
@@ -47,11 +64,11 @@
                         "endOffsets": "214,322,431,515,618,737,814,891,975,1079,1188,1289,1394,1508,1613,1770,1869,1953"
                     },
                     "to": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,40",
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,41",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,219,327,436,520,623,742,819,896,980,1084,1193,1294,1399,1513,1618,1775,4922",
+                        "startOffsets": "105,219,327,436,520,623,742,819,896,980,1084,1193,1294,1399,1513,1618,1775,5025",
                         "endColumns": "113,107,108,83,102,118,76,76,83,103,108,100,104,113,104,156,98,83",
-                        "endOffsets": "214,322,431,515,618,737,814,891,975,1079,1188,1289,1394,1508,1613,1770,1869,5001"
+                        "endOffsets": "214,322,431,515,618,737,814,891,975,1079,1188,1289,1394,1508,1613,1770,1869,5104"
                     }
                 },
                 {
@@ -81,11 +98,11 @@
                         "endOffsets": "151"
                     },
                     "to": {
-                        "startLines": "41",
+                        "startLines": "42",
                         "startColumns": "4",
-                        "startOffsets": "5006",
+                        "startOffsets": "5109",
                         "endColumns": "100",
-                        "endOffsets": "5102"
+                        "endOffsets": "5205"
                     }
                 },
                 {
@@ -98,11 +115,11 @@
                         "endOffsets": "285"
                     },
                     "to": {
-                        "startLines": "37",
+                        "startLines": "38",
                         "startColumns": "4",
-                        "startOffsets": "4621",
+                        "startOffsets": "4724",
                         "endColumns": "99",
-                        "endOffsets": "4716"
+                        "endOffsets": "4819"
                     }
                 }
             ]

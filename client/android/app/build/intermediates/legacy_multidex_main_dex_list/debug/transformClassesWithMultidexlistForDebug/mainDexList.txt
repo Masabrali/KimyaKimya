@@ -197,6 +197,7 @@ com/facebook/react/uimanager/common/UIManagerType.class
 com/facebook/soloader/DoNotOptimize.class
 com/facebook/soloader/SoLoader.class
 com/facebook/widget/text/span/BetterImageSpan$BetterImageSpanAlignment.class
+com/google/android/gms/appinvite/AppInviteInvitation$IntentBuilder$PlatformMode.class
 com/google/android/gms/common/GoogleSignatureVerifier.class
 com/google/android/gms/common/SignInButton$ButtonSize.class
 com/google/android/gms/common/SignInButton$ColorScheme.class
@@ -258,6 +259,8 @@ com/google/firebase/database/Transaction$Handler.class
 com/google/firebase/database/ValueEventListener.class
 com/google/firebase/database/annotations/NotNull.class
 com/google/firebase/database/annotations/Nullable.class
+com/google/firebase/dynamiclinks/ShortDynamicLink$Suffix.class
+com/google/firebase/messaging/RemoteMessage$MessagePriority.class
 com/google/firebase/perf/FirebasePerformance$HttpMethod.class
 com/google/firebase/perf/metrics/AddTrace.class
 com/google/firebase/storage/StorageException$ErrorCode.class
@@ -267,7 +270,6 @@ com/kimyakimya/BuildConfig.class
 com/kimyakimya/MainApplication$1.class
 com/kimyakimya/MainApplication.class
 com/learnium/RNDeviceInfo/RNDeviceInfo.class
-com/rt2zz/reactnativecontacts/ReactNativeContacts.class
 io/fabric/sdk/android/services/concurrency/DependsOn.class
 io/invertase/firebase/RNFirebasePackage.class
 io/invertase/firebase/analytics/RNFirebaseAnalyticsPackage.class
@@ -322,10 +324,14 @@ io/invertase/firebase/firestore/RNFirebaseFirestoreDocumentReference$6.class
 io/invertase/firebase/functions/RNFirebaseFunctions$1.class
 io/invertase/firebase/functions/RNFirebaseFunctionsPackage.class
 io/invertase/firebase/invites/RNFirebaseInvites$1.class
+io/invertase/firebase/invites/RNFirebaseInvitesPackage.class
 io/invertase/firebase/links/RNFirebaseLinks$1.class
 io/invertase/firebase/links/RNFirebaseLinks$2.class
+io/invertase/firebase/links/RNFirebaseLinksPackage.class
 io/invertase/firebase/messaging/RNFirebaseMessaging$1.class
 io/invertase/firebase/messaging/RNFirebaseMessaging$2.class
+io/invertase/firebase/messaging/RNFirebaseMessagingPackage.class
+io/invertase/firebase/notifications/RNFirebaseNotificationsPackage.class
 io/invertase/firebase/perf/RNFirebasePerformancePackage.class
 io/invertase/firebase/storage/RNFirebaseStorage$1.class
 io/invertase/firebase/storage/RNFirebaseStorage$17.class

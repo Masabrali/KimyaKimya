@@ -27,15 +27,15 @@ export default function(message) {
 
                 try {
 
-                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
-                    let dbRef = firebase.database().ref('contact_us');
+                    const errorHandler= (error) => ( resolve({ errors: [error] }) );
+                    const dbRef = firebase.database().ref('contact_us');
                     let _message = {
                         message: message.message,
                         user: firebase.auth().currentUser.uid,
                         read: false
                     };
 
-                    let _contactUs = (screenshot) => {
+                    const _contactUs = (screenshot) => {
 
                         dbRef.once('child_added')
                         .then( (data) => {
@@ -46,14 +46,14 @@ export default function(message) {
                             return resolve(_data);
 
                         }, errorHandler)
-                        .catch(errorHandler);
+                        .catch(handleError);
 
                         if (!isEmpty(screenshot)) _message.screenshot = screenshot.ref;
 
                         return (
                             dbRef.push(_message)
                             .then( (data) => ( data ), errorHandler)
-                            .catch(errorHandler)
+                            .catch(handleError)
                         );
                     };
 
@@ -62,8 +62,8 @@ export default function(message) {
                         return (
                             firebase.storage().ref('screenshots/' + guid())
                             .putFile(message.screenshot.uri)
-                            .then( _contactUs, errorHandler)
-                            .catch(errorHandler)
+                            .then(_contactUs, errorHandler)
+                            .catch(handleError)
                         );
 
                 } catch (error) {
@@ -74,6 +74,5 @@ export default function(message) {
                 }
             } )
         );
-
     } );
 }

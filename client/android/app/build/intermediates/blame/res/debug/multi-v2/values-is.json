@@ -13,11 +13,11 @@
                         "endOffsets": "200,297,409,494,595,709,789,869,950,1060,1168,1266,1375,1474,1577,1732,1830,1911"
                     },
                     "to": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,40",
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,41",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,205,302,414,499,600,714,794,874,955,1065,1173,1271,1380,1479,1582,1737,4774",
+                        "startOffsets": "105,205,302,414,499,600,714,794,874,955,1065,1173,1271,1380,1479,1582,1737,4881",
                         "endColumns": "99,96,111,84,100,113,79,79,80,109,107,97,108,98,102,154,97,80",
-                        "endOffsets": "200,297,409,494,595,709,789,869,950,1060,1168,1266,1375,1474,1577,1732,1830,4850"
+                        "endOffsets": "200,297,409,494,595,709,789,869,950,1060,1168,1266,1375,1474,1577,1732,1830,4957"
                     }
                 },
                 {
@@ -55,6 +55,23 @@
                     }
                 },
                 {
+                    "source": "/Users/mac/.gradle/caches/transforms-1/files-1.1/firebase-messaging-17.3.4.aar/c89b626014d0e2108d0d9d1f2dea0aeb/res/values-is/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "205",
+                        "endColumns": "102",
+                        "endOffsets": "307"
+                    },
+                    "to": {
+                        "startLines": "37",
+                        "startColumns": "4",
+                        "startOffsets": "4472",
+                        "endColumns": "106",
+                        "endOffsets": "4574"
+                    }
+                },
+                {
                     "source": "/Users/mac/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/c8504dd88ed67a41025b04a5f2435dbd/res/values-is/values-is.xml",
                     "from": {
                         "startLines": "2",
@@ -64,11 +81,11 @@
                         "endOffsets": "151"
                     },
                     "to": {
-                        "startLines": "41",
+                        "startLines": "42",
                         "startColumns": "4",
-                        "startOffsets": "4855",
+                        "startOffsets": "4962",
                         "endColumns": "100",
-                        "endOffsets": "4951"
+                        "endOffsets": "5058"
                     }
                 },
                 {
@@ -81,11 +98,11 @@
                         "endOffsets": "289"
                     },
                     "to": {
-                        "startLines": "37",
+                        "startLines": "38",
                         "startColumns": "4",
-                        "startOffsets": "4472",
+                        "startOffsets": "4579",
                         "endColumns": "103",
-                        "endOffsets": "4571"
+                        "endOffsets": "4678"
                     }
                 },
                 {
@@ -98,11 +115,11 @@
                         "endOffsets": "291,382"
                     },
                     "to": {
-                        "startLines": "38,39",
+                        "startLines": "39,40",
                         "startColumns": "4,4",
-                        "startOffsets": "4576,4679",
+                        "startOffsets": "4683,4786",
                         "endColumns": "102,94",
-                        "endOffsets": "4674,4769"
+                        "endOffsets": "4781,4876"
                     }
                 }
             ]

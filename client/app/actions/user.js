@@ -18,11 +18,11 @@ export default function user() {
 
                 try {
 
-                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
-                    let currentUser = firebase.auth().currentUser;
+                    const errorHandler= (error) => ( resolve({ errors: [error] }) );
+                    const currentUser = firebase.auth().currentUser;
 
                     return (
-                        firebase.database().ref('users/' + currentUser.uid).once('value')
+                        firebase.database().ref('clients/' + currentUser.uid).once('value')
                         .then( (user) => {
 
                             let _user = {
@@ -36,7 +36,7 @@ export default function user() {
                             return dispatch( setUser(_user) );
 
                         }, errorHandler)
-                        .catch(errorHandler)
+                        .catch(handleError)
                     );
                 } catch (error) {
 
@@ -46,6 +46,5 @@ export default function user() {
                 }
             } )
         );
-
     } );
 }

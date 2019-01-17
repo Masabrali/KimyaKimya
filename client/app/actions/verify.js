@@ -24,9 +24,9 @@ export default function verify(user) {
 
                 try {
 
-                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
+                    const errorHandler= (error) => ( resolve({ errors: [error] }) );
 
-                    let _resolve = (_user) => {
+                    const _resolve = (_user) => {
 
                         resolve({ user: _user });
 
@@ -36,23 +36,23 @@ export default function verify(user) {
                             return dispatch( verifyUser(_user) );
                     };
 
-                    let verifyPhoneNumber = (phoneAuthSnapshot) => {
+                    const verifyPhoneNumber = (phoneAuthSnapshot) => {
 
-                        let credential = firebase.auth.PhoneAuthProvider.credential(phoneAuthSnapshot.verificationId, user.verificationCode);
+                        const credential = firebase.auth.PhoneAuthProvider.credential(phoneAuthSnapshot.verificationId, user.verificationCode);
 
                         return (
                             ( (!isEmpty(firebase.auth().currentUser))? firebase.auth().currentUser.reauthenticateWithCredential(credential) : firebase.auth().signInWithCredential(credential) )
                             .then( (user) => ( _resolve(user) ) )
-                            .catch(errorHandler)
+                            .catch(handleError)
                         );
                     };
-                    
+
                     if (user.autoVerified) return _resolve({ ...user.user });
                     else {
                         if (!isEmpty(user.confirmResults))
                             return (
                                 user.confirmResults.confirm(user.verificationCode).then(_resolve)
-                                .catch(errorHandler)
+                                .catch(handleError)
                             );
                         else if (!isEmpty(user.phoneVerification)) {
 
@@ -61,7 +61,7 @@ export default function verify(user) {
                             else
                                 return (
                                     user.phoneVerification.then(verifyPhoneNumber)
-                                    .catch(errorHandler)
+                                    .catch(handleError)
                                 );
                         }
                     }
@@ -74,6 +74,5 @@ export default function verify(user) {
                 }
             } )
         );
-
     } );
 }

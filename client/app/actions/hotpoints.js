@@ -21,8 +21,8 @@ export default function(hotpoints) {
 
                 try {
 
-                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
-                    let dbRef = firebase.database().ref('live_hotpoints');
+                    const errorHandler= (error) => ( resolve({ errors: [error] }) );
+                    const dbRef = firebase.database().ref('live_hotpoints/');
 
                     dbRef.on('child_added', (hotpoint) => ( dispatch( addHotpoint({ key: hotpoint.key, ...hotpoint.val() }) ) ), errorHandler);
 
@@ -37,7 +37,7 @@ export default function(hotpoints) {
                         return dispatch( setHotpoints(hotpoints.val()) );
 
                     }, errorHandler)
-                    .catch(errorHandler);
+                    .catch(handleError);
 
                 } catch (error) {
 
@@ -47,6 +47,5 @@ export default function(hotpoints) {
                 }
             } )
         );
-
     } );
 }

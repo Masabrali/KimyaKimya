@@ -19,8 +19,8 @@ export default function links(links) {
 
                 try {
 
-                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
-                    let dbRef = firebase.database().ref('links');
+                    const errorHandler= (error) => ( resolve({ errors: [error] }) );
+                    const dbRef = firebase.database().ref('links');
 
                     dbRef.on('child_changed', (link) => ( dispatch( setLink({ key: link.key, link: link.val() }) ) ), errorHandler);
 
@@ -32,7 +32,7 @@ export default function links(links) {
                             return dispatch( setLinks(links.val()) );
 
                         }, errorHandler)
-                        .catch(errorHandler);
+                        .catch(handleError);
 
                 } catch (error) {
 
@@ -42,6 +42,5 @@ export default function links(links) {
                 }
             } )
         );
-
     } );
 }

@@ -18,7 +18,7 @@ export default function logout(user) {
 
                 try {
 
-                  let errorHandler = (error) => ( resolve({ errors: [error] }) );
+                  const errorHandler= (error) => ( resolve({ errors: [error] }) );
 
                   return (
                       firebase.auth().signOut().then( () => {
@@ -28,7 +28,7 @@ export default function logout(user) {
                           return dispatch( logoutUser(user) );
 
                       }, errorHandler)
-                      .catch(errorHandler)
+                      .catch(handleError)
                   );
 
                 } catch (error) {
@@ -39,6 +39,5 @@ export default function logout(user) {
                 }
             } )
         );
-
     } );
 }

@@ -19,8 +19,8 @@ exports.confirmOrder = (order, context) => {
                 else {
 
                     let errorHandler = (error) => ( resolve({ errors: [error] }) );
-                    let queuedDbRef = admin.database().ref('orders/queued/' + context.auth.uid);
-                    let previousDbRef = admin.database().ref('orders/previous/' + context.auth.uid);
+                    let queuedDbRef = admin.database().ref('client_orders/queued/' + context.auth.uid);
+                    let previousDbRef = admin.database().ref('client_orders/previous/' + context.auth.uid);
 
                     previousDbRef.once('child_added').then( (order) => {
 
@@ -34,7 +34,7 @@ exports.confirmOrder = (order, context) => {
                     return (
                         queuedDbRef.child(order.key).remove()
                         .then( (_order) => {
-                            
+
                             if (_order) return resolve({ errors: [order] });
                             else {
 

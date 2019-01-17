@@ -45,16 +45,16 @@ public final class R {
     public static final class color {
         private color() {}
 
-        public static final int common_google_signin_btn_text_dark = 0x7f040027;
-        public static final int common_google_signin_btn_text_dark_default = 0x7f040028;
-        public static final int common_google_signin_btn_text_dark_disabled = 0x7f040029;
-        public static final int common_google_signin_btn_text_dark_focused = 0x7f04002a;
-        public static final int common_google_signin_btn_text_dark_pressed = 0x7f04002b;
-        public static final int common_google_signin_btn_text_light = 0x7f04002c;
-        public static final int common_google_signin_btn_text_light_default = 0x7f04002d;
-        public static final int common_google_signin_btn_text_light_disabled = 0x7f04002e;
-        public static final int common_google_signin_btn_text_light_focused = 0x7f04002f;
-        public static final int common_google_signin_btn_text_light_pressed = 0x7f040030;
+        public static final int common_google_signin_btn_text_dark = 0x7f040028;
+        public static final int common_google_signin_btn_text_dark_default = 0x7f040029;
+        public static final int common_google_signin_btn_text_dark_disabled = 0x7f04002a;
+        public static final int common_google_signin_btn_text_dark_focused = 0x7f04002b;
+        public static final int common_google_signin_btn_text_dark_pressed = 0x7f04002c;
+        public static final int common_google_signin_btn_text_light = 0x7f04002d;
+        public static final int common_google_signin_btn_text_light_default = 0x7f04002e;
+        public static final int common_google_signin_btn_text_light_disabled = 0x7f04002f;
+        public static final int common_google_signin_btn_text_light_focused = 0x7f040030;
+        public static final int common_google_signin_btn_text_light_pressed = 0x7f040031;
     }
     public static final class drawable {
         private drawable() {}
@@ -154,9 +154,9 @@ public final class R {
     public static final class style {
         private style() {}
 
-        public static final int amu_Bubble_TextAppearance_Dark = 0x7f0d0174;
-        public static final int amu_Bubble_TextAppearance_Light = 0x7f0d0175;
-        public static final int amu_ClusterIcon_TextAppearance = 0x7f0d0176;
+        public static final int amu_Bubble_TextAppearance_Dark = 0x7f0d0176;
+        public static final int amu_Bubble_TextAppearance_Light = 0x7f0d0177;
+        public static final int amu_ClusterIcon_TextAppearance = 0x7f0d0178;
     }
     public static final class styleable {
         private styleable() {}

@@ -750,7 +750,7 @@ class Location extends Component<Props> {
     /**
     * getPlace
     */
-    getPlace(location, handleLocation, handleError) {
+    getPlace(location, handleLocation, handleError, silent) {
 
         /**
         * Sort Places and get the first places
@@ -765,9 +765,13 @@ class Location extends Component<Props> {
             return this.props.location(location).then(
                 (data) => {
 
-                    if (data.error_message)
-                        return this.handleError({name: data.status, message: data.error_message});
-                    else {
+                    if (data.error_message) {
+
+                        let error = {name: data.status, message: data.error_message};
+
+                        return ((isFunction(handleError))? handleError(error) : this.handleError(error));
+
+                    } else {
 
                         location.name = data.results[0].address_components[0].long_name;
                         location.address = data.results[0].formatted_address;
@@ -775,12 +779,10 @@ class Location extends Component<Props> {
                         return handleLocation(location);
                     }
                 },
-                (error) => {
-
-                    if (handleError) return handleError(error);
-                    else return this.handleError(error);
-                }
-            ).catch(this.handleError);
+                (error) => (
+                    (isFunction(handleError))? handleError(error) : this.handleError(error)
+                )
+            ).catch(silent || this.handleError);
     }
 
     /**
@@ -840,7 +842,7 @@ class Location extends Component<Props> {
     /**
     * Search for Location using Key
     */
-    searchLocation(key) { console.log('search')
+    searchLocation(key) {
 
         if (!key || key === '')
             return this.setState({ locations: this.props.locations, locationKey: undefined });
@@ -1028,7 +1030,7 @@ class Location extends Component<Props> {
 
                         return orderSummary(location);
 
-                    }, (error) => ( orderSummary(location, { errors: [error] }) ) );
+                    }, (error) => ( orderSummary(location, { errors: [error] }) ), true);
                 } else
                     return orderSummary(location);
             };

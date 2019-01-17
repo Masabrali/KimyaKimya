@@ -16,6 +16,8 @@ import locations from './locations';
 import places from './places';
 import hotpoints from './hotpoints';
 import links from './links';
+import invitation from './invitation';
+import fcm_token from './fcm_token';
 
 // Combiner all reducers
 const reducers = combineReducers({
@@ -32,7 +34,9 @@ const reducers = combineReducers({
     locations: locations,
     places: places,
     hotpoints: hotpoints,
-    links: links
+    links: links,
+    invitation: invitation,
+    fcm_token: fcm_token
 });
 
 export default reducers;

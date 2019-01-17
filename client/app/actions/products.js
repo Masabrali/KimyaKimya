@@ -21,8 +21,8 @@ export default function products(products) {
 
                 try {
 
-                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
-                    let dbRef = firebase.database().ref('products');
+                    const errorHandler= (error) => ( resolve({ errors: [error] }) );
+                    const dbRef = firebase.database().ref('products');
 
                     dbRef.on('child_added', (product) => (
                         dispatch( addProduct(product.val()) )
@@ -44,7 +44,7 @@ export default function products(products) {
                             return dispatch( setProducts(products.val()) );
 
                         }, errorHandler)
-                        .catch(errorHandler);
+                        .catch(handleError);
 
                 } catch (error) {
 
@@ -54,6 +54,5 @@ export default function products(products) {
                 }
             } )
         );
-
     } );
 }

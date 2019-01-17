@@ -25,8 +25,8 @@ export default function(order) {
 
                 try {
 
-                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
-                    let dbRef = firebase.database().ref('orders/drafts/' + firebase.auth().currentUser.uid);
+                    const errorHandler = (error) => ( resolve({ errors: [error] }) );
+                    const dbRef = firebase.database().ref('client_orders/drafts/' + firebase.auth().currentUser.uid);
 
                     dbRef.once('child_added')
                     .then( (order) => {
@@ -39,7 +39,7 @@ export default function(order) {
                         return dispatch( draftOrder(_order) );
 
                     }, errorHandler)
-                    .catch(errorHandler);
+                    .catch(handleError);
 
 
                     dbRef = dbRef.push();
@@ -54,7 +54,7 @@ export default function(order) {
                         .then( (order) => (
                             (!isEmpty(order))? resolve({ errors: [order] }) : order
                         ), errorHandler)
-                        .catch(errorHandler)
+                        .catch(handleError)
                     );
 
                 } catch (error) {
@@ -65,6 +65,5 @@ export default function(order) {
                 }
             } )
         );
-
     } );
 }

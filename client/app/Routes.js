@@ -41,7 +41,6 @@ import ContactUs from './containers/views/ContactUs';
 import Terms from './containers/views/Terms';
 import License from './containers/views/License';
 import Website from './containers/views/Website';
-import Invite from './containers/views/Invite';
 
 import Order from './containers/views/Order';
 import EditProduct from './containers/views/Product';
@@ -111,7 +110,6 @@ const Routes = function () {
                         <Scene key="license" component={ License } title="License" backTitle="Back" hideNavBar={ false } navigationBarStyle={ navigationBarStyle } />
                         <Scene key="website" component={ Website } title="kimyakimya.app" backTitle="Back" hideNavBar={ false } navigationBarStyle={ navigationBarStyle } />
                     </Scene>
-                    <Scene key="invite" component={ Invite } title="Tell a Friend" backTitle="Settings" hideNavBar={ true } />
                 </Scene>
 
                 <Scene key="contactus" component={ ContactUs } title="Contact Us" backTitle="Cancel" hideNavBar={ true } />

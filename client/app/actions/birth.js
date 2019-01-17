@@ -18,9 +18,9 @@ export default function birth(user) {
 
                 try {
 
-                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
-                    let currentUser = firebase.auth().currentUser;
-                    let userRef = firebase.database().ref('users/' + currentUser.uid);
+                    const errorHandler= (error) => ( resolve({ errors: [error] }) );
+                    const currentUser = firebase.auth().currentUser;
+                    const userRef = firebase.database().ref('clients/' + currentUser.uid);
 
                     return (
                         userRef.once('value').then( (_user) => {
@@ -34,12 +34,12 @@ export default function birth(user) {
                                     resolve(_user.val());
 
                                     return dispatch( setUserBirth(_user.val()) );
-                                    
+
                                 }, errorHandler)
-                                .catch(errorHandler)
+                                .catch(handleError)
                             );
                         }, errorHandler)
-                        .catch(errorHandler)
+                        .catch(handleError)
                     );
 
                 } catch (error) {
@@ -50,6 +50,5 @@ export default function birth(user) {
                 }
             } )
         );
-
     } );
 }

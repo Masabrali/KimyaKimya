@@ -3,4 +3,5 @@
 <resources>
     <color name="primary_dark">#000000</color>
     <color name="status_bar_color">#FBFCFC</color>
+    <color name="colorAccent">#ED2593</color>
 </resources>

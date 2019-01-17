@@ -34,10 +34,10 @@ export default function(order, products) {
 
                     if (!!order.draft) {
 
-                        let errorHandler = (error) => ( resolve({ errors: [error] }) );
-                        let currentUser = firebase.auth().currentUser;
+                        const errorHandler= (error) => ( resolve({ errors: [error] }) );
+                        const currentUser = firebase.auth().currentUser;
 
-                        firebase.database().ref('orders/drafts/' + currentUser.uid)
+                        firebase.database().ref('client_orders/drafts/' + currentUser.uid)
                         .once('child_removed')
                         .then( (order) => {
 
@@ -47,14 +47,14 @@ export default function(order, products) {
 
                             return dispatch( setOrder(order) );
                         }, errorHandler)
-                        .catch(errorHandler);
+                        .catch(handleError);
 
                         return (
-                            firebase.database().ref('orders/drafts/' + currentUser.uid + '/' + order.key).remove()
+                            firebase.database().ref('client_orders/drafts/' + currentUser.uid + '/' + order.key).remove()
                             .then( (order) => (
                                 (!isEmpty(order))? resolve({ errors: [order] }) : order
                             ), errorHandler)
-                            .catch(errorHandler)
+                            .catch(handleError)
                         );
 
                     } else {
@@ -72,6 +72,5 @@ export default function(order, products) {
                 }
             } )
         );
-
     } );
 }

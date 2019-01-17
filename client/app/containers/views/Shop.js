@@ -8,7 +8,8 @@ import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { ListView, BackHandler, Keyboard } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import firebase from 'react-native-firebase';
+import firebase  from 'react-native-firebase';
+import type { Notification, NotificationOpen } from 'react-native-firebase';
 import moment from 'moment'; // Version can be specified in package.json
 
 /**
@@ -21,6 +22,9 @@ import isAndroid from '../../utilities/isAndroid';
  * Import Actions
 */
 import fetchProducts from '../../actions/products';
+import fetchOrders from '../../actions/orders';
+import fetchFCMToken from '../../actions/fcmToken';
+import confirmInvitation from '../../actions/confirmInvitation';
 import logScreen from '../../actions/logScreen';
 
 /**
@@ -68,6 +72,10 @@ class Shop extends Component<Props> {
 
         // Bind functions to this
         this.handleError = this.handleError.bind(this);
+        this.subscribeToNotifications = this.subscribeToNotifications.bind(this);
+        this.fetchFCMToken = this.fetchFCMToken.bind(this);
+        this.fetchOrders = this.fetchOrders.bind(this);
+        this.confirmInvitation = this.confirmInvitation.bind(this);
         this.focusSearch = this.focusSearch.bind(this);
         this.clearSearch = this.clearSearch.bind(this);
         this.blurSearch = this.blurSearch.bind(this);
@@ -88,6 +96,8 @@ class Shop extends Component<Props> {
 
             Keyboard.addListener('keyboardDidHide', () => ( this.setState({ keyboardHeight: 0 }) ) );
 
+            this.subscribeToNotifications();
+
             return ( (isAndroid())? AndroidKeyboardAdjust.setAdjustPan() : 1 );
         }
     }
@@ -97,6 +107,12 @@ class Shop extends Component<Props> {
         if (isEmpty(this.props.products) || (isEmpty(this.props.products.condoms) && isEmpty(this.props.products.pills) && isEmpty(this.props.products.emergency)))
             this.refresh();
         else this.refresh(true);
+
+        (!this.props.fcm_token)? this.fetchFCMToken() : this.fetchFCMToken(true);
+
+        this.fetchOrders(true);
+
+        this.confirmInvitation();
 
         this.props.logScreen('Shop', 'Shop', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
 
@@ -226,6 +242,193 @@ class Shop extends Component<Props> {
         return this.setState({ errors, loading: false, done: false });
     }
 
+    async subscribeToNotifications(silent) {
+
+        // Validation
+        let errors = {};
+
+        // Hand;e Data Submission to server
+        if (isEmpty(errors)) {
+
+            const handleError = (error) => ( silent || this.handleError(error) );
+
+            const processNotification = (notificationOpen: NotificationOpen) => {
+
+                if (!isEmpty(notificationOpen.notification.data.order)) {
+
+                    const order = notificationOpen.notification.data.order;
+
+                    if (!isEmpty(this.props.orders.queued[order]))
+                        return Actions.queuedOrder({ order: this.props.orders.queued[order] });
+                    else return order
+
+                } else return notificationOpen;
+            };
+
+            const subscribeToNotifications = async () => {
+
+                return (
+                    firebase.notifications().getInitialNotification()
+                    .then( (notificationOpen: NotificationOpen) => {
+
+                        if (notificationOpen) processNotification(notificationOpen);
+
+                        return firebase.notifications().onNotificationOpened(processNotification);
+
+                    }, handleError)
+                    .catch(handleError)
+                );
+            };
+
+            return (
+                firebase.messaging().hasPermission()
+                .then( (enabled) => {
+
+                    if (enabled) subscribeToNotifications();
+                    else
+                        return (
+                            firebase.messaging().requestPermission()
+                            .then( (enabled) => ( (enabled)? subscribeToNotifications() : enabled ), handleError)
+                            .catch(handleError)
+                        );
+                }, handleError)
+                .catch(handleError)
+            );
+        }
+    }
+
+    fetchFCMToken(silent) {
+
+        // Validation
+        let errors = {};
+
+        // Hand;e Data Submission to server
+        if (isEmpty(errors)) {
+
+            if (!silent && !this.state.loading && !this.state.refreshing)
+                this.setState({ loading: true });
+
+            return (
+                this.props.fetchFCMToken({ silent }).then(
+                (data) => {
+                    
+                    if (!silent && !isEmpty(data.errors)) {
+
+                        let errors = data.errors;
+
+                        Error(errors[Object.keys(errors)[0]], 5000);
+
+                        return ( silent || this.setState({
+                            errors,
+                            loading: false,
+                            refreshing: false,
+                            done: false
+                        }) );
+
+                    } else
+                        return ( silent || this.setState({
+                            loading: false,
+                            refreshing: false,
+                            done: true,
+                            errors: {}
+                        }) );
+
+                }, (error) => ( silent || this.handleError(error) ) )
+                .catch( (error) => ( silent || this.handleError(error) ) )
+            );
+        }
+    }
+
+    confirmInvitation(silent) {
+
+        // Validation
+        let errors = {};
+
+        // Hand;e Data Submission to server
+        if (isEmpty(errors))
+            return (
+                firebase.invites()
+                .getInitialInvitation()
+                .then( (invitation) => {
+
+                    if (!isEmpty(invitation))
+                        return (
+                            this.props.confirmInvitation(invitation).then(
+                            (data) => {
+
+                                if (!isEmpty(data.errors)) {
+
+                                    let errors = data.errors;
+
+                                    Error(errors[Object.keys(errors)[0]], 5000);
+
+                                    return ( silent || this.setState({
+                                        errors,
+                                        loading: false,
+                                        refreshing: false,
+                                        done: false
+                                    }) );
+
+                                } else
+                                    return ( silent || this.setState({
+                                        loading: false,
+                                        refreshing: false,
+                                        done: true,
+                                        errors: {}
+                                    }) );
+
+                            }, (error) => ( silent || this.handleError(error) ) )
+                            .catch( (error) => ( silent || this.handleError(error) ) )
+                        );
+                    else return invitation;
+
+                }, (error) => ( silent || this.handleError(error) ) )
+                .catch( (error) => ( silent || this.handleError(error) ) )
+            );
+    }
+
+    fetchOrders(silent) {
+
+        // Validation
+        let errors = {};
+
+        // Hand;e Data Submission to server
+        if (isEmpty(errors)) {
+
+            if (!silent && !this.state.loading && !this.state.refreshing)
+                this.setState({ loading: true });
+
+            return (
+                this.props.fetchOrders({ silent }).then(
+                (data) => {
+
+                    if (!silent && !isEmpty(data.errors)) {
+
+                        let errors = data.errors;
+
+                        Error(errors[Object.keys(errors)[0]], 5000);
+
+                        return ( silent || this.setState({
+                            errors,
+                            loading: false,
+                            refreshing: false,
+                            done: false
+                        }) );
+
+                    } else
+                        return ( silent || this.setState({
+                            loading: false,
+                            refreshing: false,
+                            done: true,
+                            errors: {}
+                        }) );
+
+                }, (error) => ( silent || this.handleError(error) ) )
+                .catch( (error) => ( silent || this.handleError(error) ) )
+            );
+        }
+    }
+
     refresh(silent) {
 
         // Validation
@@ -237,7 +440,8 @@ class Shop extends Component<Props> {
             if (!silent && !this.state.loading && !this.state.refreshing)
                 this.setState({ loading: true });
 
-            this.props.fetchProducts({ silent }).then(
+            return (
+                this.props.fetchProducts({ silent }).then(
                 (data) => {
 
                     if (!silent && !isEmpty(data.errors)) {
@@ -246,7 +450,12 @@ class Shop extends Component<Props> {
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 
-                        this.setState({ errors, loading: false, refreshing: false, done: false });
+                        return ( silent || this.setState({
+                            errors,
+                            loading: false,
+                            refreshing: false,
+                            done: false
+                        }) );
 
                     } else
                         return ( silent || this.setState({
@@ -257,7 +466,8 @@ class Shop extends Component<Props> {
                         }) );
 
                 }, (error) => ( silent || this.handleError(error) ) )
-                .catch( (error) => ( silent || this.handleError(error) ) );
+                .catch( (error) => ( silent || this.handleError(error) ) )
+            );
         }
     }
 
@@ -299,8 +509,11 @@ Shop.propTypes = {
     languages: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     products: PropTypes.object.isRequired,
+    orders: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
+    fcm_token: PropTypes.string.isRequired,
     fetchProducts: PropTypes.func.isRequired,
+    confirmInvitation: PropTypes.func.isRequired,
     logScreen: PropTypes.func.isRequired
 };
 
@@ -312,7 +525,9 @@ function mapStateToProps(state) {
         languages: state.languages,
         user: state.user,
         products: state.products,
+        orders: state.orders,
         order: state.order,
+        fcm_token: state.fcm_token,
         countries: state.countries
     };
 }
@@ -323,6 +538,9 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         fetchProducts: fetchProducts,
+        fetchOrders: fetchOrders,
+        confirmInvitation: confirmInvitation,
+        fetchFCMToken: fetchFCMToken,
         logScreen: logScreen
     }, dispatch);
 }

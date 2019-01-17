@@ -28,8 +28,8 @@ export default function(order) {
 
                 try {
 
-                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
-                    let path = 'orders/' + ( (order.draft)? 'drafts/' : 'previous/' ) + firebase.auth().currentUser.uid + '/';
+                    const errorHandler= (error) => ( resolve({ errors: [error] }) );
+                    const path = 'client_orders/' + ( (order.draft)? 'drafts/' : 'previous/' ) + firebase.auth().currentUser.uid + '/';
 
                     firebase.database().ref(path)
                     .once('child_removed')
@@ -43,14 +43,14 @@ export default function(order) {
                         return dispatch( deleteOrder(_order) );
 
                     }, errorHandler)
-                    .catch(errorHandler);
+                    .catch(handleError);
 
                     return (
                         firebase.database().ref(path + order.key).remove()
                         .then( (order) => (
                             (!isEmpty(order))? resolve({ errors: [order] }) : order
                         ), errorHandler)
-                        .catch(errorHandler)
+                        .catch(handleError)
                     );
 
                 } catch (error) {
@@ -61,6 +61,5 @@ export default function(order) {
                 }
             } )
         );
-
     } );
 }

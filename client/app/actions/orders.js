@@ -21,9 +21,9 @@ export default function(orders) {
 
                 try {
 
-                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
-                    let currentUser = firebase.auth().currentUser;
-                    let dbRef = firebase.database().ref('orders');
+                    const errorHandler= (error) => ( resolve({ errors: [error] }) );
+                    const currentUser = firebase.auth().currentUser;
+                    const dbRef = firebase.database().ref('client_orders/');
                     let _order;
 
                     dbRef.on('child_added', (order) => (
@@ -46,7 +46,7 @@ export default function(orders) {
                             return dispatch( setOrders(orders.val()) );
 
                         }, errorHandler)
-                        .catch(errorHandler);
+                        .catch(handleError);
 
                 } catch (error) {
 
@@ -56,6 +56,5 @@ export default function(orders) {
                 }
             } )
         );
-
     } );
 }

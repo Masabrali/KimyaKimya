@@ -48,7 +48,6 @@ target 'KimyaKimya' do
   pod 'GooglePlacePicker' # Uncomment this line if you want to support GooglePlacesPicker on iOS
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
-  pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
 
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 

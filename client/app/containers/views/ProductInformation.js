@@ -86,7 +86,7 @@ class ProductInformation extends Component<Props> {
 ProductInformation.propTypes = {
     languages: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
-    products: PropTypes.object.isRequired,
+    product: PropTypes.object.isRequired,
     logScreen: PropTypes.func.isRequired
 };
 

@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Mon Jan 14 22:26:44 EAT 2019
+#Wed Jan 16 22:48:01 EAT 2019
 33.base=/Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/build/intermediates/transforms/dexMerger/debug/0
 47.base=/Users/mac/Documents/projects/react-native/KimyaKimya/client/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 36.path=lib/armeabi-v7a/libyoga.so

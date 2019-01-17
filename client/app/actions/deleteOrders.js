@@ -28,11 +28,11 @@ export default function(orders, segment) {
 
                 try {
 
-                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
-                    let path = 'orders/' + segment + '/' + firebase.auth().currentUser.uid + '/';
+                    const errorHandler= (error) => ( resolve({ errors: [error] }) );
+                    const path = 'client_orders/' + segment + '/' + firebase.auth().currentUser.uid + '/';
 
+                    const keys = Object.keys(orders);
                     let _order;
-                    let keys = Object.keys(orders);
 
                     firebase.database().ref(path).on('child_removed', (order) => {
 
@@ -66,6 +66,5 @@ export default function(orders, segment) {
                 }
             } )
         );
-
     } );
 }

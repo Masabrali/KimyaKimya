@@ -14,12 +14,31 @@
                         "endOffsets": "154,218,285,349,465,591,717,845,1017,1355"
                     },
                     "to": {
-                        "startLines": "2,3,4,5,263,264,271,275,279,282",
+                        "startLines": "2,3,4,5,263,264,271,275,281,284",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,159,223,290,19262,19378,19835,20129,20424,20596",
-                        "endLines": "2,3,4,5,263,264,271,275,281,286",
+                        "startOffsets": "55,159,223,290,19262,19378,19835,20129,20554,20726",
+                        "endLines": "2,3,4,5,263,264,271,275,283,288",
                         "endColumns": "103,63,66,63,115,125,125,127,12,12",
-                        "endOffsets": "154,218,285,349,19373,19499,19956,20252,20591,20929"
+                        "endOffsets": "154,218,285,349,19373,19499,19956,20252,20721,21059"
+                    }
+                },
+                {
+                    "source": "/Users/mac/.gradle/caches/transforms-1/files-1.1/play-services-appinvite-16.0.7.aar/a250e78574249b716593ab512384215f/res/values-v21/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "170",
+                        "endLines": "5",
+                        "endColumns": "8",
+                        "endOffsets": "295"
+                    },
+                    "to": {
+                        "startLines": "279",
+                        "startColumns": "4",
+                        "startOffsets": "20424",
+                        "endLines": "280",
+                        "endColumns": "8",
+                        "endOffsets": "20549"
                     }
                 },
                 {

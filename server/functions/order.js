@@ -18,7 +18,7 @@ exports.order = (order, context) => {
                     return resolve({ errors: [{ message: 'Invalid Order' }] });
                 else {
 
-                    let dbRef = admin.database().ref('orders/queued/' + context.auth.uid);
+                    let dbRef = admin.database().ref('client_orders/queued/' + context.auth.uid);
                     // let hotpointDbRef = admin.database().ref('')
 
                     dbRef.once('child_added')

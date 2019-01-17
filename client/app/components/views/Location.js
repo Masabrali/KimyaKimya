@@ -145,7 +145,7 @@ const Order = function (props) {
                 </View>
 
                 { !props.locationFocused && <View style={ [Styles.positionAbsolute, Styles.verticalPositionBottom, Styles.horizontalPositionLeft, Styles.horizontalPositionRight, Styles.backgroundTransparent, Styles.padding] }>
-                        <Button block onPress={ props.location }>
+                        <Button block onPress={ props.location } disabled={ props.loading }>
                             <Text>Set Delivery Location</Text>
                         </Button>
                     </View>

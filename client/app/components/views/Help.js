@@ -2,7 +2,7 @@
  * Import React and React Native
  */
 import React from 'react';
-import { StyleSheet, View, Image, RefreshControl } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { Container, Header, Left, Body, Right, Title, Subtitle, Content, List, ListItem, Button, Icon, Text, Spinner } from 'native-base'; // Version can be specified in package.json
 
 /**
@@ -10,6 +10,8 @@ import { Container, Header, Left, Body, Right, Title, Subtitle, Content, List, L
 */
 import isIOS from '../../utilities/isIOS';
 import isAndroid from '../../utilities/isAndroid';
+import titleCase from '../../utilities/titleCase';
+import isEmpty from '../../utilities/isEmpty';
 
 /**
  * Import other components
@@ -40,14 +42,7 @@ const Help = function (props) {
 
             <StatusBar />
 
-            <Content
-              refreshControl={
-                <RefreshControl
-                  refreshing={ props.refreshing }
-                  onRefresh={ props.fetchLinks }
-                />
-              }
-            >
+            <Content>
                 <View style={ [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignCenter] }>
                     <View style={ [styles.logoContainer, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignCenter, Styles.marginTop] }>
                         <Image source={ require('../../assets/logo_text.png') } resizeMode="contain" style={ [Styles.imageResizeModeContain, styles.logo] } />
@@ -57,26 +52,43 @@ const Help = function (props) {
                 <View>
                     <List>
                         <ListItem noIndent />
-                        { props.loading && <ListItem noIndent itemDivider>
-                                <View style={ [Styles.flex, Styles.flexRow, Styles.flexJustifyCenter] }>
-                                    <Spinner color={ (props.user.gender == 'female')? Styles.textKimyaKimyaFemale.color : Styles.textKimyaKimyaMale.color } />
-                                </View>
-                            </ListItem>
-                        }
                         <ListItem noIndent onPress={ props.faq } disabled={ props.loading }>
-                            <Text style={ [Styles.textLink, styles.padding] }>FAQ</Text>
+                            <Left style={ [Styles.flex] }>
+                                <Text style={ [Styles.textLink, styles.padding] }>FAQ</Text>
+                            </Left>
+                            <Right style={ [Styles.halfPaddingRight] }>
+                                { props.loading && <Spinner size="small" color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } style={ [Styles.heightAuto] }  /> }
+                            </Right>
                         </ListItem>
                         <ListItem noIndent onPress={ props.contactus }>
-                            <Text style={ [Styles.textLink, styles.padding] }>Contact Us</Text>
+                            <Left style={ [Styles.flex] }>
+                                <Text style={ [Styles.textLink, styles.padding] }>Contact Us</Text>
+                            </Left>
+                            <Right />
                         </ListItem>
                         <ListItem noIndent onPress={ props.terms } disabled={ props.loading }>
-                            <Text style={ [Styles.textLink, styles.padding] }>Terms and Privacy Policy</Text>
+                            <Left style={ [Styles.flex] }>
+                                <Text style={ [Styles.textLink, styles.padding] }>Terms and Privacy Policy</Text>
+                            </Left>
+                            <Right style={ [Styles.halfPaddingRight] }>
+                                { props.loading && <Spinner size="small" color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } style={ [Styles.heightAuto] }  /> }
+                            </Right>
                         </ListItem>
                         <ListItem noIndent onPress={ props.licenses } disabled={ props.loading }>
-                            <Text style={ [Styles.textLink, styles.padding] }>License</Text>
+                            <Left style={ [Styles.flex] }>
+                                <Text style={ [Styles.textLink, styles.padding] }>License</Text>
+                            </Left>
+                            <Right style={ [Styles.halfPaddingRight] }>
+                                { props.loading && <Spinner size="small" color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } style={ [Styles.heightAuto] }  /> }
+                            </Right>
                         </ListItem>
                         <ListItem noIndent onPress={ props.website } disabled={ props.loading }>
-                            <Text style={ [Styles.textLink, styles.padding] }>Visit Site</Text>
+                            <Left style={ [Styles.flex] }>
+                                <Text style={ [Styles.textLink, styles.padding] }>Visit Site</Text>
+                            </Left>
+                            <Right style={ [Styles.halfPaddingRight] }>
+                                { props.loading && <Spinner size="small" color={ Styles['textKimyaKimya' + titleCase(props.gender)].color } style={ [Styles.heightAuto] }  /> }
+                            </Right>
                         </ListItem>
                     </List>
 

@@ -154,7 +154,6 @@ dependencies {
     implementation project(':react-native-carrier-info')
     implementation project(':react-native-device-info')
     implementation project(':react-native-android-keyboard-adjust')
-    implementation project(':react-native-contacts')
     implementation project(':react-native-settings')
     implementation project(':react-native-google-places')
     implementation project(':react-native-maps')
@@ -169,6 +168,10 @@ dependencies {
     implementation "com.google.firebase:firebase-database:${rootProject.ext.googleFirebaseDatabaseVersion}"
     implementation "com.google.firebase:firebase-functions:${rootProject.ext.googleFirebaseFunctionsVersion}"
     implementation "com.google.firebase:firebase-storage:${rootProject.ext.googleFirebaseStorageVersion}"
+    implementation "com.google.firebase:firebase-dynamic-links:${rootProject.ext.googleFirebaseDynamicLinksVersion}"
+    implementation "com.google.firebase:firebase-invites:${rootProject.ext.googleFirebaseInvitesVersion}"
+    implementation "com.google.firebase:firebase-messaging:${rootProject.ext.googleFirebaseMessagingVersion}"
+    implementation "me.leolin:ShortcutBadger:${rootProject.ext.leolinShortcutBadgerVersion}@aar"
     implementation("com.crashlytics.sdk.android:crashlytics:${rootProject.ext.googleFirebaseCrashlyticsVersion}@aar") {
         transitive = true
     }

@@ -18,7 +18,7 @@ export default function() {
 
                 try {
 
-                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
+                    const errorHandler= (error) => ( resolve({ errors: [error] }) );
 
                     return (
                         firebase.database().ref('countries').once('value')
@@ -29,7 +29,7 @@ export default function() {
                             return dispatch( setCountries(countries.val()) );
 
                         }, errorHandler)
-                        .catch(errorHandler)
+                        .catch(handleError)
                     );
 
                 } catch (error) {
@@ -40,6 +40,5 @@ export default function() {
                 }
             } )
         );
-
     } );
 }

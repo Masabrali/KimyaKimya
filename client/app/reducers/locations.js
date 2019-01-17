@@ -1,4 +1,9 @@
 /**
+* Import Libraries
+*/
+import firebase from 'react-native-firebase';
+
+/**
 * Import Utilities
 */
 import isEmpty from './../utilities/isEmpty';
@@ -16,7 +21,7 @@ export default function (state = [], action = {}) {
     /**
     * Process the incomming places
     */
-    let processPlaces = (places) => {
+    const processPlaces = (places) => {
 
         /**
         * Format and return the incomming places
@@ -40,8 +45,12 @@ export default function (state = [], action = {}) {
 
         case 'ORDERS_FETCHED':
 
-            if (!isEmpty(action.orders.previous))
-                Object.keys(action.orders.previous).map( (order) => ( places.push(order.location) ) );
+            if (!isEmpty(action.orders) && !isEmpty(action.orders.previous)) {
+
+                const orders = action.orders.previous[firebase.auth().currentUser.uid];
+
+                Object.keys(orders).map( (key) => ( places.push(orders[key].location) ) );
+            }
 
             return processPlaces(places);
 

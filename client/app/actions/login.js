@@ -18,7 +18,7 @@ export default function login(user) {
 
                 try {
 
-                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
+                    const errorHandler= (error) => ( resolve({ errors: [error] }) );
 
                     return (
                         firebase.auth().signInWithPhoneNumber(user.countryCode + user.phone)
@@ -29,7 +29,7 @@ export default function login(user) {
                             return dispatch( loginUser(user) );
 
                         }, errorHandler)
-                        .catch(errorHandler)
+                        .catch(handleError)
                     );
 
                 } catch (error) {
@@ -40,6 +40,5 @@ export default function login(user) {
                 }
             } )
         );
-
     } );
 }

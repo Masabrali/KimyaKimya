@@ -15,8 +15,8 @@ import isArray from './../utilities/isArray';
 export default function (state = {}, action = {}) {
 
     let _key;
-    let currentUser = firebase.auth().currentUser;
-    let sort = (_orders) => {
+    const currentUser = firebase.auth().currentUser;
+    const sort = (_orders) => {
 
         let orders = {};
 
@@ -26,7 +26,7 @@ export default function (state = {}, action = {}) {
 
         return orders;
     };
-
+    
     switch(action.type) {
 
         case 'ORDERS_FETCHED':

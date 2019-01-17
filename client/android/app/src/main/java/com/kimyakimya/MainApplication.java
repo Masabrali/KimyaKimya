@@ -10,7 +10,6 @@ import com.imagepicker.ImagePickerPackage;
 import com.ianlin.RNCarrierInfo.RNCarrierInfoPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import net.zubricky.AndroidKeyboardAdjust.AndroidKeyboardAdjustPackage;
-import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
@@ -18,7 +17,10 @@ import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.database.RNFirebaseDatabasePackage;
 import io.invertase.firebase.functions.RNFirebaseFunctionsPackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
+import io.invertase.firebase.links.RNFirebaseLinksPackage;
 import io.invertase.firebase.invites.RNFirebaseInvitesPackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage;
 
@@ -54,7 +56,6 @@ public class MainApplication extends Application implements ReactApplication {
               new RNCarrierInfoPackage(),
               new RNDeviceInfo(),
               new AndroidKeyboardAdjustPackage(),
-              new ReactNativeContacts(),
               new RNSettingsPackage(),
               new MapsPackage(),
               new RNGooglePlacesPackage(),
@@ -64,7 +65,10 @@ public class MainApplication extends Application implements ReactApplication {
               new RNFirebaseDatabasePackage(),
               new RNFirebaseFunctionsPackage(),
               new RNFirebaseStoragePackage(),
+              new RNFirebaseLinksPackage(),
               new RNFirebaseInvitesPackage(),
+              new RNFirebaseMessagingPackage(),
+              new RNFirebaseNotificationsPackage(),
               new RNFirebasePerformancePackage(),
               new RNFirebaseCrashlyticsPackage()
         );

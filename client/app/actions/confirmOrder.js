@@ -18,18 +18,18 @@ export default function(order) {
 
                 try {
 
-                    let errorHandler = (error) => ( resolve({ errors: [error] }) );
+                    const errorHandler= (error) => ( resolve({ errors: [error] }) );
 
                     return (
                         firebase.functions().httpsCallable('confirmOrder')(order)
                         .then( (order) => {
-                            
+
                             resolve(order.data)
 
                             return dispatch( confirmOrder(order.data) );
 
                         }, errorHandler)
-                        .catch(errorHandler)
+                        .catch(handleError)
                     );
 
                 } catch (error) {
@@ -40,6 +40,5 @@ export default function(order) {
                 }
             } )
         );
-
     } );
 }

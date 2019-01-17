@@ -37,13 +37,13 @@ class Help extends Component<Props> {
         // Initialize state
         this.state = {
             loading: false,
-            refreshing: false,
             errors: {},
             done: false
         };
 
         // Bind functions to this
         this.back = this.back.bind(this);
+        this.handleError = this.handleError.bind(this);
         this.fetchLinks = this.fetchLinks.bind(this);
         this.faq = this.faq.bind(this);
         this.contactus = this.contactus.bind(this);
@@ -54,7 +54,7 @@ class Help extends Component<Props> {
 
     componentDidMount() {
 
-        if (isEmpty(this.props.links) && isEmpty(this.props.links.faq) && isEmpty(this.props.links.terms)  && isEmpty(this.props.links.license) && isEmpty(this.props.links.website))
+        if (isEmpty(this.props.links) && !this.props.links.faq && !this.props.links.terms && !this.props.links.license && !this.props.links.website)
             this.fetchLinks();
         else fetchLinks(true);
 
@@ -65,22 +65,34 @@ class Help extends Component<Props> {
         return Actions.pop();
     }
 
+    handleError(error) {
+
+        let errors = this.state.errors;
+
+        errors.global = {
+            type: (error.response)? error.response.status:error.name,
+            message: (error.response)? error.response.statusText:error.message
+        };
+
+        Error(errors.global, 5000);
+
+        return this.setState({ errors, loading: false });
+    }
+
     fetchLinks(silent) {
 
         // Validation
         let errors = {};
 
-        // Hand;e Data Submission to server
-        if (!isEmpty(errors)) Error(errors[Object.keys(errors)[0]]);
-        else {
+        // Handle Data Submission to server
+        if (isEmpty(errors)) {
 
-            if (!silent && !this.state.loading && !this.state.refreshing)
-                this.setState({ loading: true });
+            if (!silent && !this.state.loading) this.setState({ loading: true });
 
             return this.props.fetchLinks({ silent }).then(
                 (data) => {
 
-                    if (!isEmpty(data.errors)) {
+                    if (!isEmpty(data) && !isEmpty(data.errors)) {
 
                         let errors = data.errors;
 
@@ -118,16 +130,14 @@ class Help extends Component<Props> {
     render() {
         return (
             <HelpComponent
-              user={ this.props.user }
+              gender={ this.props.user.gender }
               back={ this.back }
-              fetchLinks={ this.fetchLinks }
               faq={ this.faq }
               contactus={ this.contactus }
               terms={ this.terms }
               licenses={ this.licenses }
               website={ this.website }
               loading={ this.state.loading }
-              refreshing={ this.state.refreshing }
               errors={ this.state.errors }
             />
         );
