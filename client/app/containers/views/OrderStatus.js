@@ -86,16 +86,18 @@ class OrderStatus extends Component<Props> {
 
     componentWillMount() {
 
-        this.fetchHotpoints(true);
+        this.androidBackListener = BackHandler.addEventListener("hardwareBackPress", () => true);
 
-        this.fetchSpeed(true);
-
-        return this.calculateDuration();
+        return this.androidBackListener;
     }
 
     componentDidMount() {
 
-        this.androidBackListener = BackHandler.addEventListener("hardwareBackPress", () => true);
+        (isEmpty(this.props.hotpoints))? this.fetchHotpoints() : this.fetchHotpoints(true);
+
+        (isEmpty(this.props.speed))? this.fetchSpeed() : this.fetchSpeed(true);
+
+        this.calculateDuration();
 
         return this.props.logScreen('Order Status', 'OrderStatus', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
@@ -110,7 +112,7 @@ class OrderStatus extends Component<Props> {
 
     calculateDuration() {
 
-        let duration = durationFormat(getDistance(this.state.hotpoint.location, this.props.order.location) / ((this.state.hotpoint.speed !== undefined)? this.state.hotpoint.speed : this.state.speed));
+        const duration = durationFormat(getDistance(this.state.hotpoint.location, this.props.order.location) / ((this.state.hotpoint.speed !== undefined)? this.state.hotpoint.speed : this.state.speed));
 
         return this.setState({ duration: duration.duration, durationUnits: duration.units });
     }
@@ -147,7 +149,7 @@ class OrderStatus extends Component<Props> {
 
     handleError(error) {
 
-        let errors = this.state.errors;
+        const errors = this.state.errors;
 
         errors.global = {
             type: (error.response)? error.response.status : error.name,
@@ -217,7 +219,7 @@ class OrderStatus extends Component<Props> {
 
     mapDirectionsReady(directions) {
 
-        let duration = durationFormat(directions.duration / 60);
+        const duration = durationFormat(directions.duration / 60);
 
         if (!isEmpty(this.map)) this.map.fitToCoordinates(directions.coordinates);
 
@@ -260,7 +262,7 @@ class OrderStatus extends Component<Props> {
 
                     if (!isEmpty(data.errors)) {
 
-                        let errors = data.errors;
+                        const errors = data.errors;
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 

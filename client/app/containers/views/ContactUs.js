@@ -72,10 +72,6 @@ class ContactUs extends Component<Props> {
     }
 
     componentWillMount() {
-        return ( (isAndroid())? AndroidKeyboardAdjust.setAdjustResize() : 1 );
-    }
-
-    componentDidMount() {
 
         if (isIOS()) {
 
@@ -84,6 +80,10 @@ class ContactUs extends Component<Props> {
             KeyboardEvents.Emitter.on(KeyboardEvents.KeyboardWillHideEvent, () => this.setState({ keyboardHidden: true }));
         }
 
+        return ( (isAndroid())? AndroidKeyboardAdjust.setAdjustResize() : 1 );
+    }
+
+    componentDidMount() {
         return this.props.logScreen('Contact Us', 'ContactUs', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
 
@@ -105,7 +105,7 @@ class ContactUs extends Component<Props> {
 
     handleError(error) {
 
-        let errors = this.state.errors;
+        const errors = this.state.errors;
 
         errors.global = {
             type: (error.response)? error.response.status : error.name,

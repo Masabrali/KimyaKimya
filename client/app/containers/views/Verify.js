@@ -93,9 +93,9 @@ class Verify extends Component<Props> {
 
                     if (!this.state.autoVerified) {
 
-                        let verificationCodeRegex = /([\d]{6})/
+                        const verificationCodeRegex = /([\d]{6})/
 
-                        let verificationCode = message.body.substr(0, 6);
+                        const verificationCode = message.body.substr(0, 6);
 
                         if (verificationCodeRegex.test(verificationCode)) {
 
@@ -169,6 +169,33 @@ class Verify extends Component<Props> {
                     })
                 } );
 
+            /**
+            * Back Hardware Button Handler
+            */
+            if (isAndroid() && this.props.action == 'login')
+                this.androidBackListener = BackHandler.addEventListener("hardwareBackPress", () => {
+
+                    if (Actions.currentScene != 'login') Actions.pop();
+
+                    return true;
+                });
+            else if (!isEmpty(this.androidBackListener)) this.androidBackListener.remove();
+
+            /**
+            * Change Keyboard Show/Hide State
+            */
+            if (isIOS()) {
+
+                KeyboardEvents.Emitter.on(KeyboardEvents.KeyboardDidShowEvent, () => {
+
+                    this.setState({ keyboardHidden: false });
+
+                    return this.verificationCodeFocused(this.content);
+                });
+
+                KeyboardEvents.Emitter.on(KeyboardEvents.KeyboardWillHideEvent, () => this.setState({ keyboardHidden: true }));
+            }
+
         } catch(error) {
 
             this.handleError(error);
@@ -182,38 +209,11 @@ class Verify extends Component<Props> {
     componentDidMount() {
 
         /**
-        * Back Hardware Button Handler
-        */
-        if (isAndroid() && this.props.action == 'login')
-            this.androidBackListener = BackHandler.addEventListener("hardwareBackPress", () => {
-
-                if (Actions.currentScene != 'login') Actions.pop();
-
-                return true;
-            });
-        else if (!isEmpty(this.androidBackListener)) this.androidBackListener.remove();
-
-        /**
-        * Change Keyboard Show/Hide State
-        */
-        if (isIOS()) {
-
-            KeyboardEvents.Emitter.on(KeyboardEvents.KeyboardDidShowEvent, () => {
-
-                this.setState({ keyboardHidden: false });
-
-                return this.verificationCodeFocused(this.content);
-            });
-
-            KeyboardEvents.Emitter.on(KeyboardEvents.KeyboardWillHideEvent, () => this.setState({ keyboardHidden: true }));
-        }
-
-        /**
         * SMS Waiting
         */
         this.smsWaitTimer = moment.duration(1000).timer({ start: true, loop: true }, () => {
 
-            let smsWaitTime = this.state.smsWaitTime - 1;
+            const smsWaitTime = this.state.smsWaitTime - 1;
 
             if (smsWaitTime <= 0) {
 
@@ -283,7 +283,7 @@ class Verify extends Component<Props> {
 
     handleError(error) {
 
-        let errors = this.state.errors;
+        const errors = this.state.errors;
 
         errors.global = {
             type: (error.response)? error.response.status:error.name,
@@ -311,7 +311,7 @@ class Verify extends Component<Props> {
 
                     if (!isEmpty(data.errors)) {
 
-                        let errors = data.errors;
+                        const errors = data.errors;
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 
@@ -366,7 +366,7 @@ class Verify extends Component<Props> {
 
                         if (!isEmpty(data.errors)) {
 
-                            let errors = data.errors;
+                            const errors = data.errors;
 
                             Error(errors[Object.keys(errors)[0]], 5000);
 
@@ -486,7 +486,7 @@ class Verify extends Component<Props> {
 
                     if (!isEmpty(data.errors)) {
 
-                        let errors = data.errors;
+                        const errors = data.errors;
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 
@@ -514,7 +514,7 @@ class Verify extends Component<Props> {
                                 this.unsubscribeFirebaseAuthentication();
                         }
 
-                        let next = (user) => {
+                        const next = (user) => {
 
                             this.setState({ loading: false, verifying: false, done: true });
 

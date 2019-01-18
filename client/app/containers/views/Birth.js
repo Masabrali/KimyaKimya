@@ -55,7 +55,7 @@ class Birth extends Component<Props> {
         this.birthChanged = this.birthChanged.bind(this);
     }
 
-    componentDidMount() {
+    componentWillMount() {
 
         if (isAndroid() && (this.props.action == 'gender' || this.props.action == 'birth'))
             this.androidBackListener = BackHandler.addEventListener("hardwareBackPress", () => {
@@ -65,6 +65,9 @@ class Birth extends Component<Props> {
                 return true;
             });
         else if (!isEmpty(this.androidBackListener)) this.androidBackListener.remove();
+    }
+
+    componentDidMount() {
 
         return this.props.logScreen((this.props.action == 'edit')? 'Change Birthday' : 'Set Birthday', (this.props.action == 'edit')? 'ChangeBirth' : 'Birth', { gender: this.props.user.gender, age: (this.props.user.birth)? parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) : undefined });
     }
@@ -87,7 +90,7 @@ class Birth extends Component<Props> {
 
     handleError(error) {
 
-        let errors = this.state.errors;
+        const errors = this.state.errors;
 
         errors.global = {
             type: (error.response)? error.response.status:error.name,
@@ -125,7 +128,7 @@ class Birth extends Component<Props> {
 
                     if (!isEmpty(data.errors)) {
 
-                        let errors = data.errors;
+                        const errors = data.errors;
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 

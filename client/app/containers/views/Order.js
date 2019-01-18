@@ -70,7 +70,7 @@ class Order extends Component<Props> {
 
     handleError(error) {
 
-        let errors = this.state.errors;
+        const errors = this.state.errors;
 
         errors.global = {
             type: (error.response)? error.response.status:error.name,

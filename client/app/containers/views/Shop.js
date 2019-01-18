@@ -196,7 +196,7 @@ class Shop extends Component<Props> {
 
             let products = {};
             let product;
-            let _key = key.toString().toLowerCase();
+            const _key = key.toString().toLowerCase();
 
             Object.keys(this.props.products).map( (index) => {
 
@@ -230,7 +230,7 @@ class Shop extends Component<Props> {
 
     handleError(error) {
 
-        let errors = this.state.errors;
+        const errors = this.state.errors;
 
         errors.global = {
             type: (error.response)? error.response.status : error.name,
@@ -311,10 +311,10 @@ class Shop extends Component<Props> {
             return (
                 this.props.fetchFCMToken({ silent }).then(
                 (data) => {
-                    
+
                     if (!silent && !isEmpty(data.errors)) {
 
-                        let errors = data.errors;
+                        const errors = data.errors;
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 
@@ -358,7 +358,7 @@ class Shop extends Component<Props> {
 
                                 if (!isEmpty(data.errors)) {
 
-                                    let errors = data.errors;
+                                    const errors = data.errors;
 
                                     Error(errors[Object.keys(errors)[0]], 5000);
 
@@ -404,7 +404,7 @@ class Shop extends Component<Props> {
 
                     if (!silent && !isEmpty(data.errors)) {
 
-                        let errors = data.errors;
+                        const errors = data.errors;
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 
@@ -446,7 +446,7 @@ class Shop extends Component<Props> {
 
                     if (!silent && !isEmpty(data.errors)) {
 
-                        let errors = data.errors;
+                        const errors = data.errors;
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 

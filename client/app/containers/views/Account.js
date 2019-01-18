@@ -53,12 +53,10 @@ class Account extends Component<Props> {
         this.logout = this.logout.bind(this);
     }
 
-    componentWillMount() {
-        if (isEmpty(this.props.user)) return this.fetchUser();
-        else return;
-    }
-
     componentDidMount() {
+
+        if (isEmpty(this.props.user)) return this.fetchUser();
+
         return this.props.logScreen('Account', 'Account', { gender: this.props.user.gender, age: parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) });
     }
 
@@ -72,7 +70,7 @@ class Account extends Component<Props> {
 
     handleError(error) {
 
-        let errors = this.state.errors;
+        const errors = this.state.errors;
 
         errors.global = {
             type: (error.response)? error.response.status:error.name,
@@ -99,7 +97,7 @@ class Account extends Component<Props> {
 
                     if (!isEmpty(data.errors)) {
 
-                        let errors = data.errors;
+                        const errors = data.errors;
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 
@@ -140,7 +138,7 @@ class Account extends Component<Props> {
 
                     if (!isEmpty(data) && !isEmpty(data.errors)) {
 
-                        let errors = data.errors;
+                        const errors = data.errors;
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 

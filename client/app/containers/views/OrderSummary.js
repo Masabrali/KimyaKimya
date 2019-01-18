@@ -77,7 +77,7 @@ class OrderSummary extends Component<Props> {
 
     handleError(error) {
 
-        let errors = this.state.errors;
+        const errors = this.state.errors;
 
         errors.global = {
             type: (error.response)? error.response.status : error.name,
@@ -112,7 +112,7 @@ class OrderSummary extends Component<Props> {
     mapDirectionsReady(directions) {
 
         let order = this.state.order;
-        let duration = durationFormat(directions.duration / 60);
+        const duration = durationFormat(directions.duration / 60);
 
         order.location._duration = duration.duration;
         order.location.duration = duration.duration;
@@ -153,7 +153,7 @@ class OrderSummary extends Component<Props> {
 
                     if (!isEmpty(data.errors)) {
 
-                        let errors = data.errors;
+                        const errors = data.errors;
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 

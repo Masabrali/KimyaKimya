@@ -133,15 +133,6 @@ class Location extends Component<Props> {
 
     componentWillMount() {
 
-        (isEmpty(this.props.hotpoints))? this.fetchHotpoints() : this.fetchHotpoints(true);
-
-        ( (isEmpty(this.props.rate))? this.fetchRate() : this.fetchRate(true) );
-
-        ( (isEmpty(this.props.speed))? this.fetchSpeed() : this.fetchSpeed(true) );
-    }
-
-    componentDidMount() {
-
         if (isAndroid())
             this.androidBackListener = BackHandler.addEventListener("hardwareBackPress", () => {
 
@@ -154,6 +145,15 @@ class Location extends Component<Props> {
 
                 return false;
             });
+    }
+
+    componentDidMount() {
+
+        ( (isEmpty(this.props.hotpoints))? this.fetchHotpoints() : this.fetchHotpoints(true) );
+
+        ( (isEmpty(this.props.rate))? this.fetchRate() : this.fetchRate(true) );
+
+        ( (isEmpty(this.props.speed))? this.fetchSpeed() : this.fetchSpeed(true) );
 
         this.initializeLocation();
 
@@ -183,9 +183,9 @@ class Location extends Component<Props> {
     /**
     * HandleError
     */
-    handleError(error) {
+    handleError(error, excuseLoading) {
 
-        let errors = this.state.errors;
+        const errors = this.state.errors;
 
         errors.global = {
             type: (error.response)? error.response.status:error.name,
@@ -194,7 +194,11 @@ class Location extends Component<Props> {
 
         Error(errors.global, 5000);
 
-        return this.setState({ errors, loading: false, locationsLoading: false, done: false });
+        return this.setState({ errors,
+            loading: (excuseLoading)? this.state.loading : false,
+            locationsLoading: (excuseLoading)? this.state.locationsLoading : false,
+            done: false
+        });
     }
 
     /**
@@ -213,9 +217,9 @@ class Location extends Component<Props> {
             return this.props.fetchRate().then(
                 (data) => {
 
-                    if (data.errors !== undefined) return this.handleError(data.errors)
+                    if (!isEmpty(data.errors)) return this.handleError(data.errors, silent);
                     else
-                        return this.setState({ loading: false, done: true, errors: {} });
+                        return (silent || this.setState({ loading: false, done: true, errors: {} }));
                 },
                 this.handleError
             ).catch(this.handleError);
@@ -238,9 +242,9 @@ class Location extends Component<Props> {
             return this.props.fetchSpeed().then(
                 (data) => {
 
-                    if (data.errors !== undefined) return this.handleError(data.errors)
+                    if (!isEmpty(data.errors)) return this.handleError(data.errors, silent);
                     else
-                        return this.setState({ loading: false, done: true, errors: {} });
+                        return (silent || this.setState({ loading: false, done: true, errors: {} }));
                 },
                 this.handleError
             ).catch(this.handleError);
@@ -268,11 +272,16 @@ class Location extends Component<Props> {
         else {
             if (isEmpty(this.state.order.location)) this.getCurrentLocation();
             else {
-                if (isEmpty(this.state.hotpoints)) this.fetchHotpoints(this.state.location);
+                if (isEmpty(this.state.hotpoints)) this.fetchHotpoints();
+
+                if (isEmpty(this.state.places) && this.state.regionChanged < 2)
+                    this.fetchNearby(location);
+
+                return this.handleLocation(this.state.order.location, true);
             }
         }
 
-        return this.watchCurrentLocation();
+        return this.watchCurrentLocation(true);
     }
 
     /**
@@ -335,7 +344,7 @@ class Location extends Component<Props> {
     /**
     * Handle the Position derived
     */
-    handleLocation(location, animateRegion) {
+    handleLocation(location, animateRegion, silent) {
 
         location = { ...location };
 
@@ -349,17 +358,22 @@ class Location extends Component<Props> {
 
         if (location != this.state.location) {
 
-            if (isEmpty(this.state.hotpoints)) this.fetchHotpoints(location);
+            if (isEmpty(this.state.hotpoints)) this.fetchHotpoints(true);
 
             if (isEmpty(this.state.places) && this.state.regionChanged < 2)
-                this.fetchNearby(location);
+                this.fetchNearby(location, true);
 
             if (this.state.mapReady && !isEmpty(this.map) && !isEmpty(this.map.props.initialRegion) && this.map.props.region != location) {
                 if (animateRegion) this.map.animateToRegion(location);
                 else this.map.props.region = location;
             }
 
-            return this.setState({ location: location, selectedLocation: {}, loading: false, errors: {} });
+            return this.setState({
+                location: location,
+                selectedLocation: {},
+                loading: (silent)? this.state.loading : false,
+                errors: {}
+            });
 
         } else return 1;
     }
@@ -367,7 +381,7 @@ class Location extends Component<Props> {
     /**
     * Handle Current Location
     */
-    handleCurrentLocation(location) {
+    handleCurrentLocation(location, silent) {
 
         location = { ...location };
 
@@ -380,7 +394,12 @@ class Location extends Component<Props> {
             if (this.state.mapReady && !isEmpty(this.map) && (this.map.props.initialRegion == this.initialRegion))
                 this.map.animateToRegion(location);
 
-            return this.setState({ currentLocation: location, location: this.state.location || location, loading: false, errors: {} });
+            return this.setState({
+                currentLocation: location,
+                location: this.state.location || location,
+                loading: (silent)? this.state.loading : false,
+                errors: {}
+            });
 
         } else return this.state.currentLocation;
     };
@@ -401,12 +420,12 @@ class Location extends Component<Props> {
     /**
     * Watch and Update the current GeoLocation of the User
     */
-    watchCurrentLocation() {
+    watchCurrentLocation(silent) {
 
         /**
         * Geolocation Options
         */
-        let geoLocationOptions = { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 };
+        const geoLocationOptions = { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 };
 
         /**
         * Find location
@@ -414,22 +433,27 @@ class Location extends Component<Props> {
         return this.geolocationWatchId = navigator.geolocation.watchPosition( (location) => this.handleCurrentLocation(location.coords),
             (error) => {
 
+                const silent = (!isEmpty(this.state.currentLocation) || !isEmpty(this.state.order.location))
+
                 if (error.code != 1) {
 
                     if (error.code == 2) this.setState({ turnOnLocationError: true });
                     else this.setState({ turnOnLocationError: false });
 
-                    return this.handleError(error);
+                    return this.handleError(error, silent);
 
                 } else {
 
-                    if (navigator.geolocation.requestAuthorization())
+                    if (navigator.geolocation.requestAuthorization()) {
                         this.geolocationWatchId =  navigator.geolocation.watchPosition(
-                            (location) => this.handleCurrentLocation(location.coords),
-                            this.handleError,
+                            (location) => this.handleCurrentLocation(location.coords, silent),
+                            (error) => ( this.handleError(error, silent) ),
                             geolocationOptions
                         );
-                    else this.handleError(error);
+
+                        return this.geolocationWatchId;
+                    } else
+                        return this.handleError(error, silent);
                 }
             },
             geoLocationOptions
@@ -454,7 +478,7 @@ class Location extends Component<Props> {
         /**
         * Sort Places as an Array
         */
-        let _places = (places || this.state.places).sort( (placeA, placeB) => {
+        const _places = (places || this.state.places).sort( (placeA, placeB) => {
 
             let { latitude, longitude } = (location || this.state.currentLocation || this.state.location);
 
@@ -476,8 +500,8 @@ class Location extends Component<Props> {
         /**
         * Declare variables
         */
+        const { latitude, longitude } = (this.state.location || this.state.currentLocation);
         let hotpoints = {};
-        let { latitude, longitude } = (this.state.location || this.state.currentLocation);
 
         /**
         * Sort Places as an Array using keys
@@ -509,19 +533,19 @@ class Location extends Component<Props> {
                 (data) => {
 
                     if (!isEmpty(data) && !isEmpty(data.errors))
-                        return this.handleError(data.errors[0]);
+                        return this.handleError(data.errors[0], silent);
                     else
-                        return this.setState({ loading: false, done: true, errors: {} });
+                        return (silent || this.setState({ loading: false, done: true, errors: {} }));
                 },
-                this.handleError
-            ).catch(this.handleError);
+                (error) => ( this.handleError(error, silent) )
+            ).catch( (error) => ( this.handleError(error, silent) ) );
         }
     }
 
     /**
     * fetchHotpoint
     */
-    fetchHotpoint(callback) {
+    fetchHotpoint(callback, silent) {
 
         // Validation
         let errors = {};
@@ -529,16 +553,16 @@ class Location extends Component<Props> {
         // Hand;e Data Submission to server
         if (isEmpty(errors)) {
 
-            if (!this.state.loading) this.setState({ loading: true });
+            if (!silent && !this.state.loading) this.setState({ loading: true });
 
             return this.props.fetchHotpoint({ ...this.state.order, location: this.state.location })
             .then( (data) => {
 
                 if (!isEmpty(data) && !isEmpty(data.errors))
-                    return this.handleError(data.errors[0]);
+                    return this.handleError(data.errors[0], silent);
                 else {
 
-                    this.setState({ loading: false, done: true, errors: {} });
+                    if (!silent) this.setState({ loading: false, done: true, errors: {} });
 
                     if (isFunction(callback)) return callback(data);
                     else return data;
@@ -551,7 +575,7 @@ class Location extends Component<Props> {
     /**
     * Get Nearby Places
     */
-    fetchNearby(location) {
+    fetchNearby(location, silent) {
 
         // Validation
         let errors = {};
@@ -562,36 +586,36 @@ class Location extends Component<Props> {
             if (this.state.locationsLoading !== undefined) {
                 if (!this.state.locationsLoading) this.setState({ locationsLoading: true });
             } else {
-                if (!this.state.loading) this.setState({ loading: true });
+                if (!silent && !this.state.loading) this.setState({ loading: true });
             }
 
             return this.props.fetchNearby(location).then(
                 (data) => {
 
                     if (data.error_message)
-                        return this.handleError({name: data.status, message: data.error_message})
+                        return this.handleError({ name: data.status, message: data.error_message }, silent)
                     else
-                        return this.setState({ loading: false, locationsLoading: false, done: true, errors: {} });
+                        return (silent || this.setState({ loading: false, locationsLoading: false, done: true, errors: {} }));
                 },
-                this.handleError
-            ).catch(this.handleError);
+                (error) => ( this.handleError(error, silent) )
+            ).catch( (error) => ( this.handleError(error, silent) ) );
         }
     }
 
     /**
     * Fetch Places by Key
     */
-    fetchPlaces(key, handleLocations, handleError) {
+    fetchPlaces(key, handleLocations, handleError, silent) {
 
         // Validation
-        let errors = {};
-        let errorHandler = (error) => {
+        const errorHandler = (error) => {
 
             if (handleError)
                 return handleError(error);
             else
-                return this.handleError(error);
+                return this.handleError(error, silent);
         };
+        let errors = {};
 
         // Hand;e Data Submission to server
         if (isEmpty(errors)) {
@@ -599,7 +623,7 @@ class Location extends Component<Props> {
             if (this.state.locationsLoading !== undefined) {
                 if (!this.state.locationsLoading) this.setState({ locationsLoading: true });
             } else {
-                if (!this.state.loading) this.setState({ loading: true });
+                if (!silent && !this.state.loading) this.setState({ loading: true });
             }
 
             if (isEmpty(GooglePlaces)) {
@@ -607,15 +631,12 @@ class Location extends Component<Props> {
                 return this.props.fetchPlaces(key).then(
                     (data) => {
 
-                        if (data.error_message) {
+                        if (data.error_message)
+                            return errorHandler({name: data.status, message: data.error_message});
+                        else {
 
-                            if (handleError)
-                                return handleError({name: data.status, message: data.error_message});
-                            else
-                                return this.handleError({name: data.status, message: data.error_message});
-                        } else {
-
-                            this.setState({ loading: false, locationsLoading: false, done: true, errors: {} });
+                            if (!silent)
+                                this.setState({ loading: false, locationsLoading: false, done: true, errors: {} });
 
                             return handleLocations(
                                 (data.candidates || data.results).map(
@@ -630,14 +651,14 @@ class Location extends Component<Props> {
                             );
                         }
                     }, errorHandler
-                ).catch(this.handleError);
+                ).catch( (error) => ( this.handleError(error, silent) ) );
             } else
                 return (
                     GooglePlaces.getAutocompletePredictions(key)
                     .then( (places) => {
                         if (this.props.setPlaces(places)) return handleLocations(places);
                     }, errorHandler)
-                    .catch(this.errorHandler)
+                    .catch( (error) => ( this.handleError(error, silent) ) )
                 );
         }
     }
@@ -647,7 +668,7 @@ class Location extends Component<Props> {
     */
     regionChanged(region) {
 
-        if (this.state.mapReady && this.state.regionChanged > 0) this.handleLocation(region);
+        if (this.state.mapReady && this.state.regionChanged > 0) this.handleLocation(region, true);
 
         return this.setState({ regionChanged: this.state.regionChanged + 1 });
     }
@@ -673,41 +694,39 @@ class Location extends Component<Props> {
         if (this.state.mapReady && isEmpty(this.state.location))
             this.handleLocation(location, true);
 
-        return this.handleCurrentLocation(location);
+        return this.handleCurrentLocation(location, true);
     }
 
     /**
     * Get Approximate User location using GooglePlaces
     */
-    getCurrentPlace() {
+    getCurrentPlace(silent) {
         return GooglePlaces.getCurrentPlace()
-          .then(this.handleLocation, this.handleError)
-          .catch(this.handleError);
+          .then( (place) => ( this.handleLocation(place, true, silent) ), (error) => ( this.handleError(error, silent) ) )
+          .catch( (error) => ( this.handleError(error, silent) ) );
     }
 
     /**
     * Get current User location using Geolocation
     */
-    getCurrentLocation(callback) {
+    getCurrentLocation(callback, silent) {
 
         /**
         * Handle the CurrentLocation
         */
-        let handleCurrentLocation = (location) => {
-
-            if (isEmpty(this.state.location)) return this.handleLocation(location.coords);
-            else return;
-        };
+        const handleCurrentLocation = (location) => (
+            (isEmpty(this.state.location))? this.handleLocation(location.coords) : undefined
+        );
 
         /**
         * Set loading
         */
-        if (!this.state.loading) this.setState({ loading: true });
+        if (!silent && !this.state.loading) this.setState({ loading: true });
 
         /**
         * Geolocation Options
         */
-        let geoLocationOptions = { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 };
+        const geoLocationOptions = { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 };
 
         /**
         * Find location
@@ -734,13 +753,15 @@ class Location extends Component<Props> {
 
                     this.setState({ turnOnLocationError: false });
 
+                    const silent = (!isEmpty(this.state.currentLocation) || !isEmpty(this.state.order.location));
+
                     if (navigator.geolocation.requestAuthorization())
                         return navigator.geolocation.getCurrentPosition(handleCurrentLocation,
-                            this.getCurrentPlace(this.handleLocation, this.handleError),
+                            this.getCurrentPlace(this.handleLocation, (error) => ( this.handleError(error, silent) )),
                             geolocationOptions
                         );
                     else
-                        return this.getCurrentPlace(this.handleLocation, this.handleError);
+                        return this.getCurrentPlace(this.handleLocation, (error) => ( this.handleError(error, silent) ));
                 }
             },
             geoLocationOptions
@@ -755,7 +776,7 @@ class Location extends Component<Props> {
         /**
         * Sort Places and get the first places
         */
-        let place = this.sortPlaces(this.state.places, location)[0];
+        const place = this.sortPlaces(this.state.places, location)[0];
 
         /**
         * Pass Validated Place or Use Google API instead
@@ -767,22 +788,22 @@ class Location extends Component<Props> {
 
                     if (data.error_message) {
 
-                        let error = {name: data.status, message: data.error_message};
+                        const error = { name: data.status, message: data.error_message };
 
-                        return ((isFunction(handleError))? handleError(error) : this.handleError(error));
+                        return ((isFunction(handleError))? handleError(error) : this.handleError(error, silent));
 
                     } else {
 
                         location.name = data.results[0].address_components[0].long_name;
                         location.address = data.results[0].formatted_address;
 
-                        return handleLocation(location);
+                        return handleLocation(location, silent);
                     }
                 },
                 (error) => (
-                    (isFunction(handleError))? handleError(error) : this.handleError(error)
+                    (isFunction(handleError))? handleError(error, silent) : this.handleError(error, silent)
                 )
-            ).catch(silent || this.handleError);
+            ).catch( (error) => this.handleError(error, silent) );
     }
 
     /**
@@ -851,7 +872,7 @@ class Location extends Component<Props> {
             /**
             * Handle Locations
             */
-            let handleLocations = (locations) => {
+            const handleLocations = (locations) => {
 
                 return this.setState({
                     locations: locations,
@@ -866,7 +887,7 @@ class Location extends Component<Props> {
             /**
             * Handle Errors
             */
-            let handleError = (error) => {
+            const handleError = (error) => {
 
                 let errors = this.state.errors;
 
@@ -883,23 +904,23 @@ class Location extends Component<Props> {
             /**
             * Check if Places are filled and if not fill them
             **/
-            if (isEmpty(this.state.places)) this.fetchNearby(this.state.location);
+            if (isEmpty(this.state.places)) this.fetchNearby(this.state.location, true);
 
             /**
             * Convert the search key into lower case
             */
-            let _key = key.toString().toLowerCase();
+            const _key = key.toString().toLowerCase();
 
             /**
             * Filter through the available places to look for possible place
             */
             this.sortPlaces();
-            let locations = this.state.places.filter( (location) => {
+            const locations = this.state.places.filter( (location) => {
                 return ((location.name.toLowerCase().search(_key) !== -1) || (product.address.toLowerCase().search(_key) !== -1));
             });
 
             if (!isEmpty(locations)) return handleLocations(locations);
-            else return this.fetchPlaces(key, handleLocations, handleError);
+            else return this.fetchPlaces(key, handleLocations, handleError, true);
         }
     }
 
@@ -908,7 +929,7 @@ class Location extends Component<Props> {
     */
     selectLocation(location, locationInput) {
 
-        let _location = {
+        const _location = {
             latitude: location.latitude || location.coordinate.latitude || location.geomentry.location.lat,
             longitude: location.longitude || location.coordinate.longitude || location.geomentry.location.lng,
             latitudeDelta: location.latitudeDelta || location.coordinate.latitudeDelta || ((isEmpty(this.state.location))? this.initialRegion.latitudeDelta : this.state.location.latitudeDelta),
@@ -946,22 +967,17 @@ class Location extends Component<Props> {
             /**
             * Function to Complete Order
             */
-            let orderLocation = (data, hotpoint) => {
+            const orderLocation = (data, hotpoint) => {
 
                 /**
                 * Check for Errors
                 */
-                if (!isEmpty(data) && !isEmpty(data.errors)) this.handleError(data.errors[0]);
-
-                /**
-                * Set loading
-                */
-                this.setState({ loading: true });
+                if (!isEmpty(data) && !isEmpty(data.errors)) this.handleError(data.errors[0], true);
 
                 /**
                 * Create a temporary location object
                 */
-                let location = { ...this.state.location, rate: this.state.rate };
+                const location = { ...this.state.location, rate: this.state.rate };
 
                 /**
                 * Get the Location Address
@@ -982,7 +998,7 @@ class Location extends Component<Props> {
                 /**
                 * Format the Duration
                 */
-                let duration = durationFormat(location._duration);
+                const duration = durationFormat(location._duration);
                 location.duration = duration.duration;
                 location.durationUnits = duration.units;
 
@@ -992,11 +1008,11 @@ class Location extends Component<Props> {
                 /**
                 * Create an orderSummary Finishing function
                 */
-                let orderSummary = (location) => {
+                const orderSummary = (location) => {
                     /**
                     * Update the State
                     */
-                    this.setState({ location: location, loading: false, done: true, errors: {} });
+                    this.setState({ location: location, done: true, errors: {} });
 
                     /**
                     * Update Order and Move to the Next View
@@ -1005,7 +1021,12 @@ class Location extends Component<Props> {
                         /**
                         * Add Assigned Hotpoint to Order
                         */
-                        if (this.props.setOrderHotpoint(hotpoint)) return Actions.orderSummary();
+                        if (this.props.setOrderHotpoint(hotpoint)) {
+
+                            this.setState({ loading: false });
+
+                            return Actions.orderSummary();
+                        }
                     }
 
                 };
@@ -1014,11 +1035,6 @@ class Location extends Component<Props> {
                 * Check and Get the Place, otherwise proceed to orderSummary
                 */
                 if (!location.name && !location.address) {
-
-                    /**
-                    * Set loading
-                    */
-                    this.setState({ loading: true });
 
                     /**
                     * Get Place from Google Places
@@ -1038,7 +1054,7 @@ class Location extends Component<Props> {
             /**
             * Set loading
             */
-            this.setState({ loading: true });
+            if (!this.state.loading) this.setState({ loading: true });
 
             /**
             * Get Hotpoint from the Server
@@ -1058,12 +1074,12 @@ class Location extends Component<Props> {
                         * Fetch Distance from Location to Hotpoint
                         */
                         return (
-                            this.props.fetchDistance({ origin: hotpoint.location, destination: this.state.location })
+                            this.props.fetchDistance({ origin: hotpoint.location, destination: this.state.location }, true)
                             .then( (data) => ( orderLocation(data, hotpoint) ), errorHandler)
                             .catch(errorHandler)
                         );
                     }
-                } )
+                }, true)
             );
         }
     }

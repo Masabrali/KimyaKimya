@@ -176,7 +176,7 @@ const Order = function (props) {
                 }
             </View>
 
-            <Loader visible={ props.loading && isEmpty(props.errors) } text="Setting Location..." spinnerColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color }  />
+            <Loader visible={ props.loading } text="Setting Location..." spinnerColor={ Styles['textKimyaKimya' + titleCase(props.gender)].color }  />
         </Container>
     );
 }

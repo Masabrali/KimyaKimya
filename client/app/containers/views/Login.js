@@ -89,20 +89,6 @@ class Login extends Component<Props> {
 
     componentWillMount() {
 
-        let fetchCountries = (country) => {
-
-            if (isEmpty(this.props.countries) || isEmpty(this.props.countries.TZ))
-                return this.fetchCountries();
-            else
-                return this.props.countries;
-        };
-
-        if (!this.props.country) return this.fetchCountry( (country) => fetchCountries(country) );
-        else return fetchCountries();
-    }
-
-    componentDidMount() {
-
         if (isAndroid() && this.props.action == 'login')
             this.androidBackListener = BackHandler.addEventListener("hardwareBackPress", () => {
                 if (Actions.currentScene == 'loginTerms') return false;
@@ -121,6 +107,20 @@ class Login extends Component<Props> {
 
             KeyboardEvents.Emitter.on(KeyboardEvents.KeyboardWillHideEvent, () => this.setState({ keyboardHidden: true }));
         }
+    }
+
+    componentDidMount() {
+
+        const fetchCountries = (country) => {
+
+            if (isEmpty(this.props.countries) || isEmpty(this.props.countries.TZ))
+                return this.fetchCountries();
+            else
+                return this.props.countries;
+        };
+
+        if (!this.props.country) this.fetchCountry( (country) => fetchCountries(country) );
+        else fetchCountries();
 
         return this.props.logScreen((this.props.action == 'phone')? 'Old Phone Number' : ((this.props.action == 'edit')? 'New Phone Number' : 'Login'), (this.props.action == 'phone')? 'ChangePhone' : ((this.props.action == 'edit')? 'EditPhone' : 'Login'), { gender: this.props.user.gender, age: (this.props.user.birth)? parseInt(Math.floor(moment.duration(moment(new Date()).diff(moment(this.props.user.birth))).asYears())) : undefined });
     }
@@ -185,7 +185,7 @@ class Login extends Component<Props> {
 
                     if (!isEmpty(data.errors)) {
 
-                        let errors = data.errors;
+                        const errors = data.errors;
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 
@@ -204,7 +204,7 @@ class Login extends Component<Props> {
 
     countryCodeChanged(countryCode) {
 
-        let country = this.state.countries.find( (country) => ( (country.key) === (countryCode) ) );
+        const country = this.state.countries.find( (country) => ( (country.key) === (countryCode) ) );
 
         if (!!country)
             country = titleCase( (!!country.label)? country.label : country.name);
@@ -306,7 +306,7 @@ class Login extends Component<Props> {
     */
     handleError(error) {
 
-        let errors = this.state.errors;
+        const errors = this.state.errors;
 
         errors.global = {
             type: (error.response)? error.response.status:error.name,
@@ -354,7 +354,7 @@ class Login extends Component<Props> {
             /**
             * Send a login request to the server
             */
-            let login = this.props[(this.props.action == 'edit' || this.props.action == 'phone')? 'phone' : 'login']({ country, countryCode, phone }).then(
+            const login = this.props[(this.props.action == 'edit' || this.props.action == 'phone')? 'phone' : 'login']({ country, countryCode, phone }).then(
                 (data) => {
 
                     if (!isEmpty(data.errors)) {

@@ -57,11 +57,9 @@ class Welcome extends Component<Props> {
         this.login = this.login.bind(this);
     }
 
-    componentWillMount() {
-        if (!isEmpty(this.state.currentUser)) return this.login();
-    }
-
     componentDidMount() {
+
+        if (!isEmpty(this.state.currentUser)) return this.login();
 
         this.props.logScreen('Welcome', 'Welcome');
 
@@ -70,7 +68,7 @@ class Welcome extends Component<Props> {
 
     handleError(error) {
 
-        let errors = this.state.errors;
+        const errors = this.state.errors;
 
         errors.global = {
             type: (error.response)? error.response.status:error.name,
@@ -98,7 +96,7 @@ class Welcome extends Component<Props> {
 
                     if (!isEmpty(data.errors)) {
 
-                        let errors = data.errors;
+                        const errors = data.errors;
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 
@@ -131,7 +129,7 @@ class Welcome extends Component<Props> {
 
                     if (!isEmpty(data.errors)) {
 
-                        let errors = data.errors;
+                        const errors = data.errors;
 
                         Error(errors[Object.keys(errors)[0]], 5000);
 
