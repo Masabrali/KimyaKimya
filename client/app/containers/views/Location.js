@@ -358,10 +358,10 @@ class Location extends Component<Props> {
 
         if (location != this.state.location) {
 
-            if (isEmpty(this.state.hotpoints)) this.fetchHotpoints(true);
+            if (isEmpty(this.state.hotpoints)) this.fetchHotpoints(silent);
 
             if (isEmpty(this.state.places) && this.state.regionChanged < 2)
-                this.fetchNearby(location, true);
+                this.fetchNearby(location, silent);
 
             if (this.state.mapReady && !isEmpty(this.map) && !isEmpty(this.map.props.initialRegion) && this.map.props.region != location) {
                 if (animateRegion) this.map.animateToRegion(location);
@@ -430,7 +430,7 @@ class Location extends Component<Props> {
         /**
         * Find location
         */
-        return this.geolocationWatchId = navigator.geolocation.watchPosition( (location) => this.handleCurrentLocation(location.coords),
+        return this.geolocationWatchId = navigator.geolocation.watchPosition( (location) => this.handleCurrentLocation(location.coords, silent),
             (error) => {
 
                 const silent = (!isEmpty(this.state.currentLocation) || !isEmpty(this.state.order.location))
@@ -738,16 +738,14 @@ class Location extends Component<Props> {
 
                     this.setState({ turnOnLocationError: true });
 
-                    return this.askToTurnOnLocation((result) => {
-                        if (!result || result != Settings.ENABLED)
-                            return this.getCurrentPlace(this.handleLocation, () => (this.handleError(error)) );
-                        else return 1;
-                    });
+                    return this.askToTurnOnLocation((result) => (
+                        (!result || result != Settings.ENABLED)? this.getCurrentPlace(silent) : 1
+                    ) );
                 } else if (error.code != 1 && error.code != 2) {
 
-                    this.setState({ turnOnLocationError: false });
+                    if (isEmpty(this.state.location)) this.handleError(error);
 
-                    return this.handleError(error);
+                    return this.setState({ turnOnLocationError: false });
 
                 } else {
 
@@ -757,11 +755,11 @@ class Location extends Component<Props> {
 
                     if (navigator.geolocation.requestAuthorization())
                         return navigator.geolocation.getCurrentPosition(handleCurrentLocation,
-                            this.getCurrentPlace(this.handleLocation, (error) => ( this.handleError(error, silent) )),
+                            (error) => ( this.getCurrentPlace(silent) ),
                             geolocationOptions
                         );
                     else
-                        return this.getCurrentPlace(this.handleLocation, (error) => ( this.handleError(error, silent) ));
+                        return this.getCurrentPlace(silent);
                 }
             },
             geoLocationOptions
@@ -968,7 +966,7 @@ class Location extends Component<Props> {
             * Function to Complete Order
             */
             const orderLocation = (data, hotpoint) => {
-
+                
                 /**
                 * Check for Errors
                 */
@@ -1046,7 +1044,7 @@ class Location extends Component<Props> {
 
                         return orderSummary(location);
 
-                    }, (error) => ( orderSummary(location, { errors: [error] }) ), true);
+                    }, (error) => ( orderSummary(location) ), true);
                 } else
                     return orderSummary(location);
             };
@@ -1074,7 +1072,7 @@ class Location extends Component<Props> {
                         * Fetch Distance from Location to Hotpoint
                         */
                         return (
-                            this.props.fetchDistance({ origin: hotpoint.location, destination: this.state.location }, true)
+                            this.props.fetchDistance({ origin: hotpoint.location, destination: this.state.location })
                             .then( (data) => ( orderLocation(data, hotpoint) ), errorHandler)
                             .catch(errorHandler)
                         );
