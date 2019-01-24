@@ -1,8 +1,26 @@
 <resources>
 
+    <!-- Splash Screen Style -->
+    <style name="SplashScreenTheme" parent="SplashScreen_SplashTheme">
+        <item name="colorPrimaryDark">@color/status_bar_color</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowBackground">@color/backgroundWrapper</item>
+    </style>
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <!-- <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"></style> -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimaryDark">@color/status_bar_color</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@color/backgroundWrapper</item>
+    </style>
+
+    <!-- Base application theme - Material Theme. -->
+    <!-- <style name="ReactTheme" parent="android:Theme.Material"></style> -->
+    <style name="ReactTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimaryDark">@color/status_bar_color</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@color/backgroundWrapper</item>
     </style>
 
 </resources>

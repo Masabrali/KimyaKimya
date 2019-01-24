@@ -2,18 +2,38 @@
 
 buildscript {
     ext {
-        buildToolsVersion = "27.0.3"
+        buildToolsVersion = "28.0.3"
         minSdkVersion = 16
         compileSdkVersion = 27
         targetSdkVersion = 26
         supportLibVersion = "27.1.1"
+        googlePlayServicesVersion = "16.0.0"
+        googleLocationServicesVersion = "16.0.0"
+        googleMapsServicesVersion = "16.0.0"
+        googlePlacesServicesVersion = "16.0.0"
+        googleFirebaseVersion = "16.0.6"
+        googleFirebaseAuthenicationVersion = "16.1.0"
+        googleFirebaseDatabaseVersion = "16.0.5"
+        googleFirebaseFunctionsVersion = "16.1.3"
+        googleFirebaseStorageVersion = "16.0.5"
+        googleFirebaseDynamicLinksVersion = "16.1.5"
+        googleFirebaseInvitesVersion = "16.0.6"
+        googleFirebaseMessagingVersion = "17.3.4"
+        googleFirebaseCrashlyticsVersion = "2.9.8"
+        googleFirebasePerfVersion = "16.2.3"
+
+        leolinShortcutBadgerVersion = "1.1.22"
     }
     repositories {
         google()
         jcenter()
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.3.0'
+        classpath "com.google.gms:google-services:4.2.0"
+        classpath 'com.google.firebase:firebase-plugins:1.1.5'
+        classpath "io.fabric.tools:gradle:1.+"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -22,18 +42,33 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenLocal()
         google()
+        mavenLocal()
         jcenter()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
         }
+        maven { url "https://maven.google.com" }
     }
 }
 
+subprojects {
+    afterEvaluate {project ->
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion 27
+                buildToolsVersion '28.0.3'
+            }
+        }
+    }
+}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '4.4'
     distributionUrl = distributionUrl.replace("bin", "all")
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }

@@ -112,7 +112,7 @@ const Routes = function () {
                     </Scene>
                 </Scene>
 
-                <Scene key="contactus" component={ ContactUs } title="Contact Us" backTitle="Cancel" hideNavBar={ true } />
+                <Scene key="contactus" component={ ContactUs } title="Contact Us" backTitle="Cancel" hideNavBar={ true } navigationBarStyle={ navigationBarStyle } />
 
                 <Scene key="loginTerms" component={ Terms } title="Terms and Privacy Policy" backTitle="Login" hideNavBar={ false } navigationBarStyle={ navigationBarStyle } />
 

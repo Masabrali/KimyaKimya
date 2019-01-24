@@ -73,7 +73,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-        entryFile: "index.js"
+    entryFile: "index.js"
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -143,7 +143,7 @@ android {
 }
 
 repositories {
-  maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {

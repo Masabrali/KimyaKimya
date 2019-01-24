@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">KimyaKimyaHotpoint</string>
+    <string name="app_name">KimyaKimya Hotpoint</string>
+    <string name="default_notification_channel_id">order_arrival_notification_channel</string>
 </resources>

@@ -1,0 +1,2 @@
+# Referenced at /Users/mac/Documents/projects/react-native/KimyaKimya/hotpoint/android/app/build/intermediates/merged_manifests/debug/AndroidManifest.xml:60
+-keep class com.kimyakimyahotpoint.MainApplication { <init>(); }

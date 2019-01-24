@@ -31,7 +31,7 @@ const Welcome = function (props) {
                 <View style={ [Styles.flex, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignCenter] }>
                     <View style={ [styles.logoContainer, Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignCenter] }>
                         <Image source={ require('../../assets/logo_text.png') } resizeMode="contain" style={ [Styles.imageResizeModeContain, styles.logo] } />
-                        <Text style={ [Styles.textAlignCenter, styles.catchPhrase, isAndroid() && { fontFamily: 'sans-serif-thin' }] }>Healthy and Enjoyable Moments</Text>
+                        <Text style={ [Styles.textAlignCenter, Styles.textLight, styles.catchPhrase, isAndroid() && { fontFamily: 'sans-serif-thin' }] }>Healthy and Enjoyable Moments</Text>
                     </View>
                 </View>
                 { isEmpty(props.currentUser) && <View style={ [Styles.flexColumn, Styles.flexJustifyCenter, Styles.flexAlignStretch, Styles.padding] }>

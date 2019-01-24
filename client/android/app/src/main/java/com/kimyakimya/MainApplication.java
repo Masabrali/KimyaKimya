@@ -40,61 +40,61 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-    @Override
-    public boolean getUseDeveloperSupport() {
-        return BuildConfig.DEBUG;
-    }
+    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+        @Override
+        public boolean getUseDeveloperSupport() {
+            return BuildConfig.DEBUG;
+        }
+
+        @Override
+        protected List<ReactPackage> getPackages() {
+            return Arrays.<ReactPackage>asList(
+                new MainReactPackage(),
+                  new SplashScreenReactPackage(),
+                  new SmsListenerPackage(),
+                  new ImagePickerPackage(),
+                  new RNCarrierInfoPackage(),
+                  new RNDeviceInfo(),
+                  new AndroidKeyboardAdjustPackage(),
+                  new RNSettingsPackage(),
+                  new MapsPackage(),
+                  new RNGooglePlacesPackage(),
+                  new RNFirebasePackage(),
+                  new RNFirebaseAnalyticsPackage(),
+                  new RNFirebaseAuthPackage(),
+                  new RNFirebaseDatabasePackage(),
+                  new RNFirebaseFunctionsPackage(),
+                  new RNFirebaseStoragePackage(),
+                  new RNFirebaseLinksPackage(),
+                  new RNFirebaseInvitesPackage(),
+                  new RNFirebaseMessagingPackage(),
+                  new RNFirebaseNotificationsPackage(),
+                  new RNFirebasePerformancePackage(),
+                  new RNFirebaseCrashlyticsPackage()
+            );
+        }
+
+        @Override
+        protected String getJSMainModuleName() {
+            return "index";
+        }
+    };
 
     @Override
-    protected List<ReactPackage> getPackages() {
-        return Arrays.<ReactPackage>asList(
-            new MainReactPackage(),
-              new SplashScreenReactPackage(),
-              new SmsListenerPackage(),
-              new ImagePickerPackage(),
-              new RNCarrierInfoPackage(),
-              new RNDeviceInfo(),
-              new AndroidKeyboardAdjustPackage(),
-              new RNSettingsPackage(),
-              new MapsPackage(),
-              new RNGooglePlacesPackage(),
-              new RNFirebasePackage(),
-              new RNFirebaseAnalyticsPackage(),
-              new RNFirebaseAuthPackage(),
-              new RNFirebaseDatabasePackage(),
-              new RNFirebaseFunctionsPackage(),
-              new RNFirebaseStoragePackage(),
-              new RNFirebaseLinksPackage(),
-              new RNFirebaseInvitesPackage(),
-              new RNFirebaseMessagingPackage(),
-              new RNFirebaseNotificationsPackage(),
-              new RNFirebasePerformancePackage(),
-              new RNFirebaseCrashlyticsPackage()
-        );
+    public ReactNativeHost getReactNativeHost() {
+        return mReactNativeHost;
     }
+
+    // @Override
+    // public boolean clearHostOnActivityDestroy() {
+    //     return false;
+    // }
 
     @Override
-    protected String getJSMainModuleName() {
-        return "index";
+    public void onCreate() {
+        super.onCreate();
+        SoLoader.init(this, /* native exopackage */ false);
+
+        registerReceiver(new GpsLocationReceiver(), new IntentFilter("android.location.PROVIDERS_CHANGED"));
     }
-  };
-
-  @Override
-  public ReactNativeHost getReactNativeHost() {
-      return mReactNativeHost;
-  }
-
-  // @Override
-  // public boolean clearHostOnActivityDestroy() {
-  //     return false;
-  // }
-
-  @Override
-  public void onCreate() {
-      super.onCreate();
-      SoLoader.init(this, /* native exopackage */ false);
-
-      registerReceiver(new GpsLocationReceiver(), new IntentFilter("android.location.PROVIDERS_CHANGED"));
-  }
 }

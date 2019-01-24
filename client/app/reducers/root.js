@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 
 // Import reducers
 import languages from './languages';
+import language from './language';
 import user from './user';
 import months from './months';
 import countries from './countries';
@@ -22,6 +23,7 @@ import fcm_token from './fcm_token';
 // Combiner all reducers
 const reducers = combineReducers({
     languages: languages,
+    language: language,
     user: user,
     months: months,
     countries: countries,

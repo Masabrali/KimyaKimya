@@ -66,6 +66,10 @@ const styles = StyleSheet.create({
     horizontalPositionRight: { right: 0 },
     absoluteFillObject: { ...StyleSheet.absoluteFillObject },
     /**
+    * Overflow
+    */
+    overflowHidden: { overflow: 'hidden' },
+    /**
      * Text Style Utilities
     */
     textAlignCenter: { textAlign: 'center' },
@@ -295,11 +299,11 @@ const styles = StyleSheet.create({
     /**
      * Other Styles
      */
-    loader: { backgroundColor: 'rgba(255, 255, 255, 0.8)' },
+    loader: { backgroundColor: 'rgba(251, 252, 252, 0.8)' },
     /**
      * TabBar
      */
-    tabBar: { backgroundColor: '#FFFFFF' },
+    tabBar: { backgroundColor: '#FBFCFC' },
     /**
      *  ModalFilterPicker
      */

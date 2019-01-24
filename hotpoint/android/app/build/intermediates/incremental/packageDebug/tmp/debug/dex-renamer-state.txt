@@ -1,0 +1,7 @@
+#Sun Jan 20 00:12:55 EAT 2019
+base.1=/Users/mac/Documents/projects/react-native/KimyaKimya/hotpoint/android/app/build/intermediates/transforms/dexMerger/debug/0
+path.1=classes2.dex
+base.0=/Users/mac/Documents/projects/react-native/KimyaKimya/hotpoint/android/app/build/intermediates/transforms/dexMerger/debug/0
+renamed.1=classes2.dex
+renamed.0=classes.dex
+path.0=classes.dex

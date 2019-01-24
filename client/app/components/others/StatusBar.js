@@ -15,9 +15,9 @@ import isAndroid from '../../utilities/isAndroid';
 */
 import Styles from '../styles';
 
-const _StatusBar = function () {
+const _StatusBar = function (props) {
     return (
-        <StatusBar backgroundColor={ (isAndroid() && parseFloat(DeviceInfo.getSystemVersion()) < 6)? Styles.backgroundStatusBarTransparent.backgroundColor : Styles.backgroundStatusBar.backgroundColor } barStyle="dark-content" networkActivityIndicatorVisible={ true } />
+        <StatusBar backgroundColor={ (isAndroid() && parseFloat(DeviceInfo.getSystemVersion()) < 6)? Styles.backgroundStatusBarTransparent.backgroundColor : ( props.backgroundColor || Styles.backgroundStatusBar.backgroundColor ) } barStyle="dark-content" networkActivityIndicatorVisible={ true } />
     );
 };
 

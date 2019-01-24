@@ -66,6 +66,10 @@ const styles = StyleSheet.create({
     horizontalPositionRight: { right: 0 },
     absoluteFillObject: { ...StyleSheet.absoluteFillObject },
     /**
+    * Overflow
+    */
+    overflowHidden: { overflow: 'hidden' },
+    /**
      * Text Style Utilities
     */
     textAlignCenter: { textAlign: 'center' },
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
     textLight: { color: '#f4f4f4' },
     textDark: { color: '#000000' },
     textWhite: { color: '#ffffff' },
-    textWrapper: { color: '#fbfcfc' },
+    textWrapper: { color: '#040303' },
     textError: { color: '#f43f36' },
     textLink: { color: '#007bff' },
     textPlaceholder: { color: '#777777' },
@@ -284,28 +288,28 @@ const styles = StyleSheet.create({
     backgroundTransparent: { backgroundColor: 'transparent' },
     backgroundDisabled: { backgroundColor: '#c1c1c7' },
     backgroundSelected: { backgroundColor: '#f1f1f7' },
-    backgroundWrapper: { backgroundColor: '#fbfcfc' },
-    backgroundWrapperTransparent: { backgroundColor: 'rgba(251, 252, 252, .3)' },
-    backgroundWrapperTransluscent: { backgroundColor: 'rgba(251, 252, 252, .9)' },
-    backgroundHeader: { backgroundColor: '#fbfcfc' },
-    backgroundStatusBar: { backgroundColor: '#fbfcfc' },
+    backgroundWrapper: { backgroundColor: '#040303' },
+    backgroundWrapperTransparent: { backgroundColor: 'rgba(4, 3, 3, .3)' },
+    backgroundWrapperTransluscent: { backgroundColor: 'rgba(4, 3, 3, .9)' },
+    backgroundHeader: { backgroundColor: '#040303' },
+    backgroundStatusBar: { backgroundColor: '#040303' },
     backgroundStatusBarTransparent: { backgroundColor: 'rgba(0, 0, 0, .3)' },
     backgroundKimyaKimyaMale: { backgroundColor: '#06aad5' },
     backgroundKimyaKimyaFemale: { backgroundColor: '#ed2593' },
     /**
      * Other Styles
      */
-    loader: { backgroundColor: 'rgba(255, 255, 255, 0.8)' },
+    loader: { backgroundColor: 'rgba(0, 0, 0, 0.8)' },
     /**
      * TabBar
      */
-    tabBar: { backgroundColor: '#FFFFFF' },
+    tabBar: { backgroundColor: '#000000' },
     /**
      *  ModalFilterPicker
      */
     modalFilterPicker: {
         borderRadius: (isAndroid())? 0 : 5,
-        backgroundColor: '#fbfcfc',
+        backgroundColor: '#040303',
         marginBottom: (isAndroid())? StatusBar.currentHeight : 20,
         minWidth: (screenWidth <= 375)? screenWidth - ((isAndroid())? StatusBar.currentHeight : 20) : 320,
         height: (screenHeight <= 812)? screenHeight - ((isAndroid())? (7 * StatusBar.currentHeight) : 140) : 609
@@ -326,7 +330,7 @@ const styles = StyleSheet.create({
     },
     modalFilterPickerCancelButton: {
         flex: 0,
-        backgroundColor: '#fbfcfc',
+        backgroundColor: '#040303',
         paddingVertical: 16,
         paddingHorizontal: 20,
         borderRadius: (isAndroid())? 0 : 10,
@@ -341,25 +345,25 @@ const styles = StyleSheet.create({
      * Wrapper
      */
     wrapper: {
-        backgroundColor: '#fbfcfc'
+        backgroundColor: '#040303'
     },
     /**
      * Header
      */
     header: {
-        backgroundColor: '#fbfcfc'
+        backgroundColor: '#040303'
     },
     /**
      * Content
      */
     content: {
-        backgroundColor: '#ffffff'
+        backgroundColor: '#000000'
     },
     /**
      * Footer
      */
     footer: {
-        backgroundColor: '#fbfcfc'
+        backgroundColor: '#040303'
     }
 });
 

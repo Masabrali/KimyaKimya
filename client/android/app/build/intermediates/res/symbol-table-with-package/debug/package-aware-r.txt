@@ -738,6 +738,7 @@ drawable common_google_signin_btn_text_light_normal_background
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
 drawable ic_action_logo
+drawable ic_shortcut_logo
 drawable ic_stat_ic_notification
 drawable ic_stat_logo
 drawable logo_text

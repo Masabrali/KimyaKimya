@@ -40,9 +40,6 @@ const Routes = function () {
                 <Scene key="root" hideNavBar={ true }>
                     <Scene key="welcome" component={ Welcome } hideNavBar={ true } />
                 </Scene>
-
-                <Scene key="app" hideNavBar={ true }></Scene>
-
             </Modal>
         </Router>
     );

@@ -10,7 +10,6 @@ import { Root } from 'native-base'; // Version can be specified in package.json
  * Import Store
 */
 import { store, persistor } from './store'; // Version can be specified in package.json
-import STORE from './store';
 
 /**
  * Import Routes
